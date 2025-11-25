@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">PastilleroDigital</string>
+    <string name="pastillero">Pastillero</string>
+    <string name="p">P</string>
+    <string name="pastillero_digital">Pastillero Digital</string>
+    <string name="option_morning">Mañana</string>
+    <string name="option_afternoon">Tarde</string>
+    <string name="option_night">Noche</string>
+    <string name="medicamentos">Medicamentos</string>
+    <string name="medicament_name">Nombre Medicamento</string>
+    <string name="time_take">Hora de toma</string>
+    <string name="amount">Dosis</string>
+    <string name="medicament_title">Medicamento</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="horario">Horario</string>
+    <string name="medicament_time">Duracion</string>
 </resources>

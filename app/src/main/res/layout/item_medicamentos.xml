@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/tvMedicamentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/medicament_name" />
+
+        <TextView
+            android:id="@+id/tvTimeofTake"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/time_take" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/amount" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
