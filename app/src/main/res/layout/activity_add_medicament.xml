@@ -68,7 +68,7 @@
                     android:id="@+id/textInputEditTextMedicamentName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="date"
+                    android:inputType="text"
                     android:enabled="true"
                     android:hint="@string/medicament_name" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,7 +82,6 @@
                 android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 app:endIconMode="clear_text"
-                android:hint="@string/medicament_name"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:textColorHint="@color/gray_medium"
                 app:helperText="required"
@@ -92,7 +91,7 @@
                     android:id="@+id/textInputEditTextMedicamentDosis"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="date"
+                    android:inputType="text"
                     android:enabled="true"
                     android:hint="@string/amount" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -114,7 +113,7 @@
                     android:id="@+id/textInputEditTextMedicamentHorario"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="date"
+                    android:inputType="time"
                     android:enabled="true"
                     android:hint="@string/time_take" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -136,7 +135,7 @@
                     android:id="@+id/textInputEditTextMedicamentDuracion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="date"
+                    android:inputType="text"
                     android:enabled="true"
                     android:hint="@string/medicament_time" />
             </com.google.android.material.textfield.TextInputLayout>

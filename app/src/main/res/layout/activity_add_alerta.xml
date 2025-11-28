@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="activities.AddAlertaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/grey_light"
+        android:elevation="20dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/imgBtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_back"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@color/grey_light"/>
+
+
+        <TextView
+            android:id="@+id/tvAddAlertTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alarma_title"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textStyle="bold|italic"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="100dp"
+            android:layout_weight="1"
+            app:endIconMode="clear_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:textColorHint="@color/gray_medium"
+            app:helperText="required"
+            app:helperTextTextColor="#706F6F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextAlertName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:enabled="true"
+                android:hint="@string/alert_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            app:endIconMode="clear_text"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:textColorHint="@color/gray_medium"
+            app:helperText="required"
+            app:helperTextTextColor="#706F6F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextAlertTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="time"
+                android:enabled="true"
+                android:hint="@string/alert_time" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/imgBtnMedicamentImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_gravity="center"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/btnAddAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue_primary"
+            android:textSize="30sp"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="center"
+            android:text="@string/add" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

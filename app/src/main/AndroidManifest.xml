@@ -13,6 +13,12 @@
         android:theme="@style/Theme.PastilleroDigital"
         tools:targetApi="31">
         <activity
+            android:name="activities.AddAlertaActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.DetailsMedicamentActivity"
+            android:exported="false" />
+        <activity
             android:name="activities.AddMedicamentActivity"
             android:exported="false" />
         <activity

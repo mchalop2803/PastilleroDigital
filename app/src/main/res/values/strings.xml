@@ -15,4 +15,10 @@
     <string name="save">Save</string>
     <string name="horario">Horario</string>
     <string name="medicament_time">Duracion</string>
+    <string name="delete">Delete</string>
+    <string name="add_alert">Añadir alerta</string>
+    <string name="alarma_title">Alarma</string>
+    <string name="alert_name">Nombre</string>
+    <string name="alert_time">Hora</string>
+    <string name="add">Añadir</string>
 </resources>
