@@ -13,6 +13,21 @@
         android:theme="@style/Theme.PastilleroDigital"
         tools:targetApi="31">
         <activity
+            android:name="activities.AddCitaMedicaActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.CitaMedicaActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.AddFamilyActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.ListFamilyActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.DetailsAlertaActivity"
+            android:exported="false" />
+        <activity
             android:name="activities.AddAlertaActivity"
             android:exported="false" />
         <activity
@@ -28,7 +43,7 @@
             android:name="activities.ListDaysActivity"
             android:exported="false" />
         <activity
-            android:name="activities.SpashActivity"
+            android:name="activities.SplashActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -21,4 +21,17 @@
     <string name="alert_name">Nombre</string>
     <string name="alert_time">Hora</string>
     <string name="add">Añadir</string>
+    <string name="family_title">Familia</string>
+    <string name="family_name">Nombre</string>
+    <string name="family_phone">Teléfono</string>
+    <string name="family_relation">Relacion</string>
+    <string name="add_family">Add Family</string>
+    <string name="register_cita">Registrar Cita</string>
+    <string name="cita_medic">Médico</string>
+    <string name="cita_location">Localización</string>
+    <string name="cita_time">Hora</string>
+    <string name="cita_date">Fecha</string>
+    <string name="cita_companion">Acompañante</string>
+    <string name="cita_description">Descripción</string>
+    <string name="citamedica_title">Cita Medica</string>
 </resources>
