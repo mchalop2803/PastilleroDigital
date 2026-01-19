@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/lateral_profile1"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile1" />
+    <item
+        android:id="@+id/lateral_profile2"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile2" />
+
+    <item
+        android:id="@+id/medication"
+        android:icon="@drawable/ic_medication"
+        android:title="@string/medication" />
+    <item
+        android:id="@+id/historial"
+        android:icon="@drawable/ic_historial"
+        android:title="@string/historial" />
+    <item
+        android:id="@+id/familiar"
+        android:icon="@drawable/ic_family"
+        android:title="@string/familiar" />
+    <item
+        android:id="@+id/citaMedica"
+        android:icon="@drawable/ic_cita"
+        android:title="@string/cita_medica" />
+
+</menu>

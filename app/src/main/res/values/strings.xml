@@ -34,4 +34,15 @@
     <string name="cita_companion">Acompañante</string>
     <string name="cita_description">Descripción</string>
     <string name="citamedica_title">Cita Medica</string>
+    <string name="history_title">Historial</string>
+    <string name="new_profile">New Profile</string>
+    <string name="profile_name">Nombre Perfil</string>
+    <string name="permissions">Permisos</string>
+    <string name="profile_add">Añadir Perfil</string>
+    <string name="profile1">Profile1</string>
+    <string name="profile2">Profile2</string>
+    <string name="familiar">Familiar</string>
+    <string name="historial">Historial</string>
+    <string name="medication">Medicamentos</string>
+    <string name="cita_medica">Cita Médica</string>
 </resources>
