@@ -8,8 +8,8 @@ public class CitaMedica extends DomainEntity{
     private String description;
     private String acompañante;
     private String medico;
-    private LocalTime hora;
-    private LocalDate fecha;
+    private String hora;
+    private String fecha;
     private String location;
 
     /*
@@ -48,19 +48,19 @@ public class CitaMedica extends DomainEntity{
         this.medico = medico;
     }
 
-    public LocalTime getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(LocalTime hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
-    public LocalDate getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

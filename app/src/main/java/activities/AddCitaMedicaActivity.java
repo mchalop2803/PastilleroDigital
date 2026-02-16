@@ -1,6 +1,12 @@
 package activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +15,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.textfield.TextInputEditText;
+
+import models.Alerta;
+import models.CitaMedica;
 
 public class AddCitaMedicaActivity extends AppCompatActivity {
+
+    private ImageButton imageButton;
+
+    private TextInputEditText textInputEditTextCitaDescription, textInputEditTextCitaCompanion, textInputEditTextCitaDate,
+            textInputEditTextCitaTime, textInputEditTextCitaLocation, textInputEditTextCitaMedic;
+
+    private Button btnRegisterCita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +39,69 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        loadComponents();
+
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
+            startActivity(intent);
+        });
+
+        btnRegisterCita.setOnClickListener(v -> new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                CitaMedica citaMedica = new CitaMedica();
+                citaMedica.setDescription(textInputEditTextCitaDescription.getText().toString());
+                citaMedica.setAcompañante(textInputEditTextCitaCompanion.getText().toString());
+                citaMedica.setFecha(textInputEditTextCitaDate.getText().toString());
+                citaMedica.setHora(textInputEditTextCitaTime.getText().toString());
+                citaMedica.setMedico(textInputEditTextCitaMedic.getText().toString());
+                citaMedica.setLocation(textInputEditTextCitaLocation.getText().toString());
+
+
+                if (textInputEditTextCitaDescription.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Description is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (textInputEditTextCitaCompanion.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Companion is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (textInputEditTextCitaDate.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Date is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (textInputEditTextCitaTime.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (textInputEditTextCitaMedic.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Medic is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (textInputEditTextCitaLocation.getText().toString().isBlank()){
+                    Toast.makeText(AddCitaMedicaActivity.this, "Location is blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void loadComponents(){
+        textInputEditTextCitaDescription = findViewById(R.id.textInputEditTextCitaDescription);
+        textInputEditTextCitaCompanion = findViewById(R.id.textInputEditTextCitaCompanion);
+        textInputEditTextCitaDate = findViewById(R.id.textInputEditTextCitaDate);
+        textInputEditTextCitaTime = findViewById(R.id.textInputEditTextCitaTime);
+        textInputEditTextCitaLocation = findViewById(R.id.textInputEditTextCitaLocation);
+        textInputEditTextCitaMedic = findViewById(R.id.textInputEditTextCitaMedic);
+
+        imageButton = findViewById(R.id.imageButton);
+        btnRegisterCita = findViewById(R.id.btnRegisterCita);
     }
 }

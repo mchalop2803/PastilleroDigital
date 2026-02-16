@@ -7,7 +7,7 @@ import java.time.LocalTime;
 public class Medicamento extends DomainEntity{
 
     private String nombre;
-    private LocalTime horario;
+    private String horario;
     private String dosis;
     private String duracion;
     private Image imagen;
@@ -32,11 +32,11 @@ public class Medicamento extends DomainEntity{
         this.nombre = nombre;
     }
 
-    public LocalTime getHorario() {
+    public String getHorario() {
         return horario;
     }
 
-    public void setHorario(LocalTime horario) {
+    public void setHorario(String horario) {
         this.horario = horario;
     }
 

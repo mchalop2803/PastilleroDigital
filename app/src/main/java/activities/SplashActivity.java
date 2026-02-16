@@ -1,6 +1,8 @@
 package activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,5 +24,15 @@ public class SplashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        loadSplash();
+    }
+
+    private void loadSplash(){
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(SplashActivity.this, ListDaysActivity.class));
+            finish();
+        }, 3000);
+
     }
 }

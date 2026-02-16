@@ -113,7 +113,7 @@
             android:id="@+id/textInputEditTextFamilyRelation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="time"
+            android:inputType="text"
             android:enabled="true"
             android:hint="@string/family_relation" />
     </com.google.android.material.textfield.TextInputLayout>
