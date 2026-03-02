@@ -1,5 +1,7 @@
 package services;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -8,8 +10,8 @@ import models.Alerta;
 public class AlertService {
 
     DatabaseReference databaseReference;
-    public AlertService() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Alerts");
+    public AlertService(Context context) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("alert");
 
     }
 
@@ -23,8 +25,12 @@ public class AlertService {
 
 
 
-    public void updateAlerta(Alerta alerta){
+    public void updateAlert(Alerta alerta){
         databaseReference.child(alerta.getId()).setValue(alerta);
 
+    }
+
+    public void deleteAlert(String id){
+        databaseReference.child(id).removeValue();
     }
 }

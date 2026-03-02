@@ -94,6 +94,16 @@
                 android:layout_marginTop="40dp"
                 android:backgroundTint="@color/blue_primary"/>
 
+            <Button
+                android:id="@+id/btnDeleteAlert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:textSize="30sp"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center"
+                android:text="@string/alert_delete" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

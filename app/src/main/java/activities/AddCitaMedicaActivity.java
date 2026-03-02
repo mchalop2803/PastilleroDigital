@@ -2,6 +2,7 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import models.Alerta;
 import models.CitaMedica;
+import services.CitaMedicaService;
 
 public class AddCitaMedicaActivity extends AppCompatActivity {
 
@@ -28,6 +30,8 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             textInputEditTextCitaTime, textInputEditTextCitaLocation, textInputEditTextCitaMedic;
 
     private Button btnRegisterCita;
+
+    private CitaMedicaService citaMedicaService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,10 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
                     return;
                 }
 
+                String idCitaMedica = citaMedicaService.insertCitaMedica(citaMedica);
+                Toast.makeText(AddCitaMedicaActivity.this, "CitaMedica with id " + idCitaMedica + " inserted", Toast.LENGTH_SHORT).show();
+                Log.i("CitaMedica id", idCitaMedica);
+
                 Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
                 startActivity(intent);
             }
@@ -103,5 +111,7 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
 
         imageButton = findViewById(R.id.imageButton);
         btnRegisterCita = findViewById(R.id.btnRegisterCita);
+
+        citaMedicaService = new CitaMedicaService(getApplicationContext());
     }
 }

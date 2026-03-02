@@ -2,6 +2,7 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,12 +18,15 @@ import com.example.pastillerodigital.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import models.Perfil;
+import services.PerfilService;
 
 public class AddProfileActivity extends AppCompatActivity {
 
     private ImageButton imageButton;
     private TextInputEditText textInputEditTextProfileName, textInputEditTextProfilePermissions;
     private Button btnAddProfile;
+
+    private PerfilService perfilService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,10 @@ public class AddProfileActivity extends AppCompatActivity {
                     return;
                 }
 
+                String idProfile = perfilService.insertProfile(perfil);
+                Toast.makeText(AddProfileActivity.this, "Profile with id " + idProfile + " inserted", Toast.LENGTH_SHORT).show();
+                Log.i("Profile id", idProfile);
+
                 Intent intent = new Intent(AddProfileActivity.this, ListDaysActivity.class);
                 startActivity(intent);
             }
@@ -72,5 +80,7 @@ public class AddProfileActivity extends AppCompatActivity {
         textInputEditTextProfileName = findViewById(R.id.textInputEditTextProfileName);
         textInputEditTextProfilePermissions = findViewById(R.id.textInputEditTextProfilePermissions);
         btnAddProfile = findViewById(R.id.btnAddProfile);
+
+        perfilService = new PerfilService(getApplicationContext());
     }
 }

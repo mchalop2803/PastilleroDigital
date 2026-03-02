@@ -1,5 +1,7 @@
 package services;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -8,8 +10,8 @@ import models.Familiar;
 public class FamiliarService {
 
     DatabaseReference databaseReference;
-    public FamiliarService() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Familiar");
+    public FamiliarService(Context context) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("family");
 
     }
 
@@ -26,5 +28,9 @@ public class FamiliarService {
     public void updateFamiliar(Familiar familiar){
         databaseReference.child(familiar.getId()).setValue(familiar);
 
+    }
+
+    public void deleteFamiliar(String id){
+        databaseReference.child(id).removeValue();
     }
 }

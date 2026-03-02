@@ -2,6 +2,7 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import models.Familiar;
 import models.Medicamento;
+import services.MedicamentoService;
 
 public class AddMedicamentActivity extends AppCompatActivity {
 
@@ -27,6 +29,8 @@ public class AddMedicamentActivity extends AppCompatActivity {
             textInputEditTextMedicamentDuracion;
 
     private Button btnSave, btnCancel;
+
+    private MedicamentoService medicamentoService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,10 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     return;
                 }
 
+                String idMedicament = medicamentoService.insertMedicament(medicamento);
+                Toast.makeText(AddMedicamentActivity.this, "Medicamento with id " + idMedicament + " inserted", Toast.LENGTH_SHORT).show();
+                Log.i("Medicament id", idMedicament);
+
                 Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
                 startActivity(intent);
             }
@@ -98,5 +106,7 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+
+        medicamentoService = new MedicamentoService(getApplicationContext());
     }
 }

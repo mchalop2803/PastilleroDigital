@@ -45,4 +45,7 @@
     <string name="historial">Historial</string>
     <string name="medication">Medicamentos</string>
     <string name="cita_medica">Cita Médica</string>
+    <string name="alert_delete">Eliminar</string>
+    <string name="delete_medicament">Eliminar</string>
+    <string name="delete_family">Eliminar</string>
 </resources>

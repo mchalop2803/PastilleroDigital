@@ -1,5 +1,7 @@
 package services;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -8,8 +10,8 @@ import models.CitaMedica;
 public class CitaMedicaService {
 
     DatabaseReference databaseReference;
-    public CitaMedicaService() {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("CitaMedicas");
+    public CitaMedicaService(Context context) {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("citaMedic");
 
     }
 
@@ -23,8 +25,12 @@ public class CitaMedicaService {
 
 
 
-    public void updateCitaMedica(CitaMedica citaMedica){
+    public void updateCitMedic(CitaMedica citaMedica){
         databaseReference.child(citaMedica.getId()).setValue(citaMedica);
 
+    }
+
+    public void deleteCitMedic(String id){
+        databaseReference.child(id).removeValue();
     }
 }

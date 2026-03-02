@@ -15,7 +15,6 @@ import com.example.pastillerodigital.R;
 import java.util.List;
 
 import models.Familiar;
-import models.Medicamento;
 
 public class FamilyAdapter extends ArrayAdapter<Familiar> {
 
