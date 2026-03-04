@@ -11,7 +11,7 @@ public class CitaMedicaService {
 
     DatabaseReference databaseReference;
     public CitaMedicaService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("citaMedic");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("citaMedics");
 
     }
 

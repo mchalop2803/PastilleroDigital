@@ -11,7 +11,7 @@ public class MedicamentoService {
 
     DatabaseReference databaseReference;
     public MedicamentoService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("medicament");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("medicaments");
 
     }
 

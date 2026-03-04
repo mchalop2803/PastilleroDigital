@@ -11,6 +11,7 @@ public class Medicamento extends DomainEntity{
     private String dosis;
     private String duracion;
     private Image imagen;
+    private String momentDay;
 
     /*
     * Constructor clase Medicamento
@@ -62,6 +63,14 @@ public class Medicamento extends DomainEntity{
 
     public void setImagen(Image imagen) {
         this.imagen = imagen;
+    }
+
+    public String getMomentDay() {
+        return momentDay;
+    }
+
+    public void setMomentDay(String momentDay) {
+        this.momentDay = momentDay;
     }
 
     @Override

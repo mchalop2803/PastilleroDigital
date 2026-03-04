@@ -39,7 +39,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
             return insets;
         });
 
-        medicamento = (Medicamento) getIntent().getSerializableExtra("medicament");
+        medicamento = (Medicamento) getIntent().getSerializableExtra("medicaments");
 
         loadComponents();
 
@@ -60,7 +60,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
         btnDeleteMedicament.setOnClickListener(v -> {
             DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("medicament")
+                    .getReference("medicaments")
                     .child(medicamento.getId());
             ref.removeValue()
                     .addOnSuccessListener(d -> {

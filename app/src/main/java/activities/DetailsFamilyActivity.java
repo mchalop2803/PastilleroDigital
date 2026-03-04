@@ -39,7 +39,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
             return insets;
         });
 
-        familiar = (Familiar) getIntent().getSerializableExtra("family");
+        familiar = (Familiar) getIntent().getSerializableExtra("familys");
 
         loadComponents();
 
@@ -54,7 +54,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
 
         btnDeleteFamily.setOnClickListener(v -> {
             DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("family")
+                    .getReference("familys")
                     .child(familiar.getId());
             ref.removeValue()
                     .addOnSuccessListener(d -> {

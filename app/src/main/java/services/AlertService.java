@@ -11,7 +11,7 @@ public class AlertService {
 
     DatabaseReference databaseReference;
     public AlertService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("alert");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("alerts");
 
     }
 

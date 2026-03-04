@@ -1,12 +1,15 @@
 package activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,11 +17,24 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import adapters.FamilyAdapter;
+import models.Familiar;
 
 public class ListFamilyActivity extends AppCompatActivity {
 
     private ListView lvFamily;
     private FloatingActionButton fltBtnAddFamily;
+    private List<Familiar> familiars;
+    private FamilyAdapter familyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,27 +49,62 @@ public class ListFamilyActivity extends AppCompatActivity {
 
         loadComponents();
 
-        lvFamily.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Evaluation evaluation = evaluations.get(position);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("familys");
 
-                //Intent intent = new Intent(ListFamilyActivity.this, DetailsEvaluationActivity.class);
-                //intent.putExtra("evaluation", evaluation);
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        String familyId = prefs.getString("id", null);
 
-                //startActivity(intent);
-            }
-        });
+        if (familyId != null) {
+            FirebaseDatabase.getInstance().getReference("familys")
+                    .orderByChild("familyId")
+                    .equalTo(familyId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            familiars.clear();
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Familiar familiar = snapshot.getValue(Familiar.class);
+                                if (familiar != null) {
+                                    familiars.add(familiar);
+                                    Log.i("Familiar cargado", familiar.toString());
+                                }
+                            }
+
+                            familyAdapter = new FamilyAdapter(ListFamilyActivity.this, familiars);
+                            lvFamily.setAdapter(familyAdapter);
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("Firebase", "Error al firebase", databaseError.toException());
+                        }
+                    });
+        }
 
         fltBtnAddFamily.setOnClickListener(v -> {
             Intent intent = new Intent(ListFamilyActivity.this, AddFamilyActivity.class);
             startActivity(intent);
         });
+
+        lvFamily.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Familiar familiar = familiars.get(position);
+
+                Intent intent = new Intent(ListFamilyActivity.this, DetailsFamilyActivity.class);
+                intent.putExtra("familys", familiar);
+
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadComponents(){
         lvFamily = findViewById(R.id.lvFamily);
-
+        familiars = new ArrayList<>();
         fltBtnAddFamily = findViewById(R.id.fltBtnAddFamily);
     }
 }

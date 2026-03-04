@@ -40,7 +40,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
             return insets;
         });
 
-        alerta = (Alerta) getIntent().getSerializableExtra("alert");
+        alerta = (Alerta) getIntent().getSerializableExtra("alerts");
 
         loadComponents();
 
@@ -60,7 +60,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
 
         btnDeleteAlert.setOnClickListener(v -> {
             DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("alert")
+                    .getReference("alerts")
                     .child(alerta.getId());
             ref.removeValue()
                     .addOnSuccessListener(d -> {

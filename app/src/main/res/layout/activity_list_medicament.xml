@@ -8,8 +8,8 @@
     tools:context="activities.ListMedicamentActivity">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
@@ -47,7 +47,7 @@
         <ListView
             android:id="@+id/lvMedicament"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
         </ListView>
 
@@ -61,7 +61,7 @@
             android:src="@drawable/ic_add"
             android:padding="20dp"
             android:layout_marginTop="-80dp"
-            android:layout_marginStart="310dp"/>
+            android:layout_marginStart="400dp"/>
 
     </LinearLayout>
 

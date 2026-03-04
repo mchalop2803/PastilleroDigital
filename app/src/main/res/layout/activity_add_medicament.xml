@@ -8,8 +8,8 @@
     tools:context="activities.AddMedicamentActivity">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
@@ -59,7 +59,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 app:endIconMode="clear_text"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:textColorHint="@color/gray_medium"
                 app:helperText="required"
                 app:helperTextTextColor="#706F6F">
@@ -82,7 +82,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 app:endIconMode="clear_text"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:textColorHint="@color/gray_medium"
                 app:helperText="required"
                 app:helperTextTextColor="#706F6F">
@@ -104,7 +104,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 app:endIconMode="clear_text"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:textColorHint="@color/gray_medium"
                 app:helperText="required"
                 app:helperTextTextColor="#706F6F">
@@ -126,7 +126,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 app:endIconMode="clear_text"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:textColorHint="@color/gray_medium"
                 app:helperText="required"
                 app:helperTextTextColor="#706F6F">

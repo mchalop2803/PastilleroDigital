@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.pastillerodigital"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.pastillerodigital"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -86,4 +86,10 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.android.material:material:1.11.0")
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

@@ -11,7 +11,7 @@ public class FamiliarService {
 
     DatabaseReference databaseReference;
     public FamiliarService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("family");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("familys");
 
     }
 

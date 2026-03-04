@@ -10,7 +10,7 @@ import models.Perfil;
 public class PerfilService {
     DatabaseReference databaseReference;
     public PerfilService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("profile");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("profiles");
 
     }
 
