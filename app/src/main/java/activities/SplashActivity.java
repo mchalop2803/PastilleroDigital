@@ -30,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadSplash(){
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, ListMedicamentActivity.class));
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }, 3000);
 

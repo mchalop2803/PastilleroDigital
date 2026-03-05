@@ -27,24 +27,24 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.FamilyAdapter;
+import adapters.AlarmAdapter;
 import adapters.MedicamentAdapter;
-import models.Familiar;
+import models.Alerta;
 import models.Medicamento;
 
-public class ListMedicamentActivity extends AppCompatActivity {
+public class ListAlertActivity extends AppCompatActivity {
 
     private ImageButton imageButton;
-    private ListView lvMedicament;
-    private FloatingActionButton fltBtnAddMedicament;
-    private List<Medicamento> medicamentos;
-    private MedicamentAdapter medicamentAdapter;
+    private ListView lvAlert;
+    private FloatingActionButton fltBtnAddAlert;
+    private List<Alerta> alertas;
+    private AlarmAdapter alarmAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_list_medicament);
+        setContentView(R.layout.activity_list_alert);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -54,31 +54,31 @@ public class ListMedicamentActivity extends AppCompatActivity {
         loadComponents();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("medicaments");
+        DatabaseReference reference = database.getReference("alerts");
 
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String medicamentId = prefs.getString("id", null);
+        String alertId = prefs.getString("id", null);
 
         FirebaseDatabase.getInstance()
-                .getReference("medicaments")
+                .getReference("alerts")
                 .addValueEventListener(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        medicamentos.clear();
+                        alertas.clear();
 
                         for (DataSnapshot data : snapshot.getChildren()) {
-                            Medicamento medicamento = data.getValue(Medicamento.class);
+                            Alerta alerta = data.getValue(Alerta.class);
 
-                            if (medicamento != null) {
-                                medicamentos.add(medicamento);
-                                Log.i("Medicamento cargado", medicamento.toString());
+                            if (alerta != null) {
+                                alertas.add(alerta);
+                                Log.i("Alerta cargada", alerta.toString());
                             }
                         }
 
-                        medicamentAdapter = new MedicamentAdapter(ListMedicamentActivity.this, medicamentos);
-                        lvMedicament.setAdapter(medicamentAdapter);
+                        alarmAdapter = new AlarmAdapter(ListAlertActivity.this, alertas);
+                        lvAlert.setAdapter(alarmAdapter);
                     }
 
                     @Override
@@ -87,33 +87,33 @@ public class ListMedicamentActivity extends AppCompatActivity {
                     }
                 });
 
-        lvMedicament.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvAlert.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Medicamento medicamento = medicamentos.get(position);
+                Alerta alerta = alertas.get(position);
 
-                Intent intent = new Intent(ListMedicamentActivity.this, DetailsMedicamentActivity.class);
-                intent.putExtra("medicaments", medicamento);
+                Intent intent = new Intent(ListAlertActivity.this, DetailsAlertaActivity.class);
+                intent.putExtra("alerts", alerta);
 
                 startActivity(intent);
             }
         });
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ListMedicamentActivity.this, MainActivity.class);
+            Intent intent = new Intent(ListAlertActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
-        fltBtnAddMedicament.setOnClickListener(v -> {
-            Intent intent = new Intent(ListMedicamentActivity.this, AddMedicamentActivity.class);
+        fltBtnAddAlert.setOnClickListener(v -> {
+            Intent intent = new Intent(ListAlertActivity.this, AddAlertaActivity.class);
             startActivity(intent);
         });
     }
 
     private void loadComponents(){
-        lvMedicament = findViewById(R.id.lvMedicament);
-        medicamentos = new ArrayList<>();
+        lvAlert = findViewById(R.id.lvAlert);
+        alertas = new ArrayList<>();
         imageButton = findViewById(R.id.imageButton);
-        fltBtnAddMedicament = findViewById(R.id.fltBtnAddMedicament);
+        fltBtnAddAlert = findViewById(R.id.fltBtnAddAlert);
     }
 }

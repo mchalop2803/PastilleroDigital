@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +32,7 @@ import models.Familiar;
 
 public class ListFamilyActivity extends AppCompatActivity {
 
+    private ImageButton imageButton;
     private ListView lvFamily;
     private FloatingActionButton fltBtnAddFamily;
     private List<Familiar> familiars;
@@ -55,37 +57,41 @@ public class ListFamilyActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
         String familyId = prefs.getString("id", null);
 
-        if (familyId != null) {
-            FirebaseDatabase.getInstance().getReference("familys")
-                    .orderByChild("familyId")
-                    .equalTo(familyId)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            familiars.clear();
 
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                Familiar familiar = snapshot.getValue(Familiar.class);
-                                if (familiar != null) {
-                                    familiars.add(familiar);
-                                    Log.i("Familiar cargado", familiar.toString());
-                                }
+        FirebaseDatabase.getInstance().getReference("familys")
+                .orderByChild("familyId")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        familiars.clear();
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Familiar familiar = snapshot.getValue(Familiar.class);
+                            if (familiar != null) {
+                                familiars.add(familiar);
+                                Log.i("Familiar cargado", familiar.toString());
                             }
-
-                            familyAdapter = new FamilyAdapter(ListFamilyActivity.this, familiars);
-                            lvFamily.setAdapter(familyAdapter);
                         }
 
+                        familyAdapter = new FamilyAdapter(ListFamilyActivity.this, familiars);
+                        lvFamily.setAdapter(familyAdapter);
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.e("Firebase", "Error al firebase", databaseError.toException());
-                        }
-                    });
-        }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("Firebase", "Error al firebase", databaseError.toException());
+                    }
+                });
+
 
         fltBtnAddFamily.setOnClickListener(v -> {
             Intent intent = new Intent(ListFamilyActivity.this, AddFamilyActivity.class);
+            startActivity(intent);
+        });
+
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ListFamilyActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -106,5 +112,6 @@ public class ListFamilyActivity extends AppCompatActivity {
         lvFamily = findViewById(R.id.lvFamily);
         familiars = new ArrayList<>();
         fltBtnAddFamily = findViewById(R.id.fltBtnAddFamily);
+        imageButton = findViewById(R.id.imageButton);
     }
 }

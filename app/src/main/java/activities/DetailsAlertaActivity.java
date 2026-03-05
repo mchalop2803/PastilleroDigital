@@ -24,7 +24,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
 
     private ImageButton imgBtnBack, imgBtnAlarma, imgBtnCheck;
     private TextView tvAlarmTime, tvMedicamentName;
-    private Button btnDeleteAlert;
+    private Button btnDeleteAlert, btnEdit;
 
     private Alerta alerta;
 
@@ -55,6 +55,13 @@ public class DetailsAlertaActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnEdit.setOnClickListener(v -> {
+            Intent intEditAle = new Intent(DetailsAlertaActivity.this, AddAlertaActivity.class);
+            intEditAle.putExtra("editMode", true);
+            intEditAle.putExtra("alert", alerta);
+            startActivity(intEditAle);
+        });
+
         tvAlarmTime.setText("Hora: " + alerta.getHora());
         tvMedicamentName.setText("Medicamento: " + alerta.getNombre());
 
@@ -79,6 +86,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         imgBtnCheck = findViewById(R.id.imgBtnCheck);
 
         btnDeleteAlert = findViewById(R.id.btnDeleteAlert);
+        btnEdit = findViewById(R.id.btnEdit);
 
         tvAlarmTime = findViewById(R.id.tvAlarmTime);
         tvMedicamentName = findViewById(R.id.tvMedicamentName);

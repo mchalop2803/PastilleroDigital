@@ -20,7 +20,7 @@
     <string name="alarma_title">Alarma</string>
     <string name="alert_name">Nombre</string>
     <string name="alert_time">Hora</string>
-    <string name="add">Añadir</string>
+    <string name="add">Guardar</string>
     <string name="family_title">Familia</string>
     <string name="family_name">Nombre</string>
     <string name="family_phone">Teléfono</string>
@@ -39,6 +39,7 @@
     <string name="profile_name">Nombre Perfil</string>
     <string name="permissions">Permisos</string>
     <string name="profile_add">Añadir Perfil</string>
+    <string name="profile">Perfil</string>
     <string name="profile1">Profile1</string>
     <string name="profile2">Profile2</string>
     <string name="familiar">Familiar</string>
@@ -48,4 +49,14 @@
     <string name="alert_delete">Eliminar</string>
     <string name="delete_medicament">Eliminar</string>
     <string name="delete_family">Eliminar</string>
+    <string name="edit">Edit</string>
+    <string name="current_user">Current user</string>
+    <string name="log_out">Log out</string>
+    <string name="user_email">email</string>
+    <string name="user_password">Password</string>
+    <string name="user_surname">Surname</string>
+    <string name="user_nif">Nif</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="agenda">Agenda</string>
 </resources>

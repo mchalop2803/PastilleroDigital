@@ -28,6 +28,10 @@ public class AddMedicamentActivity extends AppCompatActivity {
     private TextInputEditText textInputEditTextMedicamentName, textInputEditTextMedicamentDosis, textInputEditTextMedicamentHorario,
             textInputEditTextMedicamentDuracion;
 
+    private Boolean editMode;
+
+    private Medicamento medicamentoEdit;
+
     private Button btnSave, btnCancel;
 
     private MedicamentoService medicamentoService;
@@ -50,42 +54,77 @@ public class AddMedicamentActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnSave.setOnClickListener(v -> {
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editMode) {
+                    medicamentoEdit.setNombre(textInputEditTextMedicamentName.getText().toString());
+                    medicamentoEdit.setDosis(textInputEditTextMedicamentDosis.getText().toString());
+                    medicamentoEdit.setHorario(textInputEditTextMedicamentHorario.getText().toString());
+                    medicamentoEdit.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
 
-            Medicamento medicamento = new Medicamento();
-            medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
-            medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
-            medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
-            medicamento.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
+                    if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextMedicamentDosis.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Dosis is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextMedicamentHorario.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextMedicamentDuracion.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Duracion is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-            if (textInputEditTextMedicamentName.getText().toString().isBlank()){
-                Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                return;
+                    medicamentoService.updateMedicament(medicamentoEdit);
+                    Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
+                    Log.i("Medicament id", medicamentoEdit.getId());
+
+                    Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
+                    startActivity(intent);
+
+                } else {
+
+                    Medicamento medicamento = new Medicamento();
+                    medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
+                    medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
+                    medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
+                    medicamento.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
+
+                    if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (textInputEditTextMedicamentDosis.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Dosis is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (textInputEditTextMedicamentHorario.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (textInputEditTextMedicamentDuracion.getText().toString().isBlank()) {
+                        Toast.makeText(AddMedicamentActivity.this, "Duracion is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String idMedicament = medicamentoService.insertMedicament(medicamento);
+
+                    Toast.makeText(AddMedicamentActivity.this,
+                            "Medicamento with id " + idMedicament + " inserted",
+                            Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
+                    startActivity(intent);
+                }
             }
-
-            if (textInputEditTextMedicamentDosis.getText().toString().isBlank()){
-                Toast.makeText(AddMedicamentActivity.this, "Dosis is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (textInputEditTextMedicamentHorario.getText().toString().isBlank()){
-                Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (textInputEditTextMedicamentDuracion.getText().toString().isBlank()){
-                Toast.makeText(AddMedicamentActivity.this, "Duracion is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String idMedicament = medicamentoService.insertMedicament(medicamento);
-
-            Toast.makeText(AddMedicamentActivity.this,
-                    "Medicamento with id " + idMedicament + " inserted",
-                    Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
-            startActivity(intent);
         });
 
         btnCancel.setOnClickListener(v -> {
@@ -107,5 +146,17 @@ public class AddMedicamentActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
 
         medicamentoService = new MedicamentoService(getApplicationContext());
+
+        Intent intent = getIntent();
+        if(intent.getSerializableExtra("medicament") != null){
+            medicamentoEdit = (Medicamento) intent.getSerializableExtra("medicament");
+            textInputEditTextMedicamentName.setText(medicamentoEdit.getNombre().toString());
+            textInputEditTextMedicamentDosis.setText(medicamentoEdit.getDosis().toString());
+            textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario().toString());
+            textInputEditTextMedicamentDuracion.setText(medicamentoEdit.getDuracion().toString());
+
+        }
+
+        editMode = intent.getBooleanExtra("editMode", false);
     }
 }

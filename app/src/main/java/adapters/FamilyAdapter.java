@@ -32,9 +32,9 @@ public class FamilyAdapter extends ArrayAdapter<Familiar> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_family, parent, false);
         }
 
-        TextView tvNameFamily = convertView.findViewById(R.id.tvMedicamentName);
-        TextView tvPhoneFamily = convertView.findViewById(R.id.tvTimeofTake);
-        TextView tvRelationFamily = convertView.findViewById(R.id.tvAmount);
+        TextView tvNameFamily = convertView.findViewById(R.id.tvNameFamily);
+        TextView tvPhoneFamily = convertView.findViewById(R.id.tvPhoneFamily);
+        TextView tvRelationFamily = convertView.findViewById(R.id.tvRelationFamily);
 
         tvNameFamily.setText("Familiar: " + familiar.getNombre());
         tvPhoneFamily.setText("Teléfono: " + familiar.getPhone());

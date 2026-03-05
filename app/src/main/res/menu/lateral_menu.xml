@@ -15,9 +15,9 @@
         android:icon="@drawable/ic_medication"
         android:title="@string/medication" />
     <item
-        android:id="@+id/historial"
+        android:id="@+id/agenda"
         android:icon="@drawable/ic_historial"
-        android:title="@string/historial" />
+        android:title="@string/agenda" />
     <item
         android:id="@+id/familiar"
         android:icon="@drawable/ic_family"

@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.time.LocalTime;
 
 import models.Alerta;
+import models.Familiar;
 import services.AlertService;
 
 public class AddAlertaActivity extends AppCompatActivity {
@@ -28,6 +29,10 @@ public class AddAlertaActivity extends AppCompatActivity {
     private ImageButton imgBtnBack, imgBtnMedicamentImage;
     private TextInputEditText textInputEditTextAlertName, textInputEditTextAlertTime;
     private Button btnAddAlert;
+
+    private Boolean editMode;
+
+    private Alerta alertEdit;
 
     private AlertService alertService;
 
@@ -50,28 +55,52 @@ public class AddAlertaActivity extends AppCompatActivity {
         });
 
 
-        btnAddAlert.setOnClickListener(v -> {
-            Alerta alerta = new Alerta();
-            alerta.setNombre(textInputEditTextAlertName.getText().toString());
-            alerta.setHora(textInputEditTextAlertTime.getText().toString());
+        btnAddAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editMode) {
+                    alertEdit.setNombre(textInputEditTextAlertName.getText().toString());
+                    alertEdit.setHora(textInputEditTextAlertTime.getText().toString());
+
+                    if (textInputEditTextAlertName.getText().toString().isBlank()) {
+                        Toast.makeText(AddAlertaActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextAlertTime.getText().toString().isBlank()) {
+                        Toast.makeText(AddAlertaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    alertService.updateAlert(alertEdit);
+                    Toast.makeText(AddAlertaActivity.this, "Alert updated", Toast.LENGTH_SHORT).show();
+                    Log.i("Alert id", alertEdit.getId());
+
+                    Intent intent = new Intent(AddAlertaActivity.this, ListAlertActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Alerta alerta = new Alerta();
+                    alerta.setNombre(textInputEditTextAlertName.getText().toString());
+                    alerta.setHora(textInputEditTextAlertTime.getText().toString());
 
 
-            if (textInputEditTextAlertName.getText().toString().isBlank()){
-                Toast.makeText(AddAlertaActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                return;
+                    if (textInputEditTextAlertName.getText().toString().isBlank()) {
+                        Toast.makeText(AddAlertaActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextAlertTime.getText().toString().isBlank()) {
+                        Toast.makeText(AddAlertaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String idAlert = alertService.insertAlert(alerta);
+                    Toast.makeText(AddAlertaActivity.this, "Alert with id " + idAlert + " inserted", Toast.LENGTH_SHORT).show();
+                    Log.i("Alert id", idAlert);
+
+                    Intent intent = new Intent(AddAlertaActivity.this, DetailsAlertaActivity.class);
+                    startActivity(intent);
+                }
             }
-            if (textInputEditTextAlertTime.getText().toString().isBlank()){
-                Toast.makeText(AddAlertaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String idAlert = alertService.insertAlert(alerta);
-            Toast.makeText(AddAlertaActivity.this, "Alert with id " + idAlert + " inserted", Toast.LENGTH_SHORT).show();
-            Log.i("Alert id", idAlert);
-
-            Intent intent = new Intent(AddAlertaActivity.this, DetailsAlertaActivity.class);
-            startActivity(intent);
-
         });
     }
 
@@ -84,5 +113,15 @@ public class AddAlertaActivity extends AppCompatActivity {
         btnAddAlert = findViewById(R.id.btnAddAlert);
 
         alertService = new AlertService(getApplicationContext());
+
+        Intent intent = getIntent();
+        if(intent.getSerializableExtra("alert") != null){
+            alertEdit = (Alerta) intent.getSerializableExtra("alert");
+            textInputEditTextAlertName.setText(alertEdit.getNombre().toString());
+            textInputEditTextAlertTime.setText(alertEdit.getHora().toString());
+
+        }
+
+        editMode = intent.getBooleanExtra("editMode", false);
     }
 }

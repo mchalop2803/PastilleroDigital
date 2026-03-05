@@ -24,7 +24,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
 
     private ImageButton imageButton;
     private TextView tvFamilyName, tvFamilyPhone, tvFamilyRelation;
-    private Button btnDeleteFamily;
+    private Button btnDeleteFamily, btnEdit;
 
     private Familiar familiar;
 
@@ -46,6 +46,13 @@ public class DetailsFamilyActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsFamilyActivity.this, ListFamilyActivity.class);
             startActivity(intent);
+        });
+
+        btnEdit.setOnClickListener(v -> {
+            Intent intEditFam = new Intent(DetailsFamilyActivity.this, AddFamilyActivity.class);
+            intEditFam.putExtra("editMode", true);
+            intEditFam.putExtra("family", familiar);
+            startActivity(intEditFam);
         });
 
         tvFamilyName.setText("Familiar: " + familiar.getNombre());
@@ -71,6 +78,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButton);
 
         btnDeleteFamily = findViewById(R.id.btnDeleteFamily);
+        btnEdit = findViewById(R.id.btnEdit);
 
         tvFamilyName = findViewById(R.id.tvFamilyName);
         tvFamilyPhone = findViewById(R.id.tvFamilyPhone);

@@ -8,8 +8,8 @@
     tools:context="activities.ListFamilyActivity">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
@@ -20,6 +20,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="#E4E4E4">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_back"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="@color/grey_light"/>
 
             <TextView
                 android:id="@+id/tvFamilyTitle"

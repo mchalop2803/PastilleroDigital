@@ -37,12 +37,12 @@ public class CitaMedicaActivity extends AppCompatActivity {
         loadComponents();
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(CitaMedicaActivity.this, ListDaysActivity.class);
+            Intent intent = new Intent(CitaMedicaActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
         btnRegisterCita.setOnClickListener(v -> {
-            Intent intent = new Intent(CitaMedicaActivity.this, ListDaysActivity.class);
+            Intent intent = new Intent(CitaMedicaActivity.this, AddCitaMedicaActivity.class);
             startActivity(intent);
         });
 

@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import models.CitaMedica;
 import models.Familiar;
+import models.Medicamento;
 import services.FamiliarService;
 
 public class AddFamilyActivity extends AppCompatActivity {
@@ -28,6 +29,10 @@ public class AddFamilyActivity extends AppCompatActivity {
     private TextInputEditText textInputEditTextFamilyName, textInputEditTextFamilyPhone, textInputEditTextFamilyRelation;
 
     private Button btnAddFamily;
+
+    private Familiar familiarEdit;
+
+    private Boolean editMode;
 
     private FamiliarService familiarService;
 
@@ -49,36 +54,62 @@ public class AddFamilyActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnAddFamily.setOnClickListener(v -> new View.OnClickListener() {
-
+        btnAddFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Familiar familiar = new Familiar();
-                familiar.setNombre(textInputEditTextFamilyName.getText().toString());
-                familiar.setPhone(textInputEditTextFamilyPhone.getText().toString());
-                familiar.setRelacion(textInputEditTextFamilyRelation.getText().toString());
+                if (editMode) {
+                    familiarEdit.setNombre(textInputEditTextFamilyName.getText().toString());
+                    familiarEdit.setPhone(textInputEditTextFamilyPhone.getText().toString());
+                    familiarEdit.setRelacion(textInputEditTextFamilyRelation.getText().toString());
+
+                    if (textInputEditTextFamilyName.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextFamilyPhone.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Phone is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextFamilyRelation.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Relation is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    familiarService.updateFamiliar(familiarEdit);
+                    Toast.makeText(AddFamilyActivity.this, "Family updated", Toast.LENGTH_SHORT).show();
+                    Log.i("Family id", familiarEdit.getId());
+
+                    Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Familiar familiar = new Familiar();
+                    familiar.setNombre(textInputEditTextFamilyName.getText().toString());
+                    familiar.setPhone(textInputEditTextFamilyPhone.getText().toString());
+                    familiar.setRelacion(textInputEditTextFamilyRelation.getText().toString());
 
 
-                if (textInputEditTextFamilyName.getText().toString().isBlank()){
-                    Toast.makeText(AddFamilyActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                    return;
+                    if (textInputEditTextFamilyName.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (textInputEditTextFamilyPhone.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Phone is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (textInputEditTextFamilyRelation.getText().toString().isBlank()) {
+                        Toast.makeText(AddFamilyActivity.this, "Relation is blank", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String idFamily = familiarService.insertFamiliar(familiar);
+                    Toast.makeText(AddFamilyActivity.this, "Familiar with id " + idFamily + " inserted", Toast.LENGTH_SHORT).show();
+                    Log.i("Familiar id", idFamily);
+
+                    Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
+                    startActivity(intent);
                 }
-                if (textInputEditTextFamilyPhone.getText().toString().isBlank()){
-                    Toast.makeText(AddFamilyActivity.this, "Phone is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (textInputEditTextFamilyRelation.getText().toString().isBlank()){
-                    Toast.makeText(AddFamilyActivity.this, "Relation is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String idFamily = familiarService.insertFamiliar(familiar);
-                Toast.makeText(AddFamilyActivity.this, "Familiar with id " + idFamily + " inserted", Toast.LENGTH_SHORT).show();
-                Log.i("Familiar id", idFamily);
-
-                Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -93,5 +124,16 @@ public class AddFamilyActivity extends AppCompatActivity {
         btnAddFamily = findViewById(R.id.btnAddFamily);
 
         familiarService = new FamiliarService(getApplicationContext());
+
+        Intent intent = getIntent();
+        if(intent.getSerializableExtra("family") != null){
+            familiarEdit = (Familiar) intent.getSerializableExtra("family");
+            textInputEditTextFamilyName.setText(familiarEdit.getNombre().toString());
+            textInputEditTextFamilyPhone.setText(familiarEdit.getPhone().toString());
+            textInputEditTextFamilyRelation.setText(familiarEdit.getRelacion().toString());
+
+        }
+
+        editMode = intent.getBooleanExtra("editMode", false);
     }
 }

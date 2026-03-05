@@ -24,7 +24,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
     private ImageButton imageButton, imgBtnMedicament;
     private TextView tvMedicamentName, tvMedicamentAmount, tvMedicamentTime;
-    private Button btnAddAlert, btnDeleteMedicament;
+    private Button btnAddAlert, btnDeleteMedicament, btnEdit;
 
     private Medicamento medicamento;
 
@@ -46,6 +46,13 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsMedicamentActivity.this, ListMedicamentActivity.class);
             startActivity(intent);
+        });
+
+        btnEdit.setOnClickListener(v -> {
+            Intent intEditMed = new Intent(DetailsMedicamentActivity.this, AddMedicamentActivity.class);
+            intEditMed.putExtra("editMode", true);
+            intEditMed.putExtra("medicament", medicamento);
+            startActivity(intEditMed);
         });
 
 
@@ -79,6 +86,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
         btnAddAlert = findViewById(R.id.btnAddAlert);
         btnDeleteMedicament = findViewById(R.id.btnDeleteMedicament);
+        btnEdit = findViewById(R.id.btnEdit);
 
         tvMedicamentName = findViewById(R.id.tvMedicamentName);
         tvMedicamentAmount = findViewById(R.id.tvMedicamentAmount);

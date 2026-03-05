@@ -13,6 +13,15 @@
         android:theme="@style/Theme.PastilleroDigital"
         tools:targetApi="31">
         <activity
+            android:name="activities.ListAlertActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.DetailsProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name="activities.MainActivity"
+            android:exported="false" />
+        <activity
             android:name="activities.DetailsFamilyActivity"
             android:exported="false" />
         <activity

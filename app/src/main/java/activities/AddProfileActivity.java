@@ -42,7 +42,7 @@ public class AddProfileActivity extends AppCompatActivity {
         loadComponents();
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AddProfileActivity.this, ListDaysActivity.class);
+            Intent intent = new Intent(AddProfileActivity.this, MainActivity.class);
             startActivity(intent);
         });
 

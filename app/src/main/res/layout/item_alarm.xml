@@ -10,24 +10,17 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-
         <TextView
-            android:id="@+id/tvNameFamily"
+            android:id="@+id/tvNameAlarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/family_name" />
+            android:text="@string/alert_name" />
 
         <TextView
-            android:id="@+id/tvPhoneFamily"
+            android:id="@+id/tvTimeAlarm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/family_phone" />
-
-        <TextView
-            android:id="@+id/tvRelationFamily"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/family_relation" />
+            android:text="@string/alert_time" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

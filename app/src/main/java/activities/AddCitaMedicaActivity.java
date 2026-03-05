@@ -51,53 +51,51 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        btnRegisterCita.setOnClickListener(v -> new View.OnClickListener() {
+        btnRegisterCita.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View view) {
-                CitaMedica citaMedica = new CitaMedica();
-                citaMedica.setDescription(textInputEditTextCitaDescription.getText().toString());
-                citaMedica.setAcompañante(textInputEditTextCitaCompanion.getText().toString());
-                citaMedica.setFecha(textInputEditTextCitaDate.getText().toString());
-                citaMedica.setHora(textInputEditTextCitaTime.getText().toString());
-                citaMedica.setMedico(textInputEditTextCitaMedic.getText().toString());
-                citaMedica.setLocation(textInputEditTextCitaLocation.getText().toString());
+            CitaMedica citaMedica = new CitaMedica();
+            citaMedica.setDescription(textInputEditTextCitaDescription.getText().toString());
+            citaMedica.setAcompañante(textInputEditTextCitaCompanion.getText().toString());
+            citaMedica.setFecha(textInputEditTextCitaDate.getText().toString());
+            citaMedica.setHora(textInputEditTextCitaTime.getText().toString());
+            citaMedica.setMedico(textInputEditTextCitaMedic.getText().toString());
+            citaMedica.setLocation(textInputEditTextCitaLocation.getText().toString());
 
 
-                if (textInputEditTextCitaDescription.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Description is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (textInputEditTextCitaCompanion.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Companion is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (textInputEditTextCitaDate.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Date is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (textInputEditTextCitaTime.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (textInputEditTextCitaMedic.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Medic is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (textInputEditTextCitaLocation.getText().toString().isBlank()){
-                    Toast.makeText(AddCitaMedicaActivity.this, "Location is blank", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String idCitaMedica = citaMedicaService.insertCitaMedica(citaMedica);
-                Toast.makeText(AddCitaMedicaActivity.this, "CitaMedica with id " + idCitaMedica + " inserted", Toast.LENGTH_SHORT).show();
-                Log.i("CitaMedica id", idCitaMedica);
-
-                Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
-                startActivity(intent);
+            if (textInputEditTextCitaDescription.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Description is blank", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if (textInputEditTextCitaCompanion.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Companion is blank", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (textInputEditTextCitaDate.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Date is blank", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (textInputEditTextCitaTime.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (textInputEditTextCitaMedic.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Medic is blank", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (textInputEditTextCitaLocation.getText().toString().isBlank()){
+                Toast.makeText(AddCitaMedicaActivity.this, "Location is blank", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String idCitaMedica = citaMedicaService.insertCitaMedica(citaMedica);
+            Toast.makeText(AddCitaMedicaActivity.this, "CitaMedica with id " + idCitaMedica + " inserted", Toast.LENGTH_SHORT).show();
+            Log.i("CitaMedica id", idCitaMedica);
+
+            Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
+            startActivity(intent);
+
         });
     }
 
