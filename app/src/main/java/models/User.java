@@ -4,10 +4,13 @@ import java.io.Serializable;
 
 public class User extends DomainEntity implements Serializable {
 
-    private String email;
     private String name;
+    protected String surname;
+    protected String photo;
     private Integer age;
     private String phone;
+
+    protected UserAccount userAccount;
 
     /*
     * Constructor clase User
@@ -20,13 +23,6 @@ public class User extends DomainEntity implements Serializable {
     * Getters y Setters
     */
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getName() {
         return name;
@@ -52,13 +48,39 @@ public class User extends DomainEntity implements Serializable {
         this.phone = phone;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", photo='" + photo + '\'' +
                 ", age=" + age +
                 ", phone='" + phone + '\'' +
+                ", userAccount=" + userAccount +
                 '}';
     }
 }

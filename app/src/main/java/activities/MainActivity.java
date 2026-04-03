@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("Prefs", MODE_PRIVATE);
             preferences.edit().clear().apply();
 
-            //startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         });
 
