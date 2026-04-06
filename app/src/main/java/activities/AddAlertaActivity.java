@@ -22,6 +22,7 @@ import java.time.LocalTime;
 
 import models.Alerta;
 import models.Familiar;
+import models.Medicamento;
 import services.AlertService;
 
 public class AddAlertaActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class AddAlertaActivity extends AppCompatActivity {
     private Alerta alertEdit;
 
     private AlertService alertService;
+
+    private Medicamento medicamento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,9 @@ public class AddAlertaActivity extends AppCompatActivity {
                     Alerta alerta = new Alerta();
                     alerta.setNombre(textInputEditTextAlertName.getText().toString());
                     alerta.setHora(textInputEditTextAlertTime.getText().toString());
+                    if (medicamento != null) {
+                        alerta.setMedicamentoId(medicamento.getId());
+                    }
 
 
                     if (textInputEditTextAlertName.getText().toString().isBlank()) {
@@ -120,6 +126,10 @@ public class AddAlertaActivity extends AppCompatActivity {
             textInputEditTextAlertName.setText(alertEdit.getNombre().toString());
             textInputEditTextAlertTime.setText(alertEdit.getHora().toString());
 
+        }
+
+        if (intent.getSerializableExtra("medicamento") != null) {
+            medicamento = (Medicamento) intent.getSerializableExtra("medicamento");
         }
 
         editMode = intent.getBooleanExtra("editMode", false);

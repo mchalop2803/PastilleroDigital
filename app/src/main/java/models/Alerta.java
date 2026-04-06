@@ -10,6 +10,10 @@ public class Alerta extends DomainEntity{
     private String hora;
     private Image medicamentImage;
 
+    private String medicamentoId;
+
+
+
     /*
      * Constructor clase Alerta
      */
@@ -44,6 +48,14 @@ public class Alerta extends DomainEntity{
 
     public void setMedicamentImage(Image medicamentImage) {
         this.medicamentImage = medicamentImage;
+    }
+
+    public String getMedicamentoId() {
+        return medicamentoId;
+    }
+
+    public void setMedicamentoId(String medicamentoId) {
+        this.medicamentoId = medicamentoId;
     }
 
     @Override

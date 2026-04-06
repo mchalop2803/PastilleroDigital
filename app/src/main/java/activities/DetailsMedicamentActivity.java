@@ -17,7 +17,8 @@ import com.example.pastillerodigital.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import models.Alerta;
+import services.AlertService;
+import services.MedicamentoService;
 import models.Medicamento;
 
 public class DetailsMedicamentActivity extends AppCompatActivity {
@@ -58,6 +59,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
         btnAddAlert.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsMedicamentActivity.this, AddAlertaActivity.class);
+            intent.putExtra("medicamento", medicamento);
             startActivity(intent);
         });
 
@@ -66,16 +68,17 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
         tvMedicamentTime.setText("Hora: " + medicamento.getHorario());
 
         btnDeleteMedicament.setOnClickListener(v -> {
-            DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("medicaments")
-                    .child(medicamento.getId());
-            ref.removeValue()
-                    .addOnSuccessListener(d -> {
-                        Toast.makeText(this, "Medicament deleted successfully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    })
-                    .addOnFailureListener(f ->
-                            Toast.makeText(this, "Medicament deleted failed", Toast.LENGTH_SHORT).show());
+
+            AlertService alertService = new AlertService(getApplicationContext());
+            MedicamentoService medicamentoService = new MedicamentoService(getApplicationContext());
+
+            alertService.deleteAlertsByMedicamentoId(medicamento.getId(), () -> {
+
+                medicamentoService.deleteMedicament(medicamento.getId());
+
+                Toast.makeText(this, "Medicament and alerts deleted", Toast.LENGTH_SHORT).show();
+                finish();
+            });
 
         });
     }

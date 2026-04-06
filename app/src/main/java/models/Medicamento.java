@@ -2,9 +2,10 @@ package models;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class Medicamento extends DomainEntity{
+public class Medicamento extends DomainEntity implements Serializable {
 
     private String nombre;
     private String horario;
