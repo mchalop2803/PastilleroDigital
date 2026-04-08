@@ -1,7 +1,9 @@
 package activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +20,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.pastillerodigital.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.time.LocalTime;
+import java.util.Calendar;
 
+import receivers.AlarmReceiver;
 import models.Alerta;
-import models.Familiar;
 import models.Medicamento;
 import services.AlertService;
 
@@ -102,12 +104,48 @@ public class AddAlertaActivity extends AppCompatActivity {
                     String idAlert = alertService.insertAlert(alerta);
                     Toast.makeText(AddAlertaActivity.this, "Alert with id " + idAlert + " inserted", Toast.LENGTH_SHORT).show();
                     Log.i("Alert id", idAlert);
+                    scheduleAlarm(alerta);
 
                     Intent intent = new Intent(AddAlertaActivity.this, DetailsAlertaActivity.class);
                     startActivity(intent);
                 }
             }
         });
+    }
+
+    private void scheduleAlarm(Alerta alerta) {
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.putExtra("alerts", alerta);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                alerta.getId().hashCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        String[] parts = alerta.getHora().split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+        );
     }
 
     private void loadComponents(){

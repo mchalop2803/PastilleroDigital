@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import models.CitaMedica;
 
@@ -13,6 +14,17 @@ public class CitaMedicaService {
     public CitaMedicaService(Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("citaMedics");
 
+    }
+
+    public void getCitasMedicasByMonth(Context context, int month, ValueEventListener listener) {
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("citaMedics");
+
+        ref.addListenerForSingleValueEvent(listener);
+    }
+
+    public void getAllCitas(ValueEventListener listener) {
+        databaseReference.addListenerForSingleValueEvent(listener);
     }
 
     public String insertCitaMedica(CitaMedica citaMedica){

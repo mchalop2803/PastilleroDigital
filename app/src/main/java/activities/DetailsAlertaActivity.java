@@ -2,8 +2,11 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +14,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.pastillerodigital.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import models.Alerta;
+import receivers.AlarmReceiver;
 
 public class DetailsAlertaActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
     private Button btnDeleteAlert, btnEdit;
 
     private Alerta alerta;
-
+    private boolean fromAlarm = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +42,26 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         });
 
         alerta = (Alerta) getIntent().getSerializableExtra("alerts");
+        fromAlarm = getIntent().getBooleanExtra("fromAlarm", false); // 🔑 leer extra
 
         loadComponents();
+
+        if (fromAlarm) {
+            btnEdit.setVisibility(View.GONE);
+        }
 
         imgBtnBack.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsAlertaActivity.this, DetailsMedicamentActivity.class);
             startActivity(intent);
         });
 
-
         imgBtnCheck.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailsAlertaActivity.this, DetailsMedicamentActivity.class);
-            startActivity(intent);
+            if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
+                AlarmReceiver.mediaPlayer.stop();
+                AlarmReceiver.mediaPlayer.release();
+                AlarmReceiver.mediaPlayer = null;
+            }
+            finish();
         });
 
         btnEdit.setOnClickListener(v -> {
@@ -90,5 +99,15 @@ public class DetailsAlertaActivity extends AppCompatActivity {
 
         tvAlarmTime = findViewById(R.id.tvAlarmTime);
         tvMedicamentName = findViewById(R.id.tvMedicamentName);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
+            AlarmReceiver.mediaPlayer.stop();
+            AlarmReceiver.mediaPlayer.release();
+            AlarmReceiver.mediaPlayer = null;
+        }
     }
 }
