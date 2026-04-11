@@ -61,7 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
         loadComponents();
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HistoryActivity.this, ListDaysActivity.class);
+            Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
             startActivity(intent);
         });
 

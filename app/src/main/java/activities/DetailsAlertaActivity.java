@@ -42,7 +42,12 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         });
 
         alerta = (Alerta) getIntent().getSerializableExtra("alerts");
-        fromAlarm = getIntent().getBooleanExtra("fromAlarm", false); // 🔑 leer extra
+        fromAlarm = getIntent().getBooleanExtra("fromAlarm", false);
+        if (alerta == null) {
+            Toast.makeText(this, "Error cargando alerta", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         loadComponents();
 

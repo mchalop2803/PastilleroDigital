@@ -3,6 +3,8 @@ package activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intApp = new Intent(this, ListAlertActivity.class);
                 startActivity(intApp);
             } else if (id == R.id.profile) {
-                startActivity(new Intent(MainActivity.this, DetailsProfileActivity.class));
+                startActivity(new Intent(this, DetailsProfileActivity.class));
                 finish();
             } else {
                 return false;
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         NavigationView navView = findViewById(R.id.nvMenu);
+
+        setupDrawerMenu(navView);
+
         Button logoutButton = navView.findViewById(R.id.btnLogout);
 
         logoutButton.setOnClickListener(v -> {
@@ -72,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Agenda", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, HistoryActivity.class));
                 finish();
+            }else if (itemId == R.id.days) {
+                Toast.makeText(this, "Pastillero diario", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, ListDaysActivity.class));
+                finish();
             } else if (itemId == R.id.familiar) {
                 Toast.makeText(this, "Familiares", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ListFamilyActivity.class));
@@ -85,5 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
+    }
+
+    private void setupDrawerMenu(NavigationView navView) {
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        String name = prefs.getString("name", "Usuario");
+
+        Menu menu = navView.getMenu();
+        menu.findItem(R.id.lateral_profile1).setTitle(name);
+        menu.findItem(R.id.lateral_profile2).setVisible(false);
     }
 }

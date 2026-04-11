@@ -33,8 +33,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         CitaMedica cita = citas.get(position);
         holder.tvCitaTitle.setText(cita.getDescription());
         holder.tvCitaDoctor.setText("Doctor: " + cita.getMedico());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        holder.tvCitaDate.setText("Fecha: " + sdf.format(cita.getFecha()));
+        holder.tvCitaDate.setText("Fecha: " + cita.getFecha());
     }
 
     @Override

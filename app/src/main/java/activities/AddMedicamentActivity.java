@@ -62,6 +62,9 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     medicamentoEdit.setDosis(textInputEditTextMedicamentDosis.getText().toString());
                     medicamentoEdit.setHorario(textInputEditTextMedicamentHorario.getText().toString());
                     medicamentoEdit.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
+                    medicamentoEdit.setMomentDay(getMomentFromHour(
+                            textInputEditTextMedicamentHorario.getText().toString()
+                    ));
 
                     if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
                         Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
@@ -94,6 +97,9 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
                     medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
                     medicamento.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
+                    medicamento.setMomentDay(getMomentFromHour(
+                            textInputEditTextMedicamentHorario.getText().toString()
+                    ));
 
                     if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
                         Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
@@ -131,6 +137,24 @@ public class AddMedicamentActivity extends AppCompatActivity {
             Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
             startActivity(intent);
         });
+    }
+
+    private String getMomentFromHour(String hora) {
+        try {
+            String[] parts = hora.split(":");
+            int hour = Integer.parseInt(parts[0]);
+
+            if (hour >= 6 && hour < 12) {
+                return "DAY";
+            } else if (hour >= 12 && hour < 20) {
+                return "AFTERNOON";
+            } else {
+                return "NIGHT";
+            }
+
+        } catch (Exception e) {
+            return "DAY";
+        }
     }
 
     private void loadComponents(){

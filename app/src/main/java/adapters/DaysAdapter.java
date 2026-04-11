@@ -8,37 +8,45 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.pastillerodigital.R;
 
 import java.util.List;
 
-import models.Medicamento;
+import models.Days;
 
-public class DaysAdapter extends ArrayAdapter<Medicamento> {
+public class DaysAdapter extends ArrayAdapter<Days> {
 
-    public DaysAdapter(@NonNull Context context, List<Medicamento> medicamentos) {
-        super(context, 0, medicamentos);
+    public DaysAdapter(@NonNull Context context, List<Days> days) {
+        super(context, 0, days);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        Medicamento medicamento = getItem(position);
+        Days day = getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_day, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.item_day, parent, false);
         }
 
-        TextView tvMorning = convertView.findViewById(R.id.tvMorning);
-        TextView tvAfternoon = convertView.findViewById(R.id.tvAfternoon);
-        TextView tvNight = convertView.findViewById(R.id.tvNight);
+        TextView tv = convertView.findViewById(R.id.tvDayOption);
 
-        tvMorning.setText("Mañana");
-        tvAfternoon.setText("Tarde");
-        tvNight.setText("Noche");
+        if (day != null) {
+            switch (day) {
+                case DAY:
+                    tv.setText("Mañana");
+                    break;
+                case AFTERNOON:
+                    tv.setText("Tarde");
+                    break;
+                case NIGHT:
+                    tv.setText("Noche");
+                    break;
+            }
+        }
 
         return convertView;
     }

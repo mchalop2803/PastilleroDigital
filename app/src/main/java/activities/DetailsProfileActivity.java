@@ -51,7 +51,7 @@ public class DetailsProfileActivity extends AppCompatActivity {
 
     private void loadComponents() {
 
-        sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("Prefs", Context.MODE_PRIVATE);
 
         editmode = findViewById(R.id.btnEditProfile);
         saveProfile = findViewById(R.id.btnSaveProfile);

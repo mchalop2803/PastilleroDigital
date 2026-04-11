@@ -91,12 +91,18 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setName(name);
                     user.setSurname(surname);
                     user.setId(uid);
+                    user.setNif(nif);
 
                     userService.insertUser(user);
 
                     getSharedPreferences("Prefs", MODE_PRIVATE)
                             .edit()
                             .putString("id", uid)
+                            .putString("name", name)
+                            .putString("surname", surname)
+                            .putString("nif", nif)
+                            .putString("email", email)
+                            .putString("password", password)
                             .putBoolean("isLogged", true)
                             .apply();
 

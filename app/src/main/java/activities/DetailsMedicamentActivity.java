@@ -69,6 +69,11 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
         btnDeleteMedicament.setOnClickListener(v -> {
 
+            if (medicamento == null || medicamento.getId() == null) {
+                Toast.makeText(this, "Error: medicamento sin ID", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             AlertService alertService = new AlertService(getApplicationContext());
             MedicamentoService medicamentoService = new MedicamentoService(getApplicationContext());
 

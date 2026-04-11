@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -53,6 +54,24 @@ public class ListMedicamentActivity extends AppCompatActivity {
 
         loadComponents();
 
+        String momentDay = getIntent().getStringExtra("momentDay");
+
+        TextView title = findViewById(R.id.tvMedicamentTitle);
+
+        if (momentDay != null) {
+            switch (momentDay) {
+                case "DAY":
+                    title.setText("Medicamentos de la mañana");
+                    break;
+                case "AFTERNOON":
+                    title.setText("Medicamentos de la tarde");
+                    break;
+                case "NIGHT":
+                    title.setText("Medicamentos de la noche");
+                    break;
+            }
+        }
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("medicaments");
 
@@ -72,8 +91,11 @@ public class ListMedicamentActivity extends AppCompatActivity {
                             Medicamento medicamento = data.getValue(Medicamento.class);
 
                             if (medicamento != null) {
-                                medicamentos.add(medicamento);
-                                Log.i("Medicamento cargado", medicamento.toString());
+                                medicamento.setId(data.getKey());
+                                if (momentDay == null || momentDay.equals(medicamento.getMomentDay())) {
+                                    medicamentos.add(medicamento);
+                                    Log.i("Medicamento filtrado", medicamento.toString());
+                                }
                             }
                         }
 

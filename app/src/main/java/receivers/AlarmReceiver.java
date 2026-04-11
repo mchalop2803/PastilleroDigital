@@ -29,7 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, DetailsAlertaActivity.class);
         i.putExtra("alerts", alerta);
         i.putExtra("fromAlarm", true);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

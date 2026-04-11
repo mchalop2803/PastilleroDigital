@@ -66,4 +66,5 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="ic_pastillero">Pastillero Digital</string>
+    <string name="daily_pillbox">Pastillero diario</string>
 </resources>

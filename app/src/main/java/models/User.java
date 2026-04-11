@@ -9,6 +9,7 @@ public class User extends DomainEntity implements Serializable {
     protected String photo;
     private Integer age;
     private String phone;
+    private String nif;
 
     protected UserAccount userAccount;
 
@@ -46,6 +47,14 @@ public class User extends DomainEntity implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
     }
 
     public String getSurname() {
