@@ -51,66 +51,49 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="70dp">
-
-        <TextView
-            android:id="@+id/tvFamilyName"
+        <LinearLayout
+            android:padding="16dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/family_name"
-            android:textSize="30sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="50dp"/>
+            android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tvFamilyPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/family_phone"
-            android:textSize="30sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="50dp"
-            />
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
 
-        <TextView
-            android:id="@+id/tvFamilyRelation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/family_relation"
-            android:textSize="30sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="50dp"
-            />
+            <TextView
+                android:id="@+id/tvRelation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
 
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue_primary"
-            android:textSize="30sp"
-            android:layout_gravity="center"
-            android:text="@string/edit" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                android:text="@string/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"/>
 
-        <Button
-            android:id="@+id/btnDeleteFamily"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/red"
-            android:textSize="30sp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:layout_gravity="center"
-            android:text="@string/delete_family" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                android:text="@string/delete_family"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

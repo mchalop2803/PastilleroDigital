@@ -16,6 +16,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import models.Alerta;
@@ -24,12 +26,12 @@ import services.CitaMedicaService;
 
 public class AddCitaMedicaActivity extends AppCompatActivity {
 
-    private ImageButton imageButton;
+    private MaterialToolbar toolbar;
 
     private TextInputEditText textInputEditTextCitaDescription, textInputEditTextCitaCompanion, textInputEditTextCitaDate,
             textInputEditTextCitaTime, textInputEditTextCitaLocation, textInputEditTextCitaMedic;
 
-    private Button btnRegisterCita;
+    private MaterialButton btnSave;
 
     private CitaMedicaService citaMedicaService;
 
@@ -46,12 +48,12 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
 
         loadComponents();
 
-        imageButton.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
             startActivity(intent);
         });
 
-        btnRegisterCita.setOnClickListener(v -> {
+        btnSave.setOnClickListener(v -> {
 
             CitaMedica citaMedica = new CitaMedica();
             citaMedica.setDescription(textInputEditTextCitaDescription.getText().toString());
@@ -93,22 +95,22 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             Toast.makeText(AddCitaMedicaActivity.this, "CitaMedica with id " + idCitaMedica + " inserted", Toast.LENGTH_SHORT).show();
             Log.i("CitaMedica id", idCitaMedica);
 
-            Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
+            Intent intent = new Intent(AddCitaMedicaActivity.this, MainActivity.class);
             startActivity(intent);
 
         });
     }
 
     private void loadComponents(){
-        textInputEditTextCitaDescription = findViewById(R.id.textInputEditTextCitaDescription);
-        textInputEditTextCitaCompanion = findViewById(R.id.textInputEditTextCitaCompanion);
-        textInputEditTextCitaDate = findViewById(R.id.textInputEditTextCitaDate);
-        textInputEditTextCitaTime = findViewById(R.id.textInputEditTextCitaTime);
-        textInputEditTextCitaLocation = findViewById(R.id.textInputEditTextCitaLocation);
-        textInputEditTextCitaMedic = findViewById(R.id.textInputEditTextCitaMedic);
+        textInputEditTextCitaDescription = findViewById(R.id.etDescription);
+        textInputEditTextCitaCompanion = findViewById(R.id.etCompanion);
+        textInputEditTextCitaDate = findViewById(R.id.etDate);
+        textInputEditTextCitaTime = findViewById(R.id.etTime);
+        textInputEditTextCitaLocation = findViewById(R.id.etLocation);
+        textInputEditTextCitaMedic = findViewById(R.id.etMedic);
 
-        imageButton = findViewById(R.id.imageButton);
-        btnRegisterCita = findViewById(R.id.btnRegisterCita);
+        toolbar = findViewById(R.id.toolbar);
+        btnSave = findViewById(R.id.btnSave);
 
         citaMedicaService = new CitaMedicaService(getApplicationContext());
     }

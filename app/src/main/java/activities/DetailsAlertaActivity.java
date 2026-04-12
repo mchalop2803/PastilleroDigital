@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,7 +24,8 @@ import receivers.AlarmReceiver;
 
 public class DetailsAlertaActivity extends AppCompatActivity {
 
-    private ImageButton imgBtnBack, imgBtnAlarma, imgBtnCheck;
+    private FloatingActionButton fltBtnCheck;
+    private ImageButton imgBtnBack;
     private TextView tvAlarmTime, tvMedicamentName;
     private Button btnDeleteAlert, btnEdit;
 
@@ -60,7 +62,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        imgBtnCheck.setOnClickListener(v -> {
+        fltBtnCheck.setOnClickListener(v -> {
             if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
                 AlarmReceiver.mediaPlayer.stop();
                 AlarmReceiver.mediaPlayer.release();
@@ -95,15 +97,14 @@ public class DetailsAlertaActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        imgBtnBack = findViewById(R.id.imgBtnBack);
-        imgBtnAlarma = findViewById(R.id.imgBtnAlarma);
-        imgBtnCheck = findViewById(R.id.imgBtnCheck);
+        imgBtnBack = findViewById(R.id.btnBack);
+        fltBtnCheck = findViewById(R.id.fltBtnCheck);
 
-        btnDeleteAlert = findViewById(R.id.btnDeleteAlert);
+        btnDeleteAlert = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
 
-        tvAlarmTime = findViewById(R.id.tvAlarmTime);
-        tvMedicamentName = findViewById(R.id.tvMedicamentName);
+        tvAlarmTime = findViewById(R.id.tvTime);
+        tvMedicamentName = findViewById(R.id.tvName);
     }
 
     @Override

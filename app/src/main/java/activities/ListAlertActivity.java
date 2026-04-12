@@ -111,7 +111,7 @@ public class ListAlertActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        lvAlert = findViewById(R.id.lvAlert);
+        lvAlert = findViewById(R.id.lvAlarm);
         alertas = new ArrayList<>();
         imageButton = findViewById(R.id.imageButton);
         fltBtnAddAlert = findViewById(R.id.fltBtnAddAlert);

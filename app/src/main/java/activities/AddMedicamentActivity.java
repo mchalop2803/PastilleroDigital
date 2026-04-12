@@ -23,16 +23,15 @@ import services.MedicamentoService;
 
 public class AddMedicamentActivity extends AppCompatActivity {
 
-    private ImageButton imageButton, imgBtnMedicament;
+    private ImageButton imageButton;
 
-    private TextInputEditText textInputEditTextMedicamentName, textInputEditTextMedicamentDosis, textInputEditTextMedicamentHorario,
-            textInputEditTextMedicamentDuracion;
+    private TextInputEditText textInputEditTextMedicamentName, textInputEditTextMedicamentDosis, textInputEditTextMedicamentHorario;
 
     private Boolean editMode;
 
     private Medicamento medicamentoEdit;
 
-    private Button btnSave, btnCancel;
+    private Button btnSave;
 
     private MedicamentoService medicamentoService;
 
@@ -61,7 +60,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     medicamentoEdit.setNombre(textInputEditTextMedicamentName.getText().toString());
                     medicamentoEdit.setDosis(textInputEditTextMedicamentDosis.getText().toString());
                     medicamentoEdit.setHorario(textInputEditTextMedicamentHorario.getText().toString());
-                    medicamentoEdit.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
                     medicamentoEdit.setMomentDay(getMomentFromHour(
                             textInputEditTextMedicamentHorario.getText().toString()
                     ));
@@ -78,10 +76,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                         Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (textInputEditTextMedicamentDuracion.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Duracion is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
 
                     medicamentoService.updateMedicament(medicamentoEdit);
                     Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
@@ -96,7 +90,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
                     medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
                     medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
-                    medicamento.setDuracion(textInputEditTextMedicamentDuracion.getText().toString());
                     medicamento.setMomentDay(getMomentFromHour(
                             textInputEditTextMedicamentHorario.getText().toString()
                     ));
@@ -116,10 +109,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                         return;
                     }
 
-                    if (textInputEditTextMedicamentDuracion.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Duracion is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
 
                     String idMedicament = medicamentoService.insertMedicament(medicamento);
 
@@ -131,11 +120,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
-
-        btnCancel.setOnClickListener(v -> {
-            Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -159,15 +143,12 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
     private void loadComponents(){
         imageButton = findViewById(R.id.imageButton);
-        imgBtnMedicament = findViewById(R.id.imgBtnMedicament);
 
-        textInputEditTextMedicamentName = findViewById(R.id.textInputEditTextMedicamentName);
-        textInputEditTextMedicamentDosis = findViewById(R.id.textInputEditTextMedicamentDosis);
-        textInputEditTextMedicamentHorario = findViewById(R.id.textInputEditTextMedicamentHorario);
-        textInputEditTextMedicamentDuracion = findViewById(R.id.textInputEditTextMedicamentDuracion);
+        textInputEditTextMedicamentName = findViewById(R.id.etName);
+        textInputEditTextMedicamentDosis = findViewById(R.id.etDose);
+        textInputEditTextMedicamentHorario = findViewById(R.id.etTime);
 
         btnSave = findViewById(R.id.btnSave);
-        btnCancel = findViewById(R.id.btnCancel);
 
         medicamentoService = new MedicamentoService(getApplicationContext());
 
@@ -177,7 +158,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
             textInputEditTextMedicamentName.setText(medicamentoEdit.getNombre().toString());
             textInputEditTextMedicamentDosis.setText(medicamentoEdit.getDosis().toString());
             textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario().toString());
-            textInputEditTextMedicamentDuracion.setText(medicamentoEdit.getDuracion().toString());
 
         }
 

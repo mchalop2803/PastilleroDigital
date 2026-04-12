@@ -14,14 +14,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import models.Perfil;
 
 public class CitaMedicaActivity extends AppCompatActivity {
 
-    private ImageButton imageButton;
-    private Button btnRegisterCita;
+    private MaterialToolbar toolbar;
+    private MaterialButton btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +38,12 @@ public class CitaMedicaActivity extends AppCompatActivity {
 
         loadComponents();
 
-        imageButton.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(CitaMedicaActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
-        btnRegisterCita.setOnClickListener(v -> {
+        btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(CitaMedicaActivity.this, AddCitaMedicaActivity.class);
             startActivity(intent);
         });
@@ -49,8 +51,8 @@ public class CitaMedicaActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        imageButton = findViewById(R.id.imageButton);
+        toolbar = findViewById(R.id.toolbar);
 
-        btnRegisterCita = findViewById(R.id.btnRegisterCita);
+        btnAdd = findViewById(R.id.btnAdd);
     }
 }

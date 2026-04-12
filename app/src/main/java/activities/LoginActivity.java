@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loadingComponents() {
         Button loginButton = findViewById(R.id.login_button);
-        Button googleButton = findViewById(R.id.google_button);
+        //Button googleButton = findViewById(R.id.google_button);
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         TextView register = findViewById(R.id.register_text);

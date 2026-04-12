@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,9 +32,10 @@ import services.AlertService;
 
 public class AddAlertaActivity extends AppCompatActivity {
 
-    private ImageButton imgBtnBack, imgBtnMedicamentImage;
+    private ImageButton imgBtnBack;
     private TextInputEditText textInputEditTextAlertName, textInputEditTextAlertTime;
     private Button btnAddAlert;
+    private ImageView imgAlert;
 
     private Boolean editMode;
 
@@ -163,11 +165,11 @@ public class AddAlertaActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        textInputEditTextAlertName = findViewById(R.id.textInputEditTextAlertName);
-        textInputEditTextAlertTime = findViewById(R.id.textInputEditTextAlertTime);
+        textInputEditTextAlertName = findViewById(R.id.etAlertName);
+        textInputEditTextAlertTime = findViewById(R.id.etAlertTime);
 
-        imgBtnBack = findViewById(R.id.imgBtnBack);
-        imgBtnMedicamentImage = findViewById(R.id.imgBtnMedicamentImage);
+        imgBtnBack = findViewById(R.id.btnBack);
+        imgAlert = findViewById(R.id.imgAlert);
         btnAddAlert = findViewById(R.id.btnAddAlert);
 
         alertService = new AlertService(getApplicationContext());

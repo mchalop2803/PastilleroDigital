@@ -51,7 +51,7 @@ public class ListDaysActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        lvDay = findViewById(R.id.lvDay);
+        lvDay = findViewById(R.id.lvDays);
         imageButton = findViewById(R.id.imageButton);
     }
 }

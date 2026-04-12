@@ -1,33 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:padding="16dp"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvNameFamily"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/family_name" />
+            android:layout_width="wrap_content"
+            android:text="María López"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/tvPhoneFamily"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/family_phone" />
+            android:layout_width="wrap_content"
+            android:text="600123456"
+            android:textColor="@color/gray_medium"/>
 
         <TextView
             android:id="@+id/tvRelationFamily"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/family_relation" />
+            android:layout_width="wrap_content"
+            android:text="Madre"
+            android:textColor="@color/gray_medium"/>
+
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

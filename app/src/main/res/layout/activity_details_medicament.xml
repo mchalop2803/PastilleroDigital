@@ -51,83 +51,66 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="70dp">
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:padding="16dp">
 
-            <ImageButton
-                android:id="@+id/imgBtnMedicament"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                app:cardCornerRadius="16dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tvMedicamentName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/medicament_name"
-                android:textSize="30sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="50dp"/>
+                app:cardElevation="4dp">
 
+                <LinearLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            <TextView
-                android:id="@+id/tvMedicamentAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/amount"
-                android:textSize="30sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="50dp"
-                />
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="22sp"
+                        android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/tvMedicamentTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/time_take"
-                android:textSize="30sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="50dp"
-                />
+                    <TextView
+                        android:id="@+id/tvDose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"/>
 
-            <Button
-                android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/blue_primary"
-                android:textSize="30sp"
-                android:layout_gravity="center"
-                android:text="@string/edit" />
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"/>
 
-            <Button
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddAlert"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/blue_primary"
-                android:textSize="30sp"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                android:text="@string/add_alert" />
+                android:text="@string/add_alert"
+                android:layout_marginTop="16dp"/>
 
-            <Button
-                android:id="@+id/btnDeleteMedicament"
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/red"
-                android:textSize="30sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
-                android:layout_gravity="center"
-                android:text="@string/delete_medicament" />
+                android:text="@string/edit"
+                android:layout_marginTop="16dp"/>
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_medicament"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

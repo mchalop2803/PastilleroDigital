@@ -77,7 +77,6 @@ public class HistoryActivity extends AppCompatActivity {
         spinnerMonth.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
-                // filtrar citas por mes seleccionado
                 loadCitasByMonth(position + 1);
             }
 
@@ -102,7 +101,7 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<CitaMedica> citasDelMes = new ArrayList<>();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // formato de tu fecha
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
                 for (DataSnapshot data : snapshot.getChildren()) {
                     CitaMedica cita = data.getValue(CitaMedica.class);

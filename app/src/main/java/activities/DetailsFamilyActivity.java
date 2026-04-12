@@ -77,11 +77,11 @@ public class DetailsFamilyActivity extends AppCompatActivity {
     private void loadComponents(){
         imageButton = findViewById(R.id.imageButton);
 
-        btnDeleteFamily = findViewById(R.id.btnDeleteFamily);
+        btnDeleteFamily = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
 
-        tvFamilyName = findViewById(R.id.tvFamilyName);
-        tvFamilyPhone = findViewById(R.id.tvFamilyPhone);
-        tvFamilyRelation = findViewById(R.id.tvFamilyRelation);
+        tvFamilyName = findViewById(R.id.tvName);
+        tvFamilyPhone = findViewById(R.id.tvPhone);
+        tvFamilyRelation = findViewById(R.id.tvRelation);
     }
 }

@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import models.CitaMedica;
@@ -24,7 +25,7 @@ import services.FamiliarService;
 
 public class AddFamilyActivity extends AppCompatActivity {
 
-    private ImageButton imageButton;
+    private MaterialToolbar toolbar;
 
     private TextInputEditText textInputEditTextFamilyName, textInputEditTextFamilyPhone, textInputEditTextFamilyRelation;
 
@@ -49,7 +50,7 @@ public class AddFamilyActivity extends AppCompatActivity {
 
         loadComponents();
 
-        imageButton.setOnClickListener(v -> {
+        toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
             startActivity(intent);
         });
@@ -115,22 +116,22 @@ public class AddFamilyActivity extends AppCompatActivity {
     }
 
     private void loadComponents(){
-        imageButton = findViewById(R.id.imageButton);
+        toolbar = findViewById(R.id.toolbar);
 
-        textInputEditTextFamilyName = findViewById(R.id.textInputEditTextFamilyName);
-        textInputEditTextFamilyPhone = findViewById(R.id.textInputEditTextFamilyPhone);
-        textInputEditTextFamilyRelation = findViewById(R.id.textInputEditTextFamilyRelation);
+        textInputEditTextFamilyName = findViewById(R.id.etName);
+        textInputEditTextFamilyPhone = findViewById(R.id.etPhone);
+        textInputEditTextFamilyRelation = findViewById(R.id.etRelation);
 
-        btnAddFamily = findViewById(R.id.btnAddFamily);
+        btnAddFamily = findViewById(R.id.btnSave);
 
         familiarService = new FamiliarService(getApplicationContext());
 
         Intent intent = getIntent();
         if(intent.getSerializableExtra("family") != null){
             familiarEdit = (Familiar) intent.getSerializableExtra("family");
-            textInputEditTextFamilyName.setText(familiarEdit.getNombre().toString());
-            textInputEditTextFamilyPhone.setText(familiarEdit.getPhone().toString());
-            textInputEditTextFamilyRelation.setText(familiarEdit.getRelacion().toString());
+            textInputEditTextFamilyName.setText(familiarEdit.getNombre());
+            textInputEditTextFamilyPhone.setText(familiarEdit.getPhone());
+            textInputEditTextFamilyRelation.setText(familiarEdit.getRelacion());
 
         }
 

@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -54,7 +56,15 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navView = findViewById(R.id.nvMenu);
 
-        setupDrawerMenu(navView);
+        View headerView = navView.getHeaderView(0);
+
+        TextView tvName = headerView.findViewById(R.id.tvUserName);
+        TextView tvEmail = headerView.findViewById(R.id.tvUserEmail);
+
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+
+        tvName.setText(prefs.getString("name", "Usuario"));
+        tvEmail.setText(prefs.getString("email", "email@email.com"));
 
         Button logoutButton = navView.findViewById(R.id.btnLogout);
 
@@ -69,7 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
         navView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.medication) {
+            if (itemId == R.id.profile){
+                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, DetailsProfileActivity.class));
+                finish();
+            } else if (itemId == R.id.medication) {
                 Toast.makeText(this, "Medicamentos", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ListMedicamentActivity.class));
                 finish();
@@ -94,14 +108,5 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
-    }
-
-    private void setupDrawerMenu(NavigationView navView) {
-        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String name = prefs.getString("name", "Usuario");
-
-        Menu menu = navView.getMenu();
-        menu.findItem(R.id.lateral_profile1).setTitle(name);
-        menu.findItem(R.id.lateral_profile2).setVisible(false);
     }
 }

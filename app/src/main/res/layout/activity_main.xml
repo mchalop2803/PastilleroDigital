@@ -23,14 +23,15 @@
 
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="25dp"
-            android:layout_marginBottom="25dp"
-            android:backgroundTint="@color/black"
-            android:drawableEnd="@drawable/ic_logout"
-            android:text="@string/log_out" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="650dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/red"
+            android:text="Cerrar sesión"
+            android:textColor="@color/white"
+            android:drawableEnd="@drawable/ic_logout"/>
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

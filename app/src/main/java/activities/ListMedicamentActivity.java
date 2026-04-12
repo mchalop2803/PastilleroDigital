@@ -56,7 +56,7 @@ public class ListMedicamentActivity extends AppCompatActivity {
 
         String momentDay = getIntent().getStringExtra("momentDay");
 
-        TextView title = findViewById(R.id.tvMedicamentTitle);
+        TextView title = findViewById(R.id.tvMedicamentoTitle);
 
         if (momentDay != null) {
             switch (momentDay) {

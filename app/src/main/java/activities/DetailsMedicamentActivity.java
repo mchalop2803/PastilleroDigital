@@ -23,7 +23,7 @@ import models.Medicamento;
 
 public class DetailsMedicamentActivity extends AppCompatActivity {
 
-    private ImageButton imageButton, imgBtnMedicament;
+    private ImageButton imageButton;
     private TextView tvMedicamentName, tvMedicamentAmount, tvMedicamentTime;
     private Button btnAddAlert, btnDeleteMedicament, btnEdit;
 
@@ -90,14 +90,13 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
     private void loadComponents(){
         imageButton = findViewById(R.id.imageButton);
-        imgBtnMedicament = findViewById(R.id.imgBtnMedicament);
 
         btnAddAlert = findViewById(R.id.btnAddAlert);
-        btnDeleteMedicament = findViewById(R.id.btnDeleteMedicament);
+        btnDeleteMedicament = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
 
-        tvMedicamentName = findViewById(R.id.tvMedicamentName);
-        tvMedicamentAmount = findViewById(R.id.tvMedicamentAmount);
-        tvMedicamentTime = findViewById(R.id.tvMedicamentTime);
+        tvMedicamentName = findViewById(R.id.tvName);
+        tvMedicamentAmount = findViewById(R.id.tvDose);
+        tvMedicamentTime = findViewById(R.id.tvTime);
     }
 }

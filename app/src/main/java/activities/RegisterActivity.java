@@ -27,7 +27,8 @@ import services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etEmailRegister, etPasswdRegister;
+    private TextInputEditText etEmailRegister, etPasswdRegister, emailEditText,
+    passwordEditText;
     private EditText etNameRegister, etSurnameRegister;
     private EditText etNif, etPhone, etAge;
     private Button btnRegister;
@@ -54,11 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        TextInputLayout tilEmailRegister = findViewById(R.id.etEmailRegister);
-        TextInputLayout tilPasswdRegister = findViewById(R.id.etpasswdRegister);
 
-        etEmailRegister = (TextInputEditText) tilEmailRegister.getEditText();
-        etPasswdRegister = (TextInputEditText) tilPasswdRegister.getEditText();
+        etEmailRegister = findViewById(R.id.etEmailRegister);
+        etPasswdRegister = findViewById(R.id.etpasswdRegister);
+
         etNameRegister = findViewById(R.id.etNameRegister);
         etSurnameRegister = findViewById(R.id.etSurnameRegister);
         etNif = findViewById(R.id.etNif);
@@ -115,7 +115,5 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         });
-
-        Toast.makeText(RegisterActivity.this, "Registro exitoso!", Toast.LENGTH_SHORT).show();
     }
 }
