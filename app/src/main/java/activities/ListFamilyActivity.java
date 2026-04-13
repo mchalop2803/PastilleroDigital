@@ -88,11 +88,13 @@ public class ListFamilyActivity extends AppCompatActivity {
         fltBtnAddFamily.setOnClickListener(v -> {
             Intent intent = new Intent(ListFamilyActivity.this, AddFamilyActivity.class);
             startActivity(intent);
+            finish();
         });
 
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(ListFamilyActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         lvFamily.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,6 +106,7 @@ public class ListFamilyActivity extends AppCompatActivity {
                 intent.putExtra("familys", familiar);
 
                 startActivity(intent);
+                finish();
             }
         });
     }

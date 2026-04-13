@@ -51,6 +51,7 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnSave.setOnClickListener(v -> {
@@ -97,6 +98,7 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
 
             Intent intent = new Intent(AddCitaMedicaActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
 
         });
     }

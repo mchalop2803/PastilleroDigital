@@ -99,8 +99,12 @@ public class ListMedicamentActivity extends AppCompatActivity {
                             }
                         }
 
-                        medicamentAdapter = new MedicamentAdapter(ListMedicamentActivity.this, medicamentos);
-                        lvMedicament.setAdapter(medicamentAdapter);
+                        if (medicamentAdapter == null) {
+                            medicamentAdapter = new MedicamentAdapter(ListMedicamentActivity.this, medicamentos);
+                            lvMedicament.setAdapter(medicamentAdapter);
+                        } else {
+                            medicamentAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -118,17 +122,20 @@ public class ListMedicamentActivity extends AppCompatActivity {
                 intent.putExtra("medicaments", medicamento);
 
                 startActivity(intent);
+                finish();
             }
         });
 
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(ListMedicamentActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         fltBtnAddMedicament.setOnClickListener(v -> {
             Intent intent = new Intent(ListMedicamentActivity.this, AddMedicamentActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 

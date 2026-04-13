@@ -96,17 +96,20 @@ public class ListAlertActivity extends AppCompatActivity {
                 intent.putExtra("alerts", alerta);
 
                 startActivity(intent);
+                finish();
             }
         });
 
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(ListAlertActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         fltBtnAddAlert.setOnClickListener(v -> {
             Intent intent = new Intent(ListAlertActivity.this, AddAlertaActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 

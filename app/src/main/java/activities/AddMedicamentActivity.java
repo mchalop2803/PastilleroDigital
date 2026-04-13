@@ -27,13 +27,15 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
     private TextInputEditText textInputEditTextMedicamentName, textInputEditTextMedicamentDosis, textInputEditTextMedicamentHorario;
 
-    private Boolean editMode;
+    private boolean editMode;
 
     private Medicamento medicamentoEdit;
 
     private Button btnSave;
 
     private MedicamentoService medicamentoService;
+
+    public static final String EXTRA_MEDICAMENTO = "medicaments";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class AddMedicamentActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +86,7 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
 
@@ -109,7 +113,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
                         return;
                     }
 
-
                     String idMedicament = medicamentoService.insertMedicament(medicamento);
 
                     Toast.makeText(AddMedicamentActivity.this,
@@ -118,6 +121,7 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -153,11 +157,11 @@ public class AddMedicamentActivity extends AppCompatActivity {
         medicamentoService = new MedicamentoService(getApplicationContext());
 
         Intent intent = getIntent();
-        if(intent.getSerializableExtra("medicament") != null){
-            medicamentoEdit = (Medicamento) intent.getSerializableExtra("medicament");
-            textInputEditTextMedicamentName.setText(medicamentoEdit.getNombre().toString());
-            textInputEditTextMedicamentDosis.setText(medicamentoEdit.getDosis().toString());
-            textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario().toString());
+        if(intent.getSerializableExtra(EXTRA_MEDICAMENTO) != null){
+            medicamentoEdit = (Medicamento) intent.getSerializableExtra(EXTRA_MEDICAMENTO);
+            textInputEditTextMedicamentName.setText(medicamentoEdit.getNombre());
+            textInputEditTextMedicamentDosis.setText(medicamentoEdit.getDosis());
+            textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario());
 
         }
 

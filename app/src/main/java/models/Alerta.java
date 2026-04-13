@@ -8,7 +8,7 @@ public class Alerta extends DomainEntity{
 
     private String nombre;
     private String hora;
-    private Image medicamentImage;
+    private String medicamentImageUrl;
 
     private String medicamentoId;
 
@@ -42,12 +42,12 @@ public class Alerta extends DomainEntity{
         this.hora = hora;
     }
 
-    public Image getMedicamentImage() {
-        return medicamentImage;
+    public String getMedicamentImageUrl() {
+        return medicamentImageUrl;
     }
 
-    public void setMedicamentImage(Image medicamentImage) {
-        this.medicamentImage = medicamentImage;
+    public void setMedicamentImageUrl(String medicamentImageUrl) {
+        this.medicamentImageUrl = medicamentImageUrl;
     }
 
     public String getMedicamentoId() {
@@ -63,7 +63,7 @@ public class Alerta extends DomainEntity{
         return "Alerta{" +
                 "nombre='" + nombre + '\'' +
                 ", hora=" + hora +
-                ", medicamentImage=" + medicamentImage +
+                ", medicamentImageUrl=" + medicamentImageUrl +
                 '}';
     }
 }

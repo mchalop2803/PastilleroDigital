@@ -110,6 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     Intent intMain = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intMain);
+                    finish();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                 }

@@ -41,11 +41,13 @@ public class CitaMedicaActivity extends AppCompatActivity {
         toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(CitaMedicaActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(CitaMedicaActivity.this, AddCitaMedicaActivity.class);
             startActivity(intent);
+            finish();
         });
 
     }

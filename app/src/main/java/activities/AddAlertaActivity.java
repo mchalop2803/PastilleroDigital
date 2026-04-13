@@ -61,6 +61,7 @@ public class AddAlertaActivity extends AppCompatActivity {
         imgBtnBack.setOnClickListener(v -> {
             Intent intent = new Intent(AddAlertaActivity.this, DetailsAlertaActivity.class);
             startActivity(intent);
+            finish();
         });
 
 
@@ -86,9 +87,11 @@ public class AddAlertaActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddAlertaActivity.this, ListAlertActivity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
                     Alerta alerta = new Alerta();
+                    alerta.setMedicamentoId(medicamento.getId());
                     alerta.setNombre(textInputEditTextAlertName.getText().toString());
                     alerta.setHora(textInputEditTextAlertTime.getText().toString());
                     if (medicamento != null) {
@@ -112,6 +115,7 @@ public class AddAlertaActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddAlertaActivity.this, DetailsMedicamentActivity.class);
                     startActivity(intent);
+
                 }
             }
         });
@@ -182,8 +186,9 @@ public class AddAlertaActivity extends AppCompatActivity {
 
         }
 
-        if (intent.getSerializableExtra("medicamento") != null) {
-            medicamento = (Medicamento) intent.getSerializableExtra("medicamento");
+        if (intent.getSerializableExtra(DetailsMedicamentActivity.EXTRA_MEDICAMENTO) != null) {
+            medicamento = (Medicamento) getIntent()
+                    .getSerializableExtra(DetailsMedicamentActivity.EXTRA_MEDICAMENTO);
         }
 
         editMode = intent.getBooleanExtra("editMode", false);

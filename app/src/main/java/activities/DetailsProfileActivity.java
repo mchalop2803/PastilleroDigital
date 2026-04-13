@@ -48,7 +48,7 @@ public class DetailsProfileActivity extends AppCompatActivity {
 
         loadComponents();
 
-        imageButton.setOnClickListener(v -> {
+        imageButton.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(DetailsProfileActivity.this, MainActivity.class);
             startActivity(intent);
         });

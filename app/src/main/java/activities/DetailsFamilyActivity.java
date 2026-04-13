@@ -46,6 +46,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsFamilyActivity.this, ListFamilyActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnEdit.setOnClickListener(v -> {
@@ -53,6 +54,7 @@ public class DetailsFamilyActivity extends AppCompatActivity {
             intEditFam.putExtra("editMode", true);
             intEditFam.putExtra("family", familiar);
             startActivity(intEditFam);
+            finish();
         });
 
         tvFamilyName.setText("Familiar: " + familiar.getNombre());

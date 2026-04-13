@@ -10,8 +10,6 @@ public class Medicamento extends DomainEntity implements Serializable {
     private String nombre;
     private String horario;
     private String dosis;
-    private String duracion;
-    private Image imagen;
     private String momentDay;
 
     /*
@@ -50,22 +48,6 @@ public class Medicamento extends DomainEntity implements Serializable {
         this.dosis = dosis;
     }
 
-    public String getDuracion() {
-        return duracion;
-    }
-
-    public void setDuracion(String duracion) {
-        this.duracion = duracion;
-    }
-
-    public Image getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Image imagen) {
-        this.imagen = imagen;
-    }
-
     public String getMomentDay() {
         return momentDay;
     }
@@ -78,10 +60,9 @@ public class Medicamento extends DomainEntity implements Serializable {
     public String toString() {
         return "Medicamento{" +
                 "nombre='" + nombre + '\'' +
-                ", horario=" + horario +
+                ", horario='" + horario + '\'' +
                 ", dosis='" + dosis + '\'' +
-                ", duracion='" + duracion + '\'' +
-                ", imagen=" + imagen +
+                ", momentDay='" + momentDay + '\'' +
                 '}';
     }
 }

@@ -63,6 +63,7 @@ public class HistoryActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(this,

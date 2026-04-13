@@ -22,13 +22,7 @@ public class UserService {
     public String insertUser(User user) {
         Thread thr = new Thread(() -> {
 
-            DatabaseReference newReference = reference.push();
-
-            //asignamos el id generado
-            user.setId(newReference.getKey());
-
-            //insertamos el usuario en la base de datos
-            newReference.setValue(user);
+            reference.child(user.getId()).setValue(user);
 
             insertResult = user.getId();
         });

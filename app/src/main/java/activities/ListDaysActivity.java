@@ -30,6 +30,7 @@ public class ListDaysActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(ListDaysActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         });
 
         days = new ArrayList<>();
@@ -47,6 +48,7 @@ public class ListDaysActivity extends AppCompatActivity {
             Intent intent = new Intent(ListDaysActivity.this, ListMedicamentActivity.class);
             intent.putExtra("momentDay", selectedDay.name());
             startActivity(intent);
+            finish();
         });
     }
 

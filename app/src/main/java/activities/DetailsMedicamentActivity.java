@@ -14,8 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import services.AlertService;
 import services.MedicamentoService;
@@ -29,6 +27,8 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
     private Medicamento medicamento;
 
+    public static final String EXTRA_MEDICAMENTO = "medicaments";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,27 +40,30 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
             return insets;
         });
 
-        medicamento = (Medicamento) getIntent().getSerializableExtra("medicaments");
+        medicamento = (Medicamento) getIntent().getSerializableExtra(EXTRA_MEDICAMENTO);
 
         loadComponents();
 
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsMedicamentActivity.this, ListMedicamentActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnEdit.setOnClickListener(v -> {
             Intent intEditMed = new Intent(DetailsMedicamentActivity.this, AddMedicamentActivity.class);
             intEditMed.putExtra("editMode", true);
-            intEditMed.putExtra("medicament", medicamento);
+            intEditMed.putExtra(EXTRA_MEDICAMENTO, medicamento);
             startActivity(intEditMed);
+            finish();
         });
 
 
         btnAddAlert.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsMedicamentActivity.this, AddAlertaActivity.class);
-            intent.putExtra("medicamento", medicamento);
+            intent.putExtra(EXTRA_MEDICAMENTO, medicamento);
             startActivity(intent);
+            finish();
         });
 
         tvMedicamentName.setText("Medicamento: " + medicamento.getNombre());

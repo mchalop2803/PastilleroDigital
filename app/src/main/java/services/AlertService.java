@@ -41,13 +41,24 @@ public class AlertService {
                 .equalTo(medicamentoId)
                 .get()
                 .addOnSuccessListener(snapshot -> {
-                    for (DataSnapshot data : snapshot.getChildren()) {
-                        data.getRef().removeValue();
+
+                    if (!snapshot.exists()) {
+                        onComplete.run();
+                        return;
                     }
-                    if (onComplete != null) onComplete.run();
-                })
-                .addOnFailureListener(e -> {
-                    e.printStackTrace();
+
+                    int total = (int) snapshot.getChildrenCount();
+                    final int[] deleted = {0};
+
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        data.getRef().removeValue().addOnCompleteListener(task -> {
+                            deleted[0]++;
+
+                            if (deleted[0] == total) {
+                                onComplete.run();
+                            }
+                        });
+                    }
                 });
     }
 }

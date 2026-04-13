@@ -60,6 +60,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         imgBtnBack.setOnClickListener(v -> {
             Intent intent = new Intent(DetailsAlertaActivity.this, DetailsMedicamentActivity.class);
             startActivity(intent);
+            finish();
         });
 
         fltBtnCheck.setOnClickListener(v -> {
@@ -76,6 +77,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
             intEditAle.putExtra("editMode", true);
             intEditAle.putExtra("alert", alerta);
             startActivity(intEditAle);
+            finish();
         });
 
         tvAlarmTime.setText("Hora: " + alerta.getHora());

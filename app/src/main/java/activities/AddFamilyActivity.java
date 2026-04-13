@@ -53,6 +53,7 @@ public class AddFamilyActivity extends AppCompatActivity {
         toolbar.setOnClickListener(v -> {
             Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
             startActivity(intent);
+            finish();
         });
 
         btnAddFamily.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +83,7 @@ public class AddFamilyActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
                     startActivity(intent);
+                    finish();
 
                 } else {
                     Familiar familiar = new Familiar();
@@ -110,6 +112,7 @@ public class AddFamilyActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
