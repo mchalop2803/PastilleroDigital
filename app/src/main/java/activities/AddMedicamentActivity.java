@@ -1,11 +1,14 @@
 package activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import models.Familiar;
 import models.Medicamento;
@@ -36,6 +42,10 @@ public class AddMedicamentActivity extends AppCompatActivity {
     private MedicamentoService medicamentoService;
 
     public static final String EXTRA_MEDICAMENTO = "medicaments";
+
+    private static final int PICK_IMAGE = 1;
+    private Uri imageUri;
+    private ImageView imgMedicament;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,30 @@ public class AddMedicamentActivity extends AppCompatActivity {
                         return;
                     }
 
+                    if (imageUri != null) {
+
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        StorageReference storageRef = FirebaseStorage.getInstance()
+                                .getReference("medicaments_images/" + uid + "/" + medicamentoEdit.getId() + ".jpg");
+
+                        storageRef.putFile(imageUri)
+                                .addOnSuccessListener(taskSnapshot ->
+                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                            medicamentoEdit.setImageUrl(uri.toString());
+                                            medicamentoService.updateMedicament(medicamentoEdit);
+
+                                            Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
+                                            goToList();
+
+                                        }))
+                                .addOnFailureListener(e ->
+                                        Toast.makeText(AddMedicamentActivity.this, "Error subiendo imagen", Toast.LENGTH_SHORT).show());
+
+                        return;
+                    }
+
                     medicamentoService.updateMedicament(medicamentoEdit);
                     Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
                     Log.i("Medicament id", medicamentoEdit.getId());
@@ -91,6 +125,10 @@ public class AddMedicamentActivity extends AppCompatActivity {
                 } else {
 
                     Medicamento medicamento = new Medicamento();
+                    SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+                    String userId = prefs.getString("id", null);
+
+                    medicamento.setUserId(userId);
                     medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
                     medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
                     medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
@@ -113,18 +151,49 @@ public class AddMedicamentActivity extends AppCompatActivity {
                         return;
                     }
 
-                    String idMedicament = medicamentoService.insertMedicament(medicamento);
+                    if (imageUri != null) {
 
-                    Toast.makeText(AddMedicamentActivity.this,
-                            "Medicamento with id " + idMedicament + " inserted",
-                            Toast.LENGTH_SHORT).show();
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
-                    startActivity(intent);
-                    finish();
+                        StorageReference storageRef = FirebaseStorage.getInstance()
+                                .getReference("medicaments_images/" + uid + "/" + System.currentTimeMillis() + ".jpg");
+
+                        storageRef.putFile(imageUri)
+                                .addOnSuccessListener(taskSnapshot ->
+                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                            medicamento.setImageUrl(uri.toString());
+
+                                            String idMedicament = medicamentoService.insertMedicament(medicamento);
+
+                                            Toast.makeText(AddMedicamentActivity.this,
+                                                    "Medicamento con imagen guardado",
+                                                    Toast.LENGTH_SHORT).show();
+
+                                            goToList();
+
+                                        }))
+                                .addOnFailureListener(e ->
+                                        Toast.makeText(AddMedicamentActivity.this, "Error subiendo imagen", Toast.LENGTH_SHORT).show());
+
+                    } else {
+
+                        Toast.makeText(AddMedicamentActivity.this,
+                                "Medicamento guardado",
+                                Toast.LENGTH_SHORT).show();
+
+                        goToList();
+                    }
+
                 }
             }
         });
+    }
+
+    private void goToList() {
+        Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private String getMomentFromHour(String hora) {
@@ -142,6 +211,16 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             return "DAY";
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imgMedicament.setImageURI(imageUri);
         }
     }
 
@@ -164,6 +243,14 @@ public class AddMedicamentActivity extends AppCompatActivity {
             textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario());
 
         }
+
+        imgMedicament = findViewById(R.id.imgMedicament);
+
+        imgMedicament.setOnClickListener(v -> {
+            Intent inte = new Intent(Intent.ACTION_PICK);
+            inte.setType("image/*");
+            startActivityForResult(inte, PICK_IMAGE);
+        });
 
         editMode = intent.getBooleanExtra("editMode", false);
     }

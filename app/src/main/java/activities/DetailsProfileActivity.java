@@ -3,11 +3,13 @@ package activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
@@ -16,18 +18,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pastillerodigital.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class DetailsProfileActivity extends AppCompatActivity {
 
     private MaterialToolbar imageButton;
     private ImageView profilePhoto;
     private TextView tvEmail, tvName, tvSurname, tvNif;
+
+    private static final int PICK_IMAGE = 1;
+    private Uri imageUri;
 
     private TextInputLayout tilName, tilSurname, tilNif;
     private TextInputEditText etName, etSurname, etNif;
@@ -83,13 +94,46 @@ public class DetailsProfileActivity extends AppCompatActivity {
 
         loadData();
 
+        profilePhoto.setOnClickListener(v -> {
+            if (saveBtn.getVisibility() == View.VISIBLE) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE);
+            }
+        });
+
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            profilePhoto.setImageURI(imageUri);
+        }
+    }
+
     private void loadData(){
         String email = sharedPreferences.getString("email", "");
         String name = sharedPreferences.getString("name", "");
         String surname = sharedPreferences.getString("surname", "");
         String nif = sharedPreferences.getString("nif", "");
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(uid)
+                .child("profileImage")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    String url = snapshot.getValue(String.class);
+
+                    if (url != null) {
+                        Glide.with(this).load(url).into(profilePhoto);
+                    }
+                });
 
         tvEmail.setText(email);
         tvName.setText(name);
@@ -125,27 +169,50 @@ public class DetailsProfileActivity extends AppCompatActivity {
         String surname = etSurname.getText().toString();
         String nif = etNif.getText().toString();
 
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (imageUri != null) {
+            StorageReference storageRef = FirebaseStorage.getInstance()
+                    .getReference("profile_images/" + uid + ".jpg");
+
+            storageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot ->
+                            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                String imageUrl = uri.toString();
+                                saveUserData(uid, name, surname, nif, imageUrl);
+
+                            }))
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error subiendo imagen", Toast.LENGTH_SHORT).show());
+
+        } else {
+            saveUserData(uid, name, surname, nif, null);
+        }
+    }
+
+    private void saveUserData(String uid, String name, String surname, String nif, String imageUrl){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(uid);
+
+        ref.child("name").setValue(name);
+        ref.child("surname").setValue(surname);
+        ref.child("nif").setValue(nif);
+
+        if (imageUrl != null) {
+            ref.child("profileImage").setValue(imageUrl);
+        }
+
+        Toast.makeText(this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
+
         tvName.setText(name);
         tvSurname.setText(surname);
         tvNif.setText(nif);
 
-        sharedPreferences.edit()
-                .putString("name", name)
-                .putString("surname", surname)
-                .putString("nif", nif)
-                .apply();
-
-        tilName.setVisibility(View.GONE);
-        tilSurname.setVisibility(View.GONE);
-        tilNif.setVisibility(View.GONE);
-
-        tvName.setVisibility(View.VISIBLE);
-        tvSurname.setVisibility(View.VISIBLE);
-        tvNif.setVisibility(View.VISIBLE);
-
         saveBtn.setVisibility(View.GONE);
         editBtn.setVisibility(View.VISIBLE);
-
     }
 
     private void cancelEdit() {

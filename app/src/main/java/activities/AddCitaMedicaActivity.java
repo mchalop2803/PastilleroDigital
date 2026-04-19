@@ -1,17 +1,22 @@
 package activities;
 
+import android.Manifest;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -20,100 +25,173 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import models.Alerta;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import models.CitaMedica;
 import services.CitaMedicaService;
 
 public class AddCitaMedicaActivity extends AppCompatActivity {
 
-    private MaterialToolbar toolbar;
-
-    private TextInputEditText textInputEditTextCitaDescription, textInputEditTextCitaCompanion, textInputEditTextCitaDate,
-            textInputEditTextCitaTime, textInputEditTextCitaLocation, textInputEditTextCitaMedic;
-
+    private TextInputEditText etDesc, etComp, etDate, etTime, etLoc, etMed;
     private MaterialButton btnSave;
-
-    private CitaMedicaService citaMedicaService;
+    private CitaMedicaService service;
+    private CitaMedica pendingCita;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_cita_medica);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            );
             return insets;
         });
 
-        loadComponents();
+        init();
 
-        toolbar.setOnClickListener(v -> {
-            Intent intent = new Intent(AddCitaMedicaActivity.this, DetailsAlertaActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        btnSave.setOnClickListener(v -> {
-
-            CitaMedica citaMedica = new CitaMedica();
-            citaMedica.setDescription(textInputEditTextCitaDescription.getText().toString());
-            citaMedica.setAcompañante(textInputEditTextCitaCompanion.getText().toString());
-            citaMedica.setFecha(textInputEditTextCitaDate.getText().toString());
-            citaMedica.setHora(textInputEditTextCitaTime.getText().toString());
-            citaMedica.setMedico(textInputEditTextCitaMedic.getText().toString());
-            citaMedica.setLocation(textInputEditTextCitaLocation.getText().toString());
-
-
-            if (textInputEditTextCitaDescription.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Description is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (textInputEditTextCitaCompanion.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Companion is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (textInputEditTextCitaDate.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Date is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (textInputEditTextCitaTime.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Time is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (textInputEditTextCitaMedic.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Medic is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (textInputEditTextCitaLocation.getText().toString().isBlank()){
-                Toast.makeText(AddCitaMedicaActivity.this, "Location is blank", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String idCitaMedica = citaMedicaService.insertCitaMedica(citaMedica);
-            Toast.makeText(AddCitaMedicaActivity.this, "CitaMedica with id " + idCitaMedica + " inserted", Toast.LENGTH_SHORT).show();
-            Log.i("CitaMedica id", idCitaMedica);
-
-            Intent intent = new Intent(AddCitaMedicaActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-
-        });
+        btnSave.setOnClickListener(v -> saveCita());
     }
 
-    private void loadComponents(){
-        textInputEditTextCitaDescription = findViewById(R.id.etDescription);
-        textInputEditTextCitaCompanion = findViewById(R.id.etCompanion);
-        textInputEditTextCitaDate = findViewById(R.id.etDate);
-        textInputEditTextCitaTime = findViewById(R.id.etTime);
-        textInputEditTextCitaLocation = findViewById(R.id.etLocation);
-        textInputEditTextCitaMedic = findViewById(R.id.etMedic);
+    private void saveCita() {
 
-        toolbar = findViewById(R.id.toolbar);
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        String userId = prefs.getString("id", null);
+
+        if (userId == null) {
+            Toast.makeText(this, "Usuario no válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        CitaMedica c = new CitaMedica();
+
+        c.setUserId(userId);
+        c.setDescription(etDesc.getText().toString());
+        c.setAcompañante(etComp.getText().toString());
+        c.setFecha(etDate.getText().toString());
+        c.setHora(etTime.getText().toString());
+        c.setMedico(etMed.getText().toString());
+        c.setLocation(etLoc.getText().toString());
+
+        if (c.getDescription().isEmpty() || c.getFecha().isEmpty() || c.getHora().isEmpty()) {
+            Toast.makeText(this, "Campos vacíos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        pendingCita = c;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_CALENDAR}, 100);
+            return;
+        }
+
+        service.insertCitaMedica(c);
+
+        createEventInCalendar(c);
+
+    }
+
+    private void saveAndCreate(CitaMedica c) {
+        service.insertCitaMedica(c);
+        createEventInCalendar(c);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 100 && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            if (pendingCita != null) {
+                saveAndCreate(pendingCita);
+            }
+        }
+    }
+
+    private void createEventInCalendar(CitaMedica c) {
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date date = sdf.parse(c.getFecha() + " " + c.getHora());
+
+            if (date == null) return;
+
+            long start = date.getTime();
+            long end = start + 3600000;
+
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.Events.TITLE, c.getDescription())
+                    .putExtra(CalendarContract.Events.DESCRIPTION, c.getMedico())
+                    .putExtra(CalendarContract.Events.EVENT_LOCATION, c.getLocation())
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start)
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
+
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error abriendo calendario", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private long getDefaultCalendarId() {
+
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+
+        String[] projection = new String[]{
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars.ACCOUNT_NAME,
+                CalendarContract.Calendars.ACCOUNT_TYPE,
+                CalendarContract.Calendars.VISIBLE
+        };
+
+        try (Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
+
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+
+                    long id = cursor.getLong(0);
+                    String accountName = cursor.getString(1);
+                    String accountType = cursor.getString(2);
+                    int visible = cursor.getInt(3);
+
+                    Log.d("CALENDAR", "ID: " + id +
+                            " | NAME: " + accountName +
+                            " | TYPE: " + accountType);
+
+                    if (visible == 1 && "com.google".equals(accountType)) {
+                        return id;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+    private void init() {
+
+        etDesc = findViewById(R.id.etDescription);
+        etComp = findViewById(R.id.etCompanion);
+        etDate = findViewById(R.id.etDate);
+        etTime = findViewById(R.id.etTime);
+        etLoc = findViewById(R.id.etLocation);
+        etMed = findViewById(R.id.etMedic);
+
         btnSave = findViewById(R.id.btnSave);
-
-        citaMedicaService = new CitaMedicaService(getApplicationContext());
+        service = new CitaMedicaService(getApplicationContext());
     }
 }

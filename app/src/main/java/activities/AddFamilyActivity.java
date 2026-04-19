@@ -1,6 +1,7 @@
 package activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -87,6 +88,10 @@ public class AddFamilyActivity extends AppCompatActivity {
 
                 } else {
                     Familiar familiar = new Familiar();
+                    SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+                    String userId = prefs.getString("id", null);
+
+                    familiar.setUserId(userId);
                     familiar.setNombre(textInputEditTextFamilyName.getText().toString());
                     familiar.setPhone(textInputEditTextFamilyPhone.getText().toString());
                     familiar.setRelacion(textInputEditTextFamilyRelation.getText().toString());

@@ -6,11 +6,12 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 public class Medicamento extends DomainEntity implements Serializable {
-
+    private String userId;
     private String nombre;
     private String horario;
     private String dosis;
     private String momentDay;
+    private String imageUrl;
 
     /*
     * Constructor clase Medicamento
@@ -23,6 +24,14 @@ public class Medicamento extends DomainEntity implements Serializable {
     /*
     * Getters y Setters
     */
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getNombre() {
         return nombre;
@@ -56,10 +65,19 @@ public class Medicamento extends DomainEntity implements Serializable {
         this.momentDay = momentDay;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Medicamento{" +
-                "nombre='" + nombre + '\'' +
+                "userId='" + userId + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", horario='" + horario + '\'' +
                 ", dosis='" + dosis + '\'' +
                 ", momentDay='" + momentDay + '\'' +

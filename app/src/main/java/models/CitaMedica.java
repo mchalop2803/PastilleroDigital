@@ -2,6 +2,7 @@ package models;
 
 public class CitaMedica extends DomainEntity{
 
+    private String userId;
     private String description;
     private String acompañante;
     private String medico;
@@ -20,6 +21,14 @@ public class CitaMedica extends DomainEntity{
     /*
     * Getters y Setters
     */
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getDescription() {
         return description;
@@ -72,11 +81,12 @@ public class CitaMedica extends DomainEntity{
     @Override
     public String toString() {
         return "CitaMedica{" +
-                "description='" + description + '\'' +
+                "userId='" + userId + '\'' +
+                ", description='" + description + '\'' +
                 ", acompañante='" + acompañante + '\'' +
                 ", medico='" + medico + '\'' +
-                ", hora=" + hora +
-                ", fecha=" + fecha +
+                ", hora='" + hora + '\'' +
+                ", fecha='" + fecha + '\'' +
                 ", location='" + location + '\'' +
                 '}';
     }

@@ -3,6 +3,7 @@ package services;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -12,8 +13,12 @@ public class MedicamentoService {
 
     DatabaseReference databaseReference;
     public MedicamentoService(Context context) {
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("medicaments");
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        databaseReference = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(uid)
+                .child("medicaments");
     }
 
     public String insertMedicament(Medicamento medicamento){
@@ -38,10 +43,7 @@ public class MedicamentoService {
             return;
         }
 
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("medicaments");
-
-        ref.child(medicamentoId)
+        databaseReference.child(medicamentoId)
                 .removeValue()
                 .addOnSuccessListener(aVoid ->
                         Log.i("DELETE_MEDICAMENT", "Medicamento eliminado correctamente"))

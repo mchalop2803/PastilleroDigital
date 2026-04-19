@@ -57,10 +57,12 @@ public class ListAlertActivity extends AppCompatActivity {
         DatabaseReference reference = database.getReference("alerts");
 
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String alertId = prefs.getString("id", null);
+        String userId = prefs.getString("id", null);
 
         FirebaseDatabase.getInstance()
-                .getReference("alerts")
+                .getReference("users")
+                .child(userId)
+                .child("alerts")
                 .addValueEventListener(new ValueEventListener() {
 
                     @Override

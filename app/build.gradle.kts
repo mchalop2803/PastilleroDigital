@@ -84,6 +84,10 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth")
     //storage
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 
     // https://mvnrepository.com/artifact/com.squareup.picasso/picasso
     implementation("com.squareup.picasso:picasso:2.8")

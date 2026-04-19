@@ -1,6 +1,7 @@
 package activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -45,24 +46,30 @@ public class HistoryActivity extends AppCompatActivity {
 
     private HistoryAdapter adapter;
 
+    private String userId; // 🔥 IMPORTANTE
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_history);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // 🔥 Obtener userId
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        userId = prefs.getString("id", null);
+
         citaService = new CitaMedicaService(getApplicationContext());
 
         loadComponents();
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HistoryActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(HistoryActivity.this, MainActivity.class));
             finish();
         });
 
@@ -70,6 +77,7 @@ public class HistoryActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,
                 new String[]{"Enero", "Febrero", "Marzo", "Abril", "Mayo",
                         "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"});
+
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMonth.setAdapter(monthAdapter);
 
@@ -98,27 +106,34 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadCitasByMonth(int month) {
-        citaService.getAllCitas(new ValueEventListener() {
+
+        citaService.getAllCitasByUser(userId, new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 List<CitaMedica> citasDelMes = new ArrayList<>();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
                 for (DataSnapshot data : snapshot.getChildren()) {
                     CitaMedica cita = data.getValue(CitaMedica.class);
+
                     if (cita != null) {
                         try {
                             Date fecha = sdf.parse(cita.getFecha());
+
                             Calendar cal = Calendar.getInstance();
                             cal.setTime(fecha);
+
                             if (cal.get(Calendar.MONTH) + 1 == month) {
                                 citasDelMes.add(cita);
                             }
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
                 }
+
                 adapter.setCitas(citasDelMes);
             }
 

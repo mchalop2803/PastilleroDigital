@@ -32,7 +32,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         CitaMedica cita = citas.get(position);
         holder.tvCitaTitle.setText(cita.getDescription());
-        holder.tvCitaDoctor.setText("Doctor: " + cita.getMedico());
+        holder.tvCitaHora.setText("Hora: " + cita.getHora());
         holder.tvCitaDate.setText("Fecha: " + cita.getFecha());
     }
 
@@ -42,13 +42,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCitaTitle, tvCitaDate, tvCitaDoctor;
+        TextView tvCitaTitle, tvCitaDate, tvCitaHora;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvCitaTitle = itemView.findViewById(R.id.tvCitaTitle);
             tvCitaDate = itemView.findViewById(R.id.tvCitaDate);
-            tvCitaDoctor = itemView.findViewById(R.id.tvCitaDoctor);
+            tvCitaHora = itemView.findViewById(R.id.tvCitaHora);
         }
     }
 

@@ -55,11 +55,12 @@ public class ListFamilyActivity extends AppCompatActivity {
         DatabaseReference reference = database.getReference("familys");
 
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String familyId = prefs.getString("id", null);
+        String userId = prefs.getString("id", null);
 
-
-        FirebaseDatabase.getInstance().getReference("familys")
-                .orderByChild("familyId")
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("familys")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

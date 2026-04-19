@@ -1,11 +1,8 @@
 package models;
 
-import android.media.Image;
-
-import java.time.LocalTime;
-
 public class Alerta extends DomainEntity{
 
+    private String userId;
     private String nombre;
     private String hora;
     private String medicamentImageUrl;
@@ -25,6 +22,14 @@ public class Alerta extends DomainEntity{
     /*
      * Getters y Setters
      */
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getNombre() {
         return nombre;
@@ -61,9 +66,11 @@ public class Alerta extends DomainEntity{
     @Override
     public String toString() {
         return "Alerta{" +
-                "nombre='" + nombre + '\'' +
-                ", hora=" + hora +
-                ", medicamentImageUrl=" + medicamentImageUrl +
+                "userId='" + userId + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", hora='" + hora + '\'' +
+                ", medicamentImageUrl='" + medicamentImageUrl + '\'' +
+                ", medicamentoId='" + medicamentoId + '\'' +
                 '}';
     }
 }

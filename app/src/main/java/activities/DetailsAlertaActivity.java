@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -84,17 +85,22 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         tvMedicamentName.setText("Medicamento: " + alerta.getNombre());
 
         btnDeleteAlert.setOnClickListener(v -> {
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
             DatabaseReference ref = FirebaseDatabase.getInstance()
-                    .getReference("alerts")
+                    .getReference("users")
+                    .child(uid)
+                    .child("alerts")
                     .child(alerta.getId());
+
             ref.removeValue()
                     .addOnSuccessListener(d -> {
                         Toast.makeText(this, "Alert deleted successfully", Toast.LENGTH_SHORT).show();
                         finish();
                     })
                     .addOnFailureListener(f ->
-                            Toast.makeText(this, "Alert deleted failed", Toast.LENGTH_SHORT).show());
-
+                            Toast.makeText(this, "Alert delete failed", Toast.LENGTH_SHORT).show());
         });
     }
 

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -91,6 +92,10 @@ public class AddAlertaActivity extends AppCompatActivity {
 
                 } else {
                     Alerta alerta = new Alerta();
+                    SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+                    String userId = prefs.getString("id", null);
+
+                    alerta.setUserId(userId);
                     alerta.setMedicamentoId(medicamento.getId());
                     alerta.setNombre(textInputEditTextAlertName.getText().toString());
                     alerta.setHora(textInputEditTextAlertTime.getText().toString());
@@ -114,8 +119,9 @@ public class AddAlertaActivity extends AppCompatActivity {
                     scheduleAlarm(alerta);
 
                     Intent intent = new Intent(AddAlertaActivity.this, DetailsMedicamentActivity.class);
+                    intent.putExtra(DetailsMedicamentActivity.EXTRA_MEDICAMENTO, medicamento);
                     startActivity(intent);
-
+                    finish();
                 }
             }
         });

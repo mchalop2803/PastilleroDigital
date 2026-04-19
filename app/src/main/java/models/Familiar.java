@@ -2,6 +2,7 @@ package models;
 
 public class Familiar extends DomainEntity{
 
+    private String userId;
     private String nombre;
     private String phone;
     private String relacion;
@@ -16,6 +17,15 @@ public class Familiar extends DomainEntity{
     /*
     * Getters y Setters
     */
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -43,7 +53,8 @@ public class Familiar extends DomainEntity{
     @Override
     public String toString() {
         return "Familiar{" +
-                "nombre='" + nombre + '\'' +
+                "userId='" + userId + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", phone='" + phone + '\'' +
                 ", relacion='" + relacion + '\'' +
                 '}';

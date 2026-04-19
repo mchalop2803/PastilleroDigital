@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pastillerodigital.R;
 
 import services.AlertService;
@@ -28,6 +30,8 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
     private Medicamento medicamento;
 
     public static final String EXTRA_MEDICAMENTO = "medicaments";
+
+    private ImageView imgMedicament;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,12 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
         tvMedicamentName.setText("Medicamento: " + medicamento.getNombre());
         tvMedicamentAmount.setText("Dosis: " + medicamento.getDosis());
         tvMedicamentTime.setText("Hora: " + medicamento.getHorario());
+        if (medicamento.getImageUrl() != null) {
+            Glide.with(this)
+                    .load(medicamento.getImageUrl())
+                    .placeholder(R.drawable.ic_pastillero)
+                    .into(imgMedicament);
+        }
 
         btnDeleteMedicament.setOnClickListener(v -> {
 
@@ -93,6 +103,7 @@ public class DetailsMedicamentActivity extends AppCompatActivity {
 
     private void loadComponents(){
         imageButton = findViewById(R.id.imageButton);
+        imgMedicament = findViewById(R.id.imgMedicament);
 
         btnAddAlert = findViewById(R.id.btnAddAlert);
         btnDeleteMedicament = findViewById(R.id.btnDelete);

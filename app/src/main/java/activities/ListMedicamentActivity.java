@@ -76,10 +76,12 @@ public class ListMedicamentActivity extends AppCompatActivity {
         DatabaseReference reference = database.getReference("medicaments");
 
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-        String medicamentId = prefs.getString("id", null);
+        String userId = prefs.getString("id", null);
 
         FirebaseDatabase.getInstance()
-                .getReference("medicaments")
+                .getReference("users")
+                .child(userId)
+                .child("medicaments")
                 .addValueEventListener(new ValueEventListener() {
 
                     @Override
