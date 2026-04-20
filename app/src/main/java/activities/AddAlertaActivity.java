@@ -2,6 +2,7 @@ package activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -174,6 +176,31 @@ public class AddAlertaActivity extends AppCompatActivity {
         }
     }
 
+    private void showTimePicker() {
+
+        Calendar calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePicker = new TimePickerDialog(
+                this,
+                (view, selectedHour, selectedMinute) -> {
+
+                    String time = String.format("%02d:%02d",
+                            selectedHour,
+                            selectedMinute);
+
+                    textInputEditTextAlertTime.setText(time);
+                },
+                hour,
+                minute,
+                true
+        );
+
+        timePicker.show();
+    }
+
     private void loadComponents(){
         textInputEditTextAlertName = findViewById(R.id.etAlertName);
         textInputEditTextAlertTime = findViewById(R.id.etAlertTime);
@@ -181,6 +208,8 @@ public class AddAlertaActivity extends AppCompatActivity {
         imgBtnBack = findViewById(R.id.btnBack);
         imgAlert = findViewById(R.id.imgAlert);
         btnAddAlert = findViewById(R.id.btnAddAlert);
+
+        textInputEditTextAlertTime.setOnClickListener(v -> showTimePicker());
 
         alertService = new AlertService(getApplicationContext());
 
@@ -195,6 +224,14 @@ public class AddAlertaActivity extends AppCompatActivity {
         if (intent.getSerializableExtra(DetailsMedicamentActivity.EXTRA_MEDICAMENTO) != null) {
             medicamento = (Medicamento) getIntent()
                     .getSerializableExtra(DetailsMedicamentActivity.EXTRA_MEDICAMENTO);
+            if (medicamento != null && medicamento.getImageUrl() != null) {
+                Glide.with(this)
+                        .load(medicamento.getImageUrl())
+                        .placeholder(R.drawable.ic_pastillero)
+                        .into(imgAlert);
+            } else {
+                imgAlert.setImageResource(R.drawable.ic_pastillero);
+            }
         }
 
         editMode = intent.getBooleanExtra("editMode", false);

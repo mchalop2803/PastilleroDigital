@@ -43,6 +43,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:id="@+id/etAlertTime"
                     android:hint="@string/alert_time"
                     android:inputType="time"/>

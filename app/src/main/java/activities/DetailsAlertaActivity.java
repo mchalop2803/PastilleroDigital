@@ -1,8 +1,10 @@
 package activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_details_alerta);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -46,6 +49,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
 
         alerta = (Alerta) getIntent().getSerializableExtra("alerts");
         fromAlarm = getIntent().getBooleanExtra("fromAlarm", false);
+
         if (alerta == null) {
             Toast.makeText(this, "Error cargando alerta", Toast.LENGTH_SHORT).show();
             finish();
@@ -55,14 +59,23 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         loadComponents();
 
         if (fromAlarm) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                setShowWhenLocked(true);
+                setTurnScreenOn(true);
+            } else {
+                getWindow().addFlags(
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                );
+            }
+        }
+
+        if (fromAlarm) {
             btnEdit.setVisibility(View.GONE);
         }
 
-        imgBtnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailsAlertaActivity.this, DetailsMedicamentActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        imgBtnBack.setOnClickListener(v -> finish());
 
         fltBtnCheck.setOnClickListener(v -> {
             if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
@@ -74,7 +87,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         });
 
         btnEdit.setOnClickListener(v -> {
-            Intent intEditAle = new Intent(DetailsAlertaActivity.this, AddAlertaActivity.class);
+            Intent intEditAle = new Intent(this, AddAlertaActivity.class);
             intEditAle.putExtra("editMode", true);
             intEditAle.putExtra("alert", alerta);
             startActivity(intEditAle);
@@ -104,13 +117,11 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         });
     }
 
-    private void loadComponents(){
+    private void loadComponents() {
         imgBtnBack = findViewById(R.id.btnBack);
         fltBtnCheck = findViewById(R.id.fltBtnCheck);
-
         btnDeleteAlert = findViewById(R.id.btnDelete);
         btnEdit = findViewById(R.id.btnEdit);
-
         tvAlarmTime = findViewById(R.id.tvTime);
         tvMedicamentName = findViewById(R.id.tvName);
     }

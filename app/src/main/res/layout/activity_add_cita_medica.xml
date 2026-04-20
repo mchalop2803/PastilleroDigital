@@ -59,6 +59,8 @@
                     android:id="@+id/etDate"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:hint="@string/cita_date"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,6 +72,8 @@
                     android:id="@+id/etTime"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:hint="@string/cita_time"/>
             </com.google.android.material.textfield.TextInputLayout>
 

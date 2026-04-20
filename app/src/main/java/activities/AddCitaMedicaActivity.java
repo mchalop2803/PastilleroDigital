@@ -1,6 +1,8 @@
 package activities;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,6 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import models.CitaMedica;
@@ -140,6 +143,56 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         }
     }
 
+    private void showDatePicker() {
+
+        Calendar calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePicker = new DatePickerDialog(
+                this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+
+                    String date = String.format("%02d/%02d/%d",
+                            selectedDay,
+                            selectedMonth + 1,
+                            selectedYear);
+
+                    etDate.setText(date);
+                },
+                year, month, day
+        );
+
+        datePicker.show();
+    }
+
+    private void showTimePicker() {
+
+        Calendar calendar = Calendar.getInstance();
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePicker = new TimePickerDialog(
+                this,
+                (view, selectedHour, selectedMinute) -> {
+
+                    String time = String.format("%02d:%02d",
+                            selectedHour,
+                            selectedMinute);
+
+                    etTime.setText(time);
+                },
+                hour,
+                minute,
+                true
+        );
+
+        timePicker.show();
+    }
+
 
     private void init() {
 
@@ -150,7 +203,10 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         etLoc = findViewById(R.id.etLocation);
         etMed = findViewById(R.id.etMedic);
 
+        etTime.setOnClickListener(v -> showTimePicker());
+
         btnSave = findViewById(R.id.btnSave);
         service = new CitaMedicaService(getApplicationContext());
+        etDate.setOnClickListener(v -> showDatePicker());
     }
 }
