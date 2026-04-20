@@ -2,10 +2,6 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +12,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.pastillerodigital.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-
-import models.Perfil;
 
 public class CitaMedicaActivity extends AppCompatActivity {
 

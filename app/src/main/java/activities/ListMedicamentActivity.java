@@ -28,9 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapters.FamilyAdapter;
 import adapters.MedicamentAdapter;
-import models.Familiar;
 import models.Medicamento;
 
 public class ListMedicamentActivity extends AppCompatActivity {

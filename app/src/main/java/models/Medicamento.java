@@ -1,9 +1,7 @@
 package models;
 
-import android.media.Image;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 
 public class Medicamento extends DomainEntity implements Serializable {
     private String userId;
