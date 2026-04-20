@@ -322,43 +322,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private long getMillisFromCita(CitaMedica cita) {
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date date = sdf.parse(cita.getFecha() + " " + cita.getHora());
-            return date.getTime();
-        } catch (Exception e) {
-            return System.currentTimeMillis();
-        }
-    }
-
-    private void openCalendarDayView(CitaMedica cita) {
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date date = sdf.parse(cita.getFecha() + " " + cita.getHora());
-
-            long millis = date.getTime();
-
-            Uri uri = Uri.parse("content://com.android.calendar/time/" + millis);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW)
-                    .setData(uri)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            startActivity(intent);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://calendar.google.com/calendar/u/0/r/day"));
-
-            startActivity(browserIntent);
-        }
-    }
-
     private void showNotification(String title, String message) {
 
         NotificationManager manager =

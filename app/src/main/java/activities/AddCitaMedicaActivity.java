@@ -146,41 +146,6 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         }
     }
 
-    private long getDefaultCalendarId() {
-
-        Uri uri = CalendarContract.Calendars.CONTENT_URI;
-
-        String[] projection = new String[]{
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.ACCOUNT_NAME,
-                CalendarContract.Calendars.ACCOUNT_TYPE,
-                CalendarContract.Calendars.VISIBLE
-        };
-
-        try (Cursor cursor = getContentResolver().query(uri, projection, null, null, null)) {
-
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-
-                    long id = cursor.getLong(0);
-                    String accountName = cursor.getString(1);
-                    String accountType = cursor.getString(2);
-                    int visible = cursor.getInt(3);
-
-                    Log.d("CALENDAR", "ID: " + id +
-                            " | NAME: " + accountName +
-                            " | TYPE: " + accountType);
-
-                    if (visible == 1 && "com.google".equals(accountType)) {
-                        return id;
-                    }
-                }
-            }
-        }
-
-        return -1;
-    }
-
 
     private void init() {
 
