@@ -31,6 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Alerta alerta = (Alerta) intent.getSerializableExtra("alerts");
 
+        if (alerta == null) return; // 🔥 IMPORTANTE
+
+        // ================= SONIDO =================
         mediaPlayer = MediaPlayer.create(context, R.raw.alarm_sound);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
@@ -43,29 +46,28 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }, 60000);
 
+        // ================= INTENT CORRECTO =================
         Intent openIntent = new Intent(context, DetailsAlertaActivity.class);
         openIntent.putExtra("alerts", alerta);
         openIntent.putExtra("fromAlarm", true);
+
+        // 🔥 CLAVE: esto arregla el problema con app cerrada
         openIntent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
         );
 
-        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(
-                context,
-                alerta.getId().hashCode(),
-                openIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+        // 🔥 CLAVE: requestCode único SIEMPRE
+        int requestCode = (int) System.currentTimeMillis();
 
         PendingIntent contentIntent = PendingIntent.getActivity(
                 context,
-                alerta.getId().hashCode() + 1,
+                requestCode,
                 openIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
+        // ================= NOTIFICACIÓN =================
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -84,21 +86,18 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, channelId)
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle("⏰ Alarma")
-                        .setContentText("Toca para ver la alerta")
+                        .setContentTitle("⏰ Alarm")
+                        .setContentText("Tap to view alert")
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setCategory(NotificationCompat.CATEGORY_ALARM)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                         .setAutoCancel(true)
-
                         .setContentIntent(contentIntent)
-
-                        .setFullScreenIntent(fullScreenPendingIntent, true)
-
                         .setOngoing(true);
 
-        manager.notify(alerta.getId().hashCode(), builder.build());
+        manager.notify(requestCode, builder.build());
 
+        // ================= REPROGRAMAR =================
         AlarmManager alarmManager =
                 (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 

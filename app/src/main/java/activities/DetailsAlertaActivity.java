@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -42,8 +41,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details_alerta);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(0, 0, 0, 0);
             return insets;
         });
 
@@ -51,13 +49,14 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         fromAlarm = getIntent().getBooleanExtra("fromAlarm", false);
 
         if (alerta == null) {
-            Toast.makeText(this, "Error cargando alerta", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error loading alert", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
         loadComponents();
 
+        // ================= MODO ALARMA =================
         if (fromAlarm) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
                 setShowWhenLocked(true);
@@ -69,33 +68,29 @@ public class DetailsAlertaActivity extends AppCompatActivity {
                                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 );
             }
+
+            btnEdit.setVisibility(View.GONE); // 👈 ocultar editar solo en alarma
         }
 
-        if (fromAlarm) {
-            btnEdit.setVisibility(View.GONE);
-        }
+        // ================= DATOS =================
+        tvAlarmTime.setText("⏰ " + alerta.getHora());
+        tvMedicamentName.setText("💊 " + alerta.getNombre());
 
+        // ================= ACCIONES =================
         imgBtnBack.setOnClickListener(v -> finish());
 
         fltBtnCheck.setOnClickListener(v -> {
-            if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
-                AlarmReceiver.mediaPlayer.stop();
-                AlarmReceiver.mediaPlayer.release();
-                AlarmReceiver.mediaPlayer = null;
-            }
+            stopAlarm();
             finish();
         });
 
         btnEdit.setOnClickListener(v -> {
-            Intent intEditAle = new Intent(this, AddAlertaActivity.class);
-            intEditAle.putExtra("editMode", true);
-            intEditAle.putExtra("alert", alerta);
-            startActivity(intEditAle);
+            Intent intent = new Intent(this, AddAlertaActivity.class);
+            intent.putExtra("editMode", true);
+            intent.putExtra("alert", alerta);
+            startActivity(intent);
             finish();
         });
-
-        tvAlarmTime.setText("Hora: " + alerta.getHora());
-        tvMedicamentName.setText("Medicamento: " + alerta.getNombre());
 
         btnDeleteAlert.setOnClickListener(v -> {
 
@@ -109,11 +104,11 @@ public class DetailsAlertaActivity extends AppCompatActivity {
 
             ref.removeValue()
                     .addOnSuccessListener(d -> {
-                        Toast.makeText(this, "Alert deleted successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Alert deleted", Toast.LENGTH_SHORT).show();
                         finish();
                     })
                     .addOnFailureListener(f ->
-                            Toast.makeText(this, "Alert delete failed", Toast.LENGTH_SHORT).show());
+                            Toast.makeText(this, "Delete failed", Toast.LENGTH_SHORT).show());
         });
     }
 
@@ -126,13 +121,17 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         tvMedicamentName = findViewById(R.id.tvName);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void stopAlarm() {
         if (fromAlarm && AlarmReceiver.mediaPlayer != null) {
             AlarmReceiver.mediaPlayer.stop();
             AlarmReceiver.mediaPlayer.release();
             AlarmReceiver.mediaPlayer = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopAlarm();
     }
 }
