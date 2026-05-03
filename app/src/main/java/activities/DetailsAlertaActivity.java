@@ -69,7 +69,7 @@ public class DetailsAlertaActivity extends AppCompatActivity {
                 );
             }
 
-            btnEdit.setVisibility(View.GONE); // 👈 ocultar editar solo en alarma
+            btnEdit.setVisibility(View.GONE);
         }
 
         // ================= DATOS =================

@@ -27,8 +27,7 @@ import services.UserService;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etEmailRegister, etPasswdRegister, emailEditText,
-    passwordEditText;
+    private TextInputEditText etEmailRegister, etPasswdRegister;
     private EditText etNameRegister, etSurnameRegister;
     private EditText etNif, etPhone, etAge;
     private Button btnRegister;

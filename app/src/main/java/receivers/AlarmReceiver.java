@@ -31,7 +31,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Alerta alerta = (Alerta) intent.getSerializableExtra("alerts");
 
-        if (alerta == null) return; // 🔥 IMPORTANTE
+        if (alerta == null) return;
 
         // ================= SONIDO =================
         mediaPlayer = MediaPlayer.create(context, R.raw.alarm_sound);
@@ -46,18 +46,15 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }, 60000);
 
-        // ================= INTENT CORRECTO =================
         Intent openIntent = new Intent(context, DetailsAlertaActivity.class);
         openIntent.putExtra("alerts", alerta);
         openIntent.putExtra("fromAlarm", true);
 
-        // 🔥 CLAVE: esto arregla el problema con app cerrada
         openIntent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_CLEAR_TASK
         );
 
-        // 🔥 CLAVE: requestCode único SIEMPRE
         int requestCode = (int) System.currentTimeMillis();
 
         PendingIntent contentIntent = PendingIntent.getActivity(

@@ -46,7 +46,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private HistoryAdapter adapter;
 
-    private String userId; // 🔥 IMPORTANTE
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class HistoryActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 🔥 Obtener userId
         SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
         userId = prefs.getString("id", null);
 
