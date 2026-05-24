@@ -11,11 +11,11 @@
     <string name="time_take">Hora de toma</string>
     <string name="amount">Dosis</string>
     <string name="medicament_title">Medicamento</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
     <string name="horario">Horario</string>
-    <string name="medicament_time">Duracion</string>
-    <string name="delete">Delete</string>
+    <string name="medicament_time">Duración</string>
+    <string name="delete">Eliminar</string>
     <string name="add_alert">Añadir alerta</string>
     <string name="alarma_title">Alarma</string>
     <string name="alert_name">Nombre</string>
@@ -24,8 +24,8 @@
     <string name="family_title">Familia</string>
     <string name="family_name">Nombre</string>
     <string name="family_phone">Teléfono</string>
-    <string name="family_relation">Relacion</string>
-    <string name="add_family">Add Family</string>
+    <string name="family_relation">Relación</string>
+    <string name="add_family">Añadir Familiar</string>
     <string name="register_cita">Registrar Cita</string>
     <string name="cita_medic">Médico</string>
     <string name="cita_location">Localización</string>
@@ -49,7 +49,7 @@
     <string name="alert_delete">Eliminar</string>
     <string name="delete_medicament">Eliminar</string>
     <string name="delete_family">Eliminar</string>
-    <string name="edit">Edit</string>
+    <string name="edit">Editar</string>
     <string name="current_user">Current user</string>
     <string name="log_out">Log out</string>
     <string name="user_email">email</string>
@@ -58,7 +58,7 @@
     <string name="user_nif">Nif</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save_profile">Save Profile</string>
-    <string name="agenda">Agenda</string>
+    <string name="agenda_citas">Agenda Cita Médica</string>
     <string name="register">Register</string>
     <string name="google">Google</string>
     <string name="login">Login</string>
@@ -67,4 +67,6 @@
     <string name="email">Email</string>
     <string name="ic_pastillero">Pastillero Digital</string>
     <string name="daily_pillbox">Pastillero diario</string>
+    <string name="medicamento_descripcion">Descripción</string>
+    <string name="agenda_medicamentos">Agenda Medicamentos</string>
 </resources>

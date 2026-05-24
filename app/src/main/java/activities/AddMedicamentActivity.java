@@ -17,11 +17,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pastillerodigital.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import android.app.DatePickerDialog;
+
+import java.util.Calendar;
 
 import models.Medicamento;
 import services.MedicamentoService;
@@ -30,9 +36,14 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
     private ImageButton imageButton;
 
-    private TextInputEditText textInputEditTextMedicamentName, textInputEditTextMedicamentDosis, textInputEditTextMedicamentHorario;
+    private TextInputEditText textInputEditTextMedicamentName,
+            textInputEditTextMedicamentDescripcion, etFechaInicio, etFechaFin;
+
+    private long fechaInicioMillis = 0;
+    private long fechaFinMillis = 0;
 
     private boolean editMode;
+    private boolean isSaving = false;
 
     private Medicamento medicamentoEdit;
 
@@ -51,6 +62,7 @@ public class AddMedicamentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_medicament);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -59,198 +71,293 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
         loadComponents();
 
+        etFechaInicio.setOnClickListener(v -> showDatePicker(true));
+
+        etFechaFin.setOnClickListener(v -> showDatePicker(false));
+
         imageButton.setOnClickListener(v -> {
             Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
             startActivity(intent);
             finish();
         });
 
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (editMode) {
-                    medicamentoEdit.setNombre(textInputEditTextMedicamentName.getText().toString());
-                    medicamentoEdit.setDosis(textInputEditTextMedicamentDosis.getText().toString());
-                    medicamentoEdit.setHorario(textInputEditTextMedicamentHorario.getText().toString());
-                    medicamentoEdit.setMomentDay(getMomentFromHour(
-                            textInputEditTextMedicamentHorario.getText().toString()
-                    ));
+        btnSave.setOnClickListener(view -> {
 
-                    if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (textInputEditTextMedicamentDosis.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Dosis is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (textInputEditTextMedicamentHorario.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            if (isSaving) return;
+            isSaving = true;
 
-                    if (imageUri != null) {
-
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        StorageReference storageRef = FirebaseStorage.getInstance()
-                                .getReference("medicaments_images/" + uid + "/" + medicamentoEdit.getId() + ".jpg");
-
-                        storageRef.putFile(imageUri)
-                                .addOnSuccessListener(taskSnapshot ->
-                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-
-                                            medicamentoEdit.setImageUrl(uri.toString());
-                                            medicamentoService.updateMedicament(medicamentoEdit);
-
-                                            Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
-                                            goToList();
-
-                                        }))
-                                .addOnFailureListener(e ->
-                                        Toast.makeText(AddMedicamentActivity.this, "Error subiendo imagen", Toast.LENGTH_SHORT).show());
-
-                        return;
-                    }
-
-                    medicamentoService.updateMedicament(medicamentoEdit);
-                    Toast.makeText(AddMedicamentActivity.this, "Medicament updated", Toast.LENGTH_SHORT).show();
-                    Log.i("Medicament id", medicamentoEdit.getId());
-
-                    Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
-                    startActivity(intent);
-                    finish();
-
-                } else {
-
-                    Medicamento medicamento = new Medicamento();
-                    SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-                    String userId = prefs.getString("id", null);
-
-                    medicamento.setUserId(userId);
-                    medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
-                    medicamento.setDosis(textInputEditTextMedicamentDosis.getText().toString());
-                    medicamento.setHorario(textInputEditTextMedicamentHorario.getText().toString());
-                    medicamento.setMomentDay(getMomentFromHour(
-                            textInputEditTextMedicamentHorario.getText().toString()
-                    ));
-
-                    if (textInputEditTextMedicamentName.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (textInputEditTextMedicamentDosis.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Dosis is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (textInputEditTextMedicamentHorario.getText().toString().isBlank()) {
-                        Toast.makeText(AddMedicamentActivity.this, "Horario is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (imageUri != null) {
-
-                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        StorageReference storageRef = FirebaseStorage.getInstance()
-                                .getReference("medicaments_images/" + uid + "/" + System.currentTimeMillis() + ".jpg");
-
-                        storageRef.putFile(imageUri)
-                                .addOnSuccessListener(taskSnapshot ->
-                                        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-
-                                            medicamento.setImageUrl(uri.toString());
-
-                                            String idMedicament = medicamentoService.insertMedicament(medicamento);
-
-                                            Toast.makeText(AddMedicamentActivity.this,
-                                                    "Medicamento con imagen guardado",
-                                                    Toast.LENGTH_SHORT).show();
-
-                                            goToList();
-
-                                        }))
-                                .addOnFailureListener(e ->
-                                        Toast.makeText(AddMedicamentActivity.this, "Error subiendo imagen", Toast.LENGTH_SHORT).show());
-
-                    } else {
-
-                        Toast.makeText(AddMedicamentActivity.this,
-                                "Medicamento guardado",
-                                Toast.LENGTH_SHORT).show();
-
-                        goToList();
-                    }
-
-                }
+            if (editMode) {
+                updateMedicament();
+            } else {
+                createMedicament();
             }
         });
     }
 
-    private void goToList() {
-        Intent intent = new Intent(AddMedicamentActivity.this, ListMedicamentActivity.class);
-        startActivity(intent);
-        finish();
+    private void showDatePicker(boolean isStart) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        new DatePickerDialog(
+                this,
+                (view, year, month, dayOfMonth) -> {
+
+                    Calendar selected =
+                            Calendar.getInstance();
+
+                    selected.set(
+                            year,
+                            month,
+                            dayOfMonth,
+                            0,
+                            0,
+                            0
+                    );
+
+                    selected.set(Calendar.MILLISECOND, 0);
+
+                    long millis =
+                            selected.getTimeInMillis();
+
+                    String date =
+                            String.format(
+                                    "%02d/%02d/%04d",
+                                    dayOfMonth,
+                                    month + 1,
+                                    year
+                            );
+
+                    if (isStart) {
+
+                        fechaInicioMillis = millis;
+
+                        etFechaInicio.setText(date);
+
+                    } else {
+
+                        selected.set(
+                                Calendar.HOUR_OF_DAY,
+                                23
+                        );
+
+                        selected.set(
+                                Calendar.MINUTE,
+                                59
+                        );
+
+                        fechaFinMillis =
+                                selected.getTimeInMillis();
+
+                        etFechaFin.setText(date);
+                    }
+
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
     }
 
-    private String getMomentFromHour(String hora) {
-        try {
-            String[] parts = hora.split(":");
-            int hour = Integer.parseInt(parts[0]);
+    private void createMedicament() {
 
-            if (hour >= 6 && hour < 12) {
-                return "DAY";
-            } else if (hour >= 12 && hour < 20) {
-                return "AFTERNOON";
-            } else {
-                return "NIGHT";
+        Medicamento medicamento = new Medicamento();
+
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        String userId = prefs.getString("id", null);
+
+        medicamento.setUserId(userId);
+        medicamento.setNombre(textInputEditTextMedicamentName.getText().toString());
+        medicamento.setDescription(textInputEditTextMedicamentDescripcion.getText().toString());
+        medicamento.setFechaInicio(fechaInicioMillis);
+        medicamento.setFechaFin(fechaFinMillis);
+
+        if (medicamento.getNombre().isBlank() ||
+                medicamento.getDescription().isBlank()) {
+
+            Toast.makeText(this, "Campos vacíos", Toast.LENGTH_SHORT).show();
+            isSaving = false;
+            return;
+        }
+
+        medicamentoService.getAllMedicamentosByUser(userId, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                for (DataSnapshot data : snapshot.getChildren()) {
+
+                    Medicamento m = data.getValue(Medicamento.class);
+
+                    if (m != null &&
+                            m.getNombre() != null &&
+                            m.getNombre().equalsIgnoreCase(medicamento.getNombre())) {
+
+                        Toast.makeText(AddMedicamentActivity.this,
+                                "Ya existe un medicamento con ese nombre",
+                                Toast.LENGTH_SHORT).show();
+
+                        isSaving = false;
+                        return;
+                    }
+                }
+
+                saveMedicament(medicamento);
             }
 
-        } catch (Exception e) {
-            return "DAY";
+            @Override
+            public void onCancelled(com.google.firebase.database.DatabaseError error) {
+                Toast.makeText(AddMedicamentActivity.this,
+                        "Error comprobando medicamentos",
+                        Toast.LENGTH_SHORT).show();
+                isSaving = false;
+            }
+        });
+    }
+
+    private void saveMedicament(Medicamento medicamento) {
+
+        if (imageUri != null) {
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            StorageReference storageRef = FirebaseStorage.getInstance()
+                    .getReference("medicaments_images/" + uid + "/" + System.currentTimeMillis() + ".jpg");
+
+            storageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot ->
+                            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                medicamento.setImageUrl(uri.toString());
+
+                                medicamentoService.insertMedicament(medicamento);
+
+                                Toast.makeText(this,
+                                        "Medicamento guardado",
+                                        Toast.LENGTH_SHORT).show();
+
+                                goToList();
+                                isSaving = false;
+
+                            }))
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this,
+                                "Error subiendo imagen",
+                                Toast.LENGTH_SHORT).show();
+                        isSaving = false;
+                    });
+
+        } else {
+
+            medicamentoService.insertMedicament(medicamento);
+
+            Toast.makeText(this,
+                    "Medicamento guardado",
+                    Toast.LENGTH_SHORT).show();
+
+            goToList();
+            isSaving = false;
         }
+    }
+
+    private void updateMedicament() {
+
+        medicamentoEdit.setNombre(textInputEditTextMedicamentName.getText().toString());
+        medicamentoEdit.setDescription(textInputEditTextMedicamentDescripcion.getText().toString());
+
+        if (imageUri != null) {
+
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            StorageReference storageRef = FirebaseStorage.getInstance()
+                    .getReference("medicaments_images/" + uid + "/" + System.currentTimeMillis() + ".jpg");
+
+            storageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot ->
+                            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                                medicamentoEdit.setImageUrl(uri.toString());
+
+                                medicamentoService.updateMedicament(medicamentoEdit);
+
+                                Toast.makeText(this, "Medicamento actualizado", Toast.LENGTH_SHORT).show();
+
+                                goToList();
+                            }))
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error al actualizar imagen", Toast.LENGTH_SHORT).show()
+                    );
+
+        } else {
+
+            medicamentoService.updateMedicament(medicamentoEdit);
+
+            Toast.makeText(this, "Medicamento actualizado", Toast.LENGTH_SHORT).show();
+
+            goToList();
+        }
+
+        isSaving = false;
+    }
+
+    private void goToList() {
+        Intent intent = new Intent(this, ListMedicamentActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+
             imageUri = data.getData();
             imgMedicament.setImageURI(imageUri);
         }
     }
 
-    private void loadComponents(){
+    private void loadComponents() {
+
         imageButton = findViewById(R.id.imageButton);
 
         textInputEditTextMedicamentName = findViewById(R.id.etName);
-        textInputEditTextMedicamentDosis = findViewById(R.id.etDose);
-        textInputEditTextMedicamentHorario = findViewById(R.id.etTime);
+        textInputEditTextMedicamentDescripcion = findViewById(R.id.etDescripcion);
+
+        etFechaInicio = findViewById(R.id.etFechaInicio);
+        etFechaFin = findViewById(R.id.etFechaFin);
 
         btnSave = findViewById(R.id.btnSave);
+
+        imgMedicament = findViewById(R.id.imgMedicament);
 
         medicamentoService = new MedicamentoService(getApplicationContext());
 
         Intent intent = getIntent();
-        if(intent.getSerializableExtra(EXTRA_MEDICAMENTO) != null){
-            medicamentoEdit = (Medicamento) intent.getSerializableExtra(EXTRA_MEDICAMENTO);
+
+        editMode = intent.getBooleanExtra("editMode", false);
+
+        if (intent.getSerializableExtra(EXTRA_MEDICAMENTO) != null) {
+
+            medicamentoEdit =
+                    (Medicamento) intent.getSerializableExtra(EXTRA_MEDICAMENTO);
+
             textInputEditTextMedicamentName.setText(medicamentoEdit.getNombre());
-            textInputEditTextMedicamentDosis.setText(medicamentoEdit.getDosis());
-            textInputEditTextMedicamentHorario.setText(medicamentoEdit.getHorario());
+            textInputEditTextMedicamentDescripcion.setText(medicamentoEdit.getDescription());
 
+            if (medicamentoEdit.getImageUrl() != null &&
+                    !medicamentoEdit.getImageUrl().isEmpty()) {
+
+                Glide.with(this)
+                        .load(medicamentoEdit.getImageUrl())
+                        .placeholder(R.drawable.ic_pastillero)
+                        .into(imgMedicament);
+            }
         }
-
-        imgMedicament = findViewById(R.id.imgMedicament);
 
         imgMedicament.setOnClickListener(v -> {
             Intent inte = new Intent(Intent.ACTION_PICK);
             inte.setType("image/*");
             startActivityForResult(inte, PICK_IMAGE);
         });
-
-        editMode = intent.getBooleanExtra("editMode", false);
     }
 }

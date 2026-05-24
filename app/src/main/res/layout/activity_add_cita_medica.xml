@@ -28,25 +28,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/white"
             android:padding="16dp">
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_height="wrap_content"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 android:layout_width="match_parent">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescription"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_description"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_height="wrap_content"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 android:layout_width="match_parent"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etCompanion"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_companion"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -54,11 +65,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDate"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:focusable="false"
                     android:clickable="true"
                     android:hint="@string/cita_date"/>
@@ -67,11 +83,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etTime"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:focusable="false"
                     android:clickable="true"
                     android:hint="@string/cita_time"/>
@@ -80,10 +101,15 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLocation"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_location"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -91,11 +117,16 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etMedic"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:textColor="@color/blue_primary"
+                    android:textColorHint="@color/blue_primary"
+                    android:textSize="40sp"
                     android:hint="@string/cita_medic"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_cita"
-                android:layout_marginTop="24dp"/>
+                android:textSize="40sp"
+                android:layout_margin="20dp"/>
 
         </LinearLayout>
     </ScrollView>

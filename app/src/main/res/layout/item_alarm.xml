@@ -32,14 +32,16 @@
                 android:layout_width="wrap_content"
                 android:text="Paracetamol"
                 android:textStyle="bold"
-                android:textSize="16sp" />
+                android:textSize="40sp"
+                android:textColor="@color/blue_primary" />
 
             <TextView
                 android:id="@+id/tvTimeAlarm"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="08:00 AM"
-                android:textColor="@color/gray_medium"/>
+                android:textSize="35sp"
+                android:textColor="@color/blue_primary"/>
         </LinearLayout>
 
     </LinearLayout>

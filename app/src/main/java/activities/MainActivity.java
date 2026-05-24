@@ -119,28 +119,21 @@ public class MainActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.profile){
-                Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, DetailsProfileActivity.class));
                 finish();
             } else if (itemId == R.id.medication) {
-                Toast.makeText(this, "Medicamentos", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ListMedicamentActivity.class));
                 finish();
             } else if (itemId == R.id.agenda) {
-                Toast.makeText(this, "Agenda", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, HistoryActivity.class));
                 finish();
             }else if (itemId == R.id.days) {
-                Toast.makeText(this, "Pastillero diario", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ListDaysActivity.class));
                 finish();
             } else if (itemId == R.id.familiar) {
-                Toast.makeText(this, "Familiares", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, ListFamilyActivity.class));
                 finish();
             } else if (itemId == R.id.citaMedica) {
-
-                Toast.makeText(this, "Cita Medica", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, CitaMedicaActivity.class));
                 finish();
             }
@@ -186,33 +179,23 @@ public class MainActivity extends AppCompatActivity {
                     for (DataSnapshot data : snapshot.getChildren()) {
                         Alerta alerta = data.getValue(Alerta.class);
 
-                        if (alerta != null && alerta.getHora() != null) {
-                            try {
-                                String[] parts = alerta.getHora().split(":");
-                                int hour = Integer.parseInt(parts[0]);
-                                int minute = Integer.parseInt(parts[1]);
+                        if (alerta != null && alerta.getHora() > 0) {
 
-                                Calendar cal = Calendar.getInstance();
-                                cal.set(Calendar.HOUR_OF_DAY, hour);
-                                cal.set(Calendar.MINUTE, minute);
-                                cal.set(Calendar.SECOND, 0);
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(alerta.getHora());
 
-                                long alertTime = cal.getTimeInMillis();
+                            long alertTime = cal.getTimeInMillis();
 
-                                if (alertTime < now) {
-                                    cal.add(Calendar.DAY_OF_MONTH, 1);
-                                    alertTime = cal.getTimeInMillis();
+                            if (alertTime < now) {
+                                cal.add(Calendar.DAY_OF_MONTH, 1);
+                                alertTime = cal.getTimeInMillis();
+                            }
+
+                            if (alertTime >= now && alertTime <= oneHourLater) {
+                                if (alertTime < minTime) {
+                                    minTime = alertTime;
+                                    nextAlert = alerta;
                                 }
-
-                                if (alertTime >= now && alertTime <= oneHourLater) {
-                                    if (alertTime < minTime) {
-                                        minTime = alertTime;
-                                        nextAlert = alerta;
-                                    }
-                                }
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
                         }
                     }

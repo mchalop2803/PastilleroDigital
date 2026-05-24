@@ -3,15 +3,14 @@ package services;
 import android.content.Context;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 
 import models.Alerta;
 
 public class AlertService {
 
     DatabaseReference databaseReference;
+
     public AlertService(Context context) {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -21,7 +20,7 @@ public class AlertService {
                 .child("alerts");
     }
 
-    public String insertAlert(Alerta alerta){
+    public String insertAlert(Alerta alerta) {
         DatabaseReference newReference = databaseReference.push();
         alerta.setId(newReference.getKey());
 
@@ -29,14 +28,11 @@ public class AlertService {
         return alerta.getId();
     }
 
-
-
-    public void updateAlert(Alerta alerta){
+    public void updateAlert(Alerta alerta) {
         databaseReference.child(alerta.getId()).setValue(alerta);
-
     }
 
-    public void deleteAlert(String id){
+    public void deleteAlert(String id) {
         databaseReference.child(id).removeValue();
     }
 
@@ -50,30 +46,22 @@ public class AlertService {
         databaseReference
                 .orderByChild("medicamentoId")
                 .equalTo(medicamentoId)
-                .get()
-                .addOnSuccessListener(snapshot -> {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
-                    if (!snapshot.exists()) {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            data.getRef().removeValue();
+                        }
+
                         onComplete.run();
-                        return;
                     }
 
-                    int total = (int) snapshot.getChildrenCount();
-                    final int[] deleted = {0};
-
-                    for (DataSnapshot data : snapshot.getChildren()) {
-                        data.getRef().removeValue().addOnCompleteListener(task -> {
-                            deleted[0]++;
-
-                            if (deleted[0] == total) {
-                                onComplete.run();
-                            }
-                        });
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        onComplete.run();
                     }
-                })
-                .addOnFailureListener(e -> {
-                    e.printStackTrace();
-                    onComplete.run();
                 });
     }
 }

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="210dp"
     android:orientation="vertical"
     android:background="@drawable/bg_gradient"
     android:padding="16dp"
@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imgProfile"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/ic_profile"
         android:background="@drawable/bg_circle_white"
         android:padding="10dp"/>
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Nombre Usuario"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"/>
 
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:text="email@email.com"
         android:textColor="@color/white"
-        android:textSize="14sp"/>
+        android:textSize="20sp"/>
 
 </LinearLayout>

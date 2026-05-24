@@ -82,8 +82,6 @@ public class AddFamilyActivity extends AppCompatActivity {
                     Toast.makeText(AddFamilyActivity.this, "Family updated", Toast.LENGTH_SHORT).show();
                     Log.i("Family id", familiarEdit.getId());
 
-                    Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
-                    startActivity(intent);
                     finish();
 
                 } else {
@@ -112,11 +110,8 @@ public class AddFamilyActivity extends AppCompatActivity {
                     }
 
                     String idFamily = familiarService.insertFamiliar(familiar);
-                    Toast.makeText(AddFamilyActivity.this, "Familiar with id " + idFamily + " inserted", Toast.LENGTH_SHORT).show();
                     Log.i("Familiar id", idFamily);
 
-                    Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
-                    startActivity(intent);
                     finish();
                 }
             }

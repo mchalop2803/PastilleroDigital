@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         preferences = getSharedPreferences("Prefs", MODE_PRIVATE);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null && preferences.getBoolean("isLogged", false)) {
-            Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }

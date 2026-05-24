@@ -65,6 +65,7 @@
                 <LinearLayout
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:padding="20dp">
 
@@ -76,22 +77,22 @@
 
                     <TextView
                         android:id="@+id/tvName"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="22sp"
+                        android:textSize="40sp"
                         android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/tvDose"
+                        android:id="@+id/tvDescription"
                         android:layout_width="match_parent"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
                         android:layout_height="wrap_content"
+                        android:textSize="40sp"
                         android:layout_marginTop="8dp"/>
 
-                    <TextView
-                        android:id="@+id/tvTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -101,21 +102,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_alert"
-                android:layout_marginTop="16dp"/>
+                android:textSize="40sp"
+                android:layout_margin="5dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/edit"
-                android:layout_marginTop="16dp"/>
+                android:textSize="40sp"
+                android:layout_margin="5dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/delete_medicament"
-                android:layout_marginTop="8dp"/>
+                android:textSize="40sp"
+                android:layout_margin="5dp"/>
 
         </LinearLayout>
     </LinearLayout>

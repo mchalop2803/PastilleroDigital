@@ -5,14 +5,22 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient">
 
-    <include layout="@layout/view_header"/>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:title="@string/alarma_title"
+        app:navigationIcon="@drawable/ic_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:orientation="vertical"
         android:padding="16dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/headerRoot"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -31,7 +39,7 @@
 
                 <TextView
                     android:id="@+id/tvTime"
-                    android:textSize="32sp"
+                    android:textSize="40sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -46,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/tvName"
-                    android:textSize="20sp"
+                    android:textSize="40sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -58,15 +66,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="24dp"/>
+                    android:textSize="40sp"
+                    android:layout_marginTop="5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTaken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sí tomada"
+                    android:textSize="40sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnMissed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No tomada"
+                    android:textSize="40sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
                     android:text="@string/alert_delete"
+                    android:textSize="40sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

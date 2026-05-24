@@ -52,12 +52,13 @@
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:orientation="vertical"
+                    android:background="@color/white"
                     android:padding="20dp">
 
                     <ImageView
                         android:id="@+id/imgMedicament"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_pastillero"
                         android:scaleType="centerCrop"
@@ -66,43 +67,83 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
                             android:id="@+id/etName"
+                            android:textColor="@color/blue_primary"
+                            android:textColorHint="@color/blue_primary"
+                            android:textSize="40sp"
                             android:hint="@string/medicament_name"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"
-                            android:id="@+id/etDose"
-                            android:hint="@string/amount"/>
+                            android:id="@+id/etDescripcion"
+                            android:textColor="@color/blue_primary"
+                            android:textColorHint="@color/blue_primary"
+                            android:textSize="40sp"
+                            android:hint="@string/medicamento_descripcion"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
+                        android:layout_marginTop="16dp">
+
                         <com.google.android.material.textfield.TextInputEditText
-                            android:layout_height="wrap_content"
+                            android:id="@+id/etFechaInicio"
                             android:layout_width="match_parent"
-                            android:id="@+id/etTime"
-                            android:hint="@string/time_take"
-                            android:inputType="time"/>
+                            android:layout_height="wrap_content"
+                            android:hint="Fecha inicio"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:textColor="@color/blue_primary"
+                            android:textColorHint="@color/blue_primary"
+                            android:textSize="40sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blue_primary"
+                        android:textColorHint="@color/blue_primary"
+                        android:layout_marginTop="16dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFechaFin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Fecha fin"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:textColor="@color/blue_primary"
+                            android:textColorHint="@color/blue_primary"
+                            android:textSize="40sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:id="@+id/btnSave"
                         android:text="@string/save"
-                        android:layout_marginTop="24dp"/>
+                        android:textSize="40sp"
+                        android:layout_margin="30dp"/>
 
                 </LinearLayout>
             </ScrollView>

@@ -13,12 +13,12 @@
     <item
         android:id="@+id/days"
         android:icon="@drawable/ic_list"
-        android:title="Pastillero diario" />
+        android:title="@string/agenda_medicamentos" />
 
     <item
         android:id="@+id/agenda"
         android:icon="@drawable/ic_historial"
-        android:title="@string/agenda" />
+        android:title="@string/agenda_citas" />
 
     <item
         android:id="@+id/familiar"

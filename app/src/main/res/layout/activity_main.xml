@@ -19,16 +19,18 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header_nav"
+        app:itemTextAppearance="@style/DrawerItemText"
         app:menu="@menu/lateral_menu">
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70dp"
             android:layout_marginTop="650dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/blue_primary"
+            android:textSize="30sp"
             android:text="Cerrar sesión"
             android:textColor="@color/white"
             android:drawableEnd="@drawable/ic_logout"/>

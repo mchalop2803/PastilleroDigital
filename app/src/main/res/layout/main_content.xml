@@ -28,7 +28,7 @@
             android:text="Bienvenido"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="24sp"
+            android:textSize="40sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:layout_marginTop="50dp"/>
@@ -49,9 +49,10 @@
 
                 <TextView
                     android:text="💊 Próxima toma"
-                    android:textSize="18sp"
+                    android:textSize="40sp"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:textColor="@color/blue_primary"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -59,7 +60,8 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="Sin alarmas"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/blue_primary"
+                    android:textSize="35sp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -81,7 +83,8 @@
                     android:text="🏥 Próxima cita"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textSize="18sp"
+                    android:textSize="40sp"
+                    android:textColor="@color/blue_primary"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -89,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:text="Sin citas"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/blue_primary"
+                    android:textSize="35sp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

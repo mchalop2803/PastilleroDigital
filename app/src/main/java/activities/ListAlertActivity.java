@@ -103,8 +103,6 @@ public class ListAlertActivity extends AppCompatActivity {
         });
 
         imageButton.setOnClickListener(v -> {
-            Intent intent = new Intent(ListAlertActivity.this, MainActivity.class);
-            startActivity(intent);
             finish();
         });
 

@@ -33,7 +33,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         if (alerta == null) return;
 
-        // ================= SONIDO =================
         mediaPlayer = MediaPlayer.create(context, R.raw.alarm_sound);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
@@ -64,7 +63,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        // ================= NOTIFICACIÓN =================
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -94,7 +92,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         manager.notify(requestCode, builder.build());
 
-        // ================= REPROGRAMAR =================
         AlarmManager alarmManager =
                 (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -109,10 +106,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         );
 
         Calendar calendar = Calendar.getInstance();
-        String[] parts = alerta.getHora().split(":");
+        calendar.setTimeInMillis(alerta.getHora());
 
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(parts[0]));
-        calendar.set(Calendar.MINUTE, Integer.parseInt(parts[1]));
         calendar.set(Calendar.SECOND, 0);
         calendar.add(Calendar.DAY_OF_MONTH, 1);
 

@@ -18,21 +18,24 @@
             android:layout_width="wrap_content"
             android:text="María López"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="40sp"
+            android:textColor="@color/blue_primary"/>
 
         <TextView
             android:id="@+id/tvPhoneFamily"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="600123456"
-            android:textColor="@color/gray_medium"/>
+            android:textSize="35sp"
+            android:textColor="@color/blue_primary"/>
 
         <TextView
             android:id="@+id/tvRelationFamily"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Madre"
-            android:textColor="@color/gray_medium"/>
+            android:textSize="35sp"
+            android:textColor="@color/blue_primary"/>
 
     </LinearLayout>
 

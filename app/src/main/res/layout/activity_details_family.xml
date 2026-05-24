@@ -55,6 +55,7 @@
         <LinearLayout
             android:padding="16dp"
             android:orientation="vertical"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -62,19 +63,27 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
+                android:textSize="40sp"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tvPhone"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="40sp"
                 android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/tvRelation"
                 android:layout_width="match_parent"
+                android:textColor="@color/blue_primary"
+                android:textColorHint="@color/blue_primary"
                 android:layout_height="wrap_content"
+                android:textSize="40sp"
                 android:layout_marginTop="8dp"/>
 
             <com.google.android.material.button.MaterialButton
@@ -83,12 +92,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="40sp"
                 android:layout_marginTop="24dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 android:text="@string/delete_family"
-                android:textSize="15sp"
+                android:textSize="40sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

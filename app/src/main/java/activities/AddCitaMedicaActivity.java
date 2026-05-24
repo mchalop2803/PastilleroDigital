@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -34,6 +35,7 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
     private MaterialButton btnSave;
     private CitaMedicaService service;
     private CitaMedica pendingCita;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,12 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         init();
 
         btnSave.setOnClickListener(v -> saveCita());
+
+        toolbar.setOnClickListener(v -> {
+            Intent intent = new Intent(AddCitaMedicaActivity.this, ListFamilyActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void saveCita() {
@@ -76,8 +84,34 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         c.setMedico(etMed.getText().toString());
         c.setLocation(etLoc.getText().toString());
 
-        if (c.getDescription().isEmpty() || c.getFecha().isEmpty() || c.getHora().isEmpty()) {
+        if (c.getDescription().isEmpty() ||
+                c.getFecha().isEmpty() ||
+                c.getHora().isEmpty()) {
+
             Toast.makeText(this, "Campos vacíos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date selectedDate = sdf.parse(c.getFecha());
+
+            Date today = sdf.parse(sdf.format(new Date()));
+
+            if (selectedDate.before(today)) {
+
+                Toast.makeText(this,
+                        "No puedes crear citas en fechas anteriores",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        } catch (Exception e) {
+
+            Toast.makeText(this,
+                    "Formato de fecha inválido",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -91,13 +125,11 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             return;
         }
 
-        service.insertCitaMedica(c);
-
-        createEventInCalendar(c);
-
+        saveAndCreate(c);
     }
 
     private void saveAndCreate(CitaMedica c) {
+
         service.insertCitaMedica(c);
         createEventInCalendar(c);
     }
@@ -119,6 +151,7 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
     private void createEventInCalendar(CitaMedica c) {
 
         try {
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date = sdf.parse(c.getFecha() + " " + c.getHora());
 
@@ -138,8 +171,12 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
             startActivity(intent);
 
         } catch (Exception e) {
+
             e.printStackTrace();
-            Toast.makeText(this, "Error abriendo calendario", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(this,
+                    "Error abriendo calendario",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -164,6 +201,8 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
                 },
                 year, month, day
         );
+
+        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
         datePicker.show();
     }
@@ -193,7 +232,6 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         timePicker.show();
     }
 
-
     private void init() {
 
         etDesc = findViewById(R.id.etDescription);
@@ -203,10 +241,12 @@ public class AddCitaMedicaActivity extends AppCompatActivity {
         etLoc = findViewById(R.id.etLocation);
         etMed = findViewById(R.id.etMedic);
 
-        etTime.setOnClickListener(v -> showTimePicker());
+        toolbar = findViewById(R.id.toolbar);
 
         btnSave = findViewById(R.id.btnSave);
         service = new CitaMedicaService(getApplicationContext());
+
+        etTime.setOnClickListener(v -> showTimePicker());
         etDate.setOnClickListener(v -> showDatePicker());
     }
 }

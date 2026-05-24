@@ -12,31 +12,68 @@ import androidx.annotation.Nullable;
 
 import com.example.pastillerodigital.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import models.Alerta;
 
 public class AlarmAdapter extends ArrayAdapter<Alerta> {
 
-    public AlarmAdapter(@NonNull Context context, List<Alerta> alertas) {
+    public AlarmAdapter(
+            @NonNull Context context,
+            List<Alerta> alertas
+    ) {
+
         super(context, 0, alertas);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(
+            int position,
+            @Nullable View convertView,
+            @NonNull ViewGroup parent
+    ) {
 
         Alerta alerta = getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_alarm, parent, false);
+        if (convertView == null) {
+
+            convertView =
+                    LayoutInflater.from(getContext())
+                            .inflate(
+                                    R.layout.item_alarm,
+                                    parent,
+                                    false
+                            );
         }
 
-        TextView tvNameAlarm = convertView.findViewById(R.id.tvNameAlarm);
-        TextView tvTimeAlarm = convertView.findViewById(R.id.tvTimeAlarm);
+        TextView tvNameAlarm =
+                convertView.findViewById(R.id.tvNameAlarm);
 
-        tvNameAlarm.setText("Nombre: " + alerta.getNombre());
-        tvTimeAlarm.setText("Hora: " + alerta.getHora());
+        TextView tvTimeAlarm =
+                convertView.findViewById(R.id.tvTimeAlarm);
+
+        tvNameAlarm.setText(
+                "Nombre: " + alerta.getNombre()
+        );
+
+        SimpleDateFormat sdf =
+                new SimpleDateFormat(
+                        "dd/MM/yyyy - HH:mm",
+                        Locale.getDefault()
+                );
+
+        String horaFormateada =
+                sdf.format(
+                        new Date(alerta.getHora())
+                );
+
+        tvTimeAlarm.setText(
+                "Hora: " + horaFormateada
+        );
 
         return convertView;
     }
