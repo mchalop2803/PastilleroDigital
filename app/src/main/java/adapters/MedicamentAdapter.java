@@ -48,8 +48,8 @@ public class MedicamentAdapter extends ArrayAdapter<Medicamento> {
         TextView tvMedicamentName = convertView.findViewById(R.id.tvMedicamentName);
         TextView tvDescription = convertView.findViewById(R.id.tvDescription);
 
-        tvMedicamentName.setText("Medicamento: " + medicamento.getNombre());
-        tvDescription.setText("Descipción: " + medicamento.getDescription());
+        tvMedicamentName.setText(medicamento.getNombre());
+        tvDescription.setText(medicamento.getDescription());
 
         return convertView;
     }

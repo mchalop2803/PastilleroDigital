@@ -46,7 +46,7 @@
                     android:focusable="false"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:clickable="true"
                     android:id="@+id/etAlertTime"
                     android:hint="@string/alert_time"
@@ -69,7 +69,7 @@
                     android:inputType="text"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"/>
+                    android:textSize="30sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +105,7 @@
                 android:id="@+id/btnAddAlert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:text="@string/add"
                 android:layout_margin="60dp"/>
 

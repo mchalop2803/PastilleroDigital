@@ -158,41 +158,53 @@ public class AddAlertaActivity extends AppCompatActivity {
             while (alarmaTime.get(Calendar.DAY_OF_MONTH)
                     == actual.get(Calendar.DAY_OF_MONTH)) {
 
+                Alerta alerta = new Alerta();
+
+                alerta.setUserId(
+                        prefs.getString("id", null)
+                );
+
+                alerta.setNombre(
+                        medicamento.getNombre()
+                );
+
+                alerta.setMedicamentoId(
+                        medicamento.getId()
+                );
+
+                alerta.setHora(
+                        alarmaTime.getTimeInMillis()
+                );
+
+                alerta.setFrecuencia(
+                        frecuencia
+                );
+
+                alerta.setDosisBase(
+                        etDosisBase.getText().toString()
+                );
+
                 if (alarmaTime.getTimeInMillis()
-                        >= System.currentTimeMillis()) {
+                        < System.currentTimeMillis()) {
 
-                    Alerta alerta = new Alerta();
+                    alerta.setEstado("PERDIDA");
 
-                    alerta.setUserId(
-                            prefs.getString("id", null)
-                    );
-
-                    alerta.setNombre(medicamento.getNombre());
-
-                    alerta.setMedicamentoId(
-                            medicamento.getId()
-                    );
-
-                    alerta.setHora(
-                            alarmaTime.getTimeInMillis()
-                    );
-
-                    alerta.setFrecuencia(frecuencia);
-
-                    alerta.setDosisBase(
-                            etDosisBase.getText().toString()
-                    );
+                } else {
 
                     alerta.setEstado("PENDIENTE");
+                }
 
-                    if (medicamento.getImageUrl() != null) {
+                if (medicamento.getImageUrl() != null) {
 
-                        alerta.setMedicamentImageUrl(
-                                medicamento.getImageUrl()
-                        );
-                    }
+                    alerta.setMedicamentImageUrl(
+                            medicamento.getImageUrl()
+                    );
+                }
 
-                    alertService.insertAlert(alerta);
+                alertService.insertAlert(alerta);
+
+                if (alarmaTime.getTimeInMillis()
+                        >= System.currentTimeMillis()) {
 
                     scheduleAlarm(alerta);
                 }

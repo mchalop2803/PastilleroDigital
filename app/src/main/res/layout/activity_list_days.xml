@@ -24,7 +24,20 @@
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back"/>
 
-        <!-- CALENDARIO -->
+        <TextView
+            android:id="@+id/tvCalendarOwner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mi calendario"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_primary"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"/>
+
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
@@ -63,7 +76,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:text="Medicamentos"/>
             </LinearLayout>
 
@@ -81,7 +94,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:text="Alertas"/>
             </LinearLayout>
 

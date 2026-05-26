@@ -19,6 +19,9 @@
         android:theme="@style/Theme.PastilleroDigital"
         tools:targetApi="31">
         <activity
+            android:name="activities.FamilyMenuActivity"
+            android:exported="false" />
+        <activity
             android:name="activities.DayScheduleActivity"
             android:exported="false" />
         <activity

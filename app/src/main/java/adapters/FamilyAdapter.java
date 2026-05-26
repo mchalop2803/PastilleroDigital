@@ -28,17 +28,18 @@ public class FamilyAdapter extends ArrayAdapter<Familiar> {
 
         Familiar familiar = getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_family, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext())
+                    .inflate(R.layout.item_family, parent, false);
         }
 
         TextView tvNameFamily = convertView.findViewById(R.id.tvNameFamily);
-        TextView tvPhoneFamily = convertView.findViewById(R.id.tvPhoneFamily);
-        TextView tvRelationFamily = convertView.findViewById(R.id.tvRelationFamily);
+        TextView tvEmailFamily = convertView.findViewById(R.id.tvEmailFamily);
 
-        tvNameFamily.setText("Familiar: " + familiar.getNombre());
-        tvPhoneFamily.setText("Teléfono: " + familiar.getPhone());
-        tvRelationFamily.setText("Relación: " + familiar.getRelacion());
+        if (familiar != null) {
+            tvNameFamily.setText(familiar.getName());
+            tvEmailFamily.setText(familiar.getEmail());
+        }
 
         return convertView;
     }

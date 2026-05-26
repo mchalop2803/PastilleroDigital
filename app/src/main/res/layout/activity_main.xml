@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemIconSize="30dp"
         app:headerLayout="@layout/header_nav"
         app:itemTextAppearance="@style/DrawerItemText"
         app:menu="@menu/lateral_menu">

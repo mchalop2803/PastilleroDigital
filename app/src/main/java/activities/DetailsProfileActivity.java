@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -37,6 +38,8 @@ public class DetailsProfileActivity extends AppCompatActivity {
     private ImageView profilePhoto;
     private TextView tvEmail, tvName, tvSurname, tvNif;
 
+    FloatingActionButton btnSettings;
+
     private static final int PICK_IMAGE = 1;
     private Uri imageUri;
 
@@ -64,6 +67,39 @@ public class DetailsProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnSettings.setOnClickListener(v -> {
+
+            PopupMenu popupMenu = new PopupMenu(this, v);
+
+            popupMenu.getMenu().add("Añadir familiar");
+            popupMenu.getMenu().add("Ver familiares");
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+
+                if (item.getTitle().equals("Añadir familiar")) {
+
+                    startActivity(
+                            new Intent(this, AddFamilyActivity.class)
+                    );
+
+                    return true;
+                }
+
+                if (item.getTitle().equals("Ver familiares")) {
+
+                    startActivity(
+                            new Intent(this, ListFamilyActivity.class)
+                    );
+
+                    return true;
+                }
+
+                return false;
+            });
+
+            popupMenu.show();
+        });
+
         editBtn.setOnClickListener(v -> {
             editprofile();
         });
@@ -78,6 +114,12 @@ public class DetailsProfileActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvSurname = findViewById(R.id.tvSurname);
         tvNif = findViewById(R.id.tvNif);
+
+        btnSettings = findViewById(R.id.btnSettings);
+
+        btnSettings.setOnClickListener(v -> {
+            startActivity(new Intent(this, FamilyMenuActivity.class));
+        });
 
         tilName = findViewById(R.id.tilName);
         tilSurname = findViewById(R.id.tilSurname);

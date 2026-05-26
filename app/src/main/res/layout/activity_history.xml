@@ -37,7 +37,7 @@
                 android:text="@string/history_title"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

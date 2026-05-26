@@ -32,6 +32,9 @@ public class DayScheduleActivity extends AppCompatActivity {
     private int month;
     private int year;
 
+    // 🔥 IMPORTANTE: usuario del calendario seleccionado
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +42,17 @@ public class DayScheduleActivity extends AppCompatActivity {
 
         loadComponents();
 
+        // 📅 fecha seleccionada
         day = getIntent().getIntExtra("day", -1);
         month = getIntent().getIntExtra("month", -1);
         year = getIntent().getIntExtra("year", -1);
+
+        // 👤 usuario del calendario (puede ser tú o un familiar)
+        userId = getIntent().getStringExtra("userId");
+
+        if (userId == null || userId.isEmpty()) {
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
 
         tvDate.setText(day + "/" + month + "/" + year);
 
@@ -63,15 +74,11 @@ public class DayScheduleActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        String uid = FirebaseAuth.getInstance()
-                .getCurrentUser()
-                .getUid();
-
         Map<String, DayMedicationGroup> map = new HashMap<>();
 
         FirebaseDatabase.getInstance()
                 .getReference("users")
-                .child(uid)
+                .child(userId)   // 🔥 CLAVE: ahora usa el calendario correcto
                 .child("alerts")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -83,9 +90,11 @@ public class DayScheduleActivity extends AppCompatActivity {
                             Alerta alerta = d.getValue(Alerta.class);
                             if (alerta == null) continue;
 
-                            if (!isAlertInSelectedDay(alerta)) continue;
+                            if (!isAlertInSelectedDay(alerta))
+                                continue;
 
                             String key = alerta.getMedicamentoId();
+
                             if (key == null || key.isEmpty()) {
                                 key = alerta.getNombre();
                             }
@@ -93,8 +102,10 @@ public class DayScheduleActivity extends AppCompatActivity {
                             DayMedicationGroup group = map.get(key);
 
                             if (group == null) {
+
                                 group = new DayMedicationGroup();
                                 group.setMedicationName(alerta.getNombre());
+
                                 map.put(key, group);
                             }
 
@@ -114,10 +125,12 @@ public class DayScheduleActivity extends AppCompatActivity {
     private boolean isAlertInSelectedDay(Alerta alerta) {
 
         Calendar start = Calendar.getInstance();
+
         start.set(year, month - 1, day, 0, 0, 0);
         start.set(Calendar.MILLISECOND, 0);
 
         Calendar end = Calendar.getInstance();
+
         end.set(year, month - 1, day, 23, 59, 59);
         end.set(Calendar.MILLISECOND, 999);
 

@@ -98,12 +98,11 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
 
-        new DatePickerDialog(
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
 
-                    Calendar selected =
-                            Calendar.getInstance();
+                    Calendar selected = Calendar.getInstance();
 
                     selected.set(
                             year,
@@ -116,16 +115,14 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
                     selected.set(Calendar.MILLISECOND, 0);
 
-                    long millis =
-                            selected.getTimeInMillis();
+                    long millis = selected.getTimeInMillis();
 
-                    String date =
-                            String.format(
-                                    "%02d/%02d/%04d",
-                                    dayOfMonth,
-                                    month + 1,
-                                    year
-                            );
+                    String date = String.format(
+                            "%02d/%02d/%04d",
+                            dayOfMonth,
+                            month + 1,
+                            year
+                    );
 
                     if (isStart) {
 
@@ -133,20 +130,17 @@ public class AddMedicamentActivity extends AppCompatActivity {
 
                         etFechaInicio.setText(date);
 
+                        if (fechaFinMillis < fechaInicioMillis) {
+                            fechaFinMillis = 0;
+                            etFechaFin.setText("");
+                        }
+
                     } else {
 
-                        selected.set(
-                                Calendar.HOUR_OF_DAY,
-                                23
-                        );
+                        selected.set(Calendar.HOUR_OF_DAY, 23);
+                        selected.set(Calendar.MINUTE, 59);
 
-                        selected.set(
-                                Calendar.MINUTE,
-                                59
-                        );
-
-                        fechaFinMillis =
-                                selected.getTimeInMillis();
+                        fechaFinMillis = selected.getTimeInMillis();
 
                         etFechaFin.setText(date);
                     }
@@ -155,7 +149,13 @@ public class AddMedicamentActivity extends AppCompatActivity {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        ).show();
+        );
+
+        if (!isStart && fechaInicioMillis > 0) {
+            datePickerDialog.getDatePicker().setMinDate(fechaInicioMillis);
+        }
+
+        datePickerDialog.show();
     }
 
     private void createMedicament() {

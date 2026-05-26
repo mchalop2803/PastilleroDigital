@@ -1,22 +1,26 @@
 package models;
 
-public class Familiar extends DomainEntity{
+public class Familiar extends DomainEntity {
 
+    private String ownerId;
     private String userId;
-    private String nombre;
-    private String phone;
-    private String relacion;
 
-    /*
-    * Constructor clase Familiar
-    */
-    public Familiar() {
-        super();
-    }
+    private String name;
+    private String email;
+
+    public Familiar() {}
 
     /*
     * Getters y Setters
     */
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public String getUserId() {
         return userId;
@@ -26,37 +30,29 @@ public class Familiar extends DomainEntity{
         this.userId = userId;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getRelacion() {
-        return relacion;
-    }
-
-    public void setRelacion(String relacion) {
-        this.relacion = relacion;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return "Familiar{" +
-                "userId='" + userId + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", phone='" + phone + '\'' +
-                ", relacion='" + relacion + '\'' +
+                "ownerId='" + ownerId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

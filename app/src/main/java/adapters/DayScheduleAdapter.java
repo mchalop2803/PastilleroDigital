@@ -1,7 +1,9 @@
 package adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,51 +77,161 @@ public class DayScheduleAdapter
 
         for (Alerta alerta : item.getAlerts()) {
 
-            TextView tv = new TextView(context);
+            // FILA COMPLETA
+            LinearLayout row =
+                    new LinearLayout(context);
+
+            row.setOrientation(
+                    LinearLayout.HORIZONTAL
+            );
+
+            row.setGravity(
+                    Gravity.CENTER_VERTICAL
+            );
+
+            LinearLayout.LayoutParams rowParams =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+
+            rowParams.setMargins(
+                    0,
+                    0,
+                    0,
+                    20
+            );
+
+            row.setLayoutParams(rowParams);
+
+            // HORA
+
+            TextView tvHour =
+                    new TextView(context);
 
             String hora =
                     sdf.format(alerta.getHora());
 
-            tv.setText("⏰ " + hora);
+            tvHour.setText("⏰ " + hora);
 
-            tv.setTextSize(18);
+            tvHour.setTextSize(18);
 
-            tv.setTypeface(null, Typeface.BOLD);
+            tvHour.setTypeface(
+                    null,
+                    Typeface.BOLD
+            );
 
-            tv.setTextColor(
+            tvHour.setTextColor(
                     ContextCompat.getColor(
                             context,
                             R.color.blue_primary
                     )
             );
 
-            tv.setBackgroundResource(
+            tvHour.setBackgroundResource(
                     R.drawable.bg_hour_item
             );
 
-            tv.setPadding(
+            tvHour.setPadding(
                     32,
                     20,
                     32,
                     20
             );
 
-            LinearLayout.LayoutParams params =
+            LinearLayout.LayoutParams hourParams =
                     new LinearLayout.LayoutParams(
+                            0,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
+                            1
                     );
 
-            params.setMargins(
+            hourParams.setMargins(
                     0,
                     0,
-                    0,
+                    20,
+                    0
+            );
+
+            tvHour.setLayoutParams(hourParams);
+
+            // ESTADO
+
+            TextView tvEstado =
+                    new TextView(context);
+
+            tvEstado.setTextSize(14);
+
+            tvEstado.setTypeface(
+                    null,
+                    Typeface.BOLD
+            );
+
+            tvEstado.setGravity(Gravity.CENTER);
+
+            tvEstado.setPadding(
+                    28,
+                    16,
+                    28,
                     16
             );
 
-            tv.setLayoutParams(params);
+            String estado = alerta.getEstado();
 
-            holder.layoutHours.addView(tv);
+            if (estado == null) {
+                estado = "PENDIENTE";
+            }
+
+            switch (estado.toUpperCase()) {
+
+                case "TOMADA":
+
+                    tvEstado.setText("Tomada");
+
+                    tvEstado.setTextColor(
+                            Color.parseColor("#2E7D32")
+                    );
+
+                    tvEstado.setBackgroundResource(
+                            R.drawable.bg_status_taken
+                    );
+
+                    break;
+
+                case "PERDIDA":
+
+                    tvEstado.setText("Perdida");
+
+                    tvEstado.setTextColor(
+                            Color.parseColor("#C62828")
+                    );
+
+                    tvEstado.setBackgroundResource(
+                            R.drawable.bg_status_missed
+                    );
+
+                    break;
+
+                default:
+
+                    tvEstado.setText("Pendiente");
+
+                    tvEstado.setTextColor(
+                            Color.parseColor("#EF6C00")
+                    );
+
+                    tvEstado.setBackgroundResource(
+                            R.drawable.bg_status_pending
+                    );
+
+                    break;
+            }
+
+            row.addView(tvHour);
+
+            row.addView(tvEstado);
+
+            holder.layoutHours.addView(row);
         }
     }
 
@@ -136,7 +248,9 @@ public class DayScheduleAdapter
 
         LinearLayout layoutHours;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(
+                @NonNull View itemView
+        ) {
 
             super(itemView);
 

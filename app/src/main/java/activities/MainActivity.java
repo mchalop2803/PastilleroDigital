@@ -11,14 +11,12 @@ import android.os.Handler;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,12 +25,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.pastillerodigital.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvWelcome, tvNextAlert, tvNextCita;
     private CalendarObserver calendarObserver;
 
+    private ValueEventListener profileListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -76,15 +81,20 @@ public class MainActivity extends AppCompatActivity {
         tvWelcome.setText("Bienvenido, " + name);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
+
+        bottomNavigationView.getMenu().setGroupCheckable(0, true, false);
+
+        for (int i = 0; i < bottomNavigationView.getMenu().size(); i++) {
+            bottomNavigationView.getMenu().getItem(i).setChecked(false);
+        }
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
 
             if (id == R.id.medicament) {
-                Intent intApp = new Intent(this, ListMedicamentActivity.class);
-                startActivity(intApp);
+                startActivity(new Intent(this, ListMedicamentActivity.class));
             } else if (id == R.id.alert) {
-                Intent intApp = new Intent(this, ListAlertActivity.class);
-                startActivity(intApp);
+                startActivity(new Intent(this, ListAlertActivity.class));
             } else if (id == R.id.profile) {
                 startActivity(new Intent(this, DetailsProfileActivity.class));
                 finish();
@@ -102,23 +112,61 @@ public class MainActivity extends AppCompatActivity {
         TextView tvName = headerView.findViewById(R.id.tvUserName);
         TextView tvEmail = headerView.findViewById(R.id.tvUserEmail);
 
+        ImageView imgProfile = headerView.findViewById(R.id.imgProfile);
+
         tvName.setText(prefs.getString("name", "Usuario"));
         tvEmail.setText(prefs.getString("email", "email@email.com"));
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference photoRef = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(uid)
+                .child("profileImage");
+
+        profileListener = photoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                String photoUrl = snapshot.getValue(String.class);
+
+                if (photoUrl != null && !photoUrl.isEmpty()) {
+
+                    Glide.with(MainActivity.this)
+                            .load(photoUrl)
+                            .placeholder(R.drawable.ic_profile)
+                            .circleCrop()
+                            .into(imgProfile);
+
+                } else {
+                    imgProfile.setImageResource(R.drawable.ic_profile);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) { }
+        });
 
         Button logoutButton = navView.findViewById(R.id.btnLogout);
 
         logoutButton.setOnClickListener(v -> {
+
             FirebaseAuth.getInstance().signOut();
+
             SharedPreferences preferences = getSharedPreferences("Prefs", MODE_PRIVATE);
             preferences.edit().clear().apply();
 
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
             finish();
         });
 
         navView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.profile){
+
+            if (itemId == R.id.profile) {
                 startActivity(new Intent(MainActivity.this, DetailsProfileActivity.class));
                 finish();
             } else if (itemId == R.id.medication) {
@@ -127,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.agenda) {
                 startActivity(new Intent(MainActivity.this, HistoryActivity.class));
                 finish();
-            }else if (itemId == R.id.days) {
+            } else if (itemId == R.id.days) {
                 startActivity(new Intent(MainActivity.this, ListDaysActivity.class));
                 finish();
             } else if (itemId == R.id.familiar) {
@@ -157,11 +205,25 @@ public class MainActivity extends AppCompatActivity {
         if (calendarObserver != null) {
             getContentResolver().unregisterContentObserver(calendarObserver);
         }
+
+        if (profileListener != null) {
+
+            String uid = getUidSafe();
+
+            if (uid != null) {
+                FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(uid)
+                        .child("profileImage")
+                        .removeEventListener(profileListener);
+            }
+        }
     }
 
     private void loadNextAlert() {
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = getUidSafe();
+        if (uid == null) return;
 
         FirebaseDatabase.getInstance()
                 .getReference("users")
@@ -177,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
                     long minTime = Long.MAX_VALUE;
 
                     for (DataSnapshot data : snapshot.getChildren()) {
+
                         Alerta alerta = data.getValue(Alerta.class);
 
                         if (alerta != null && alerta.getHora() > 0) {
@@ -223,9 +286,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadNextCita() {
 
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
-
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = getUidSafe();
+        if (uid == null) return;
 
         FirebaseDatabase.getInstance()
                 .getReference("users")
@@ -276,7 +338,6 @@ public class MainActivity extends AppCompatActivity {
                         tvNextCita.setText("No hay citas próximas");
                         tvNextCita.setOnClickListener(null);
                     }
-
                 });
     }
 
@@ -303,6 +364,13 @@ public class MainActivity extends AppCompatActivity {
                     Uri.parse("https://calendar.google.com/calendar")
             ));
         }
+    }
+
+    private String getUidSafe() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            return null;
+        }
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     private void showNotification(String title, String message) {

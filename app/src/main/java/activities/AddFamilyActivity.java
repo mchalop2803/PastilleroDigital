@@ -1,143 +1,157 @@
 package activities;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import models.CitaMedica;
+import java.util.ArrayList;
+import java.util.List;
+
+import adapters.FamilyAdapter;
 import models.Familiar;
-import models.Medicamento;
-import services.FamiliarService;
+import models.User;
 
 public class AddFamilyActivity extends AppCompatActivity {
 
-    private MaterialToolbar toolbar;
+    private ListView lvUsers;
 
-    private TextInputEditText textInputEditTextFamilyName, textInputEditTextFamilyPhone, textInputEditTextFamilyRelation;
+    private List<Familiar> familiarList;
 
-    private Button btnAddFamily;
+    private FamilyAdapter adapter;
 
-    private Familiar familiarEdit;
+    private DatabaseReference usersRef;
 
-    private Boolean editMode;
-
-    private FamiliarService familiarService;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_family);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        loadComponents();
+        lvUsers = findViewById(R.id.lvUsers);
 
-        toolbar.setOnClickListener(v -> {
-            Intent intent = new Intent(AddFamilyActivity.this, ListFamilyActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        currentUserId = FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getUid();
 
-        btnAddFamily.setOnClickListener(new View.OnClickListener() {
+        familiarList = new ArrayList<>();
+
+        adapter = new FamilyAdapter(this, familiarList);
+
+        lvUsers.setAdapter(adapter);
+
+        usersRef = FirebaseDatabase.getInstance()
+                .getReference("users");
+
+        loadUsers();
+
+        lvUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                if (editMode) {
-                    familiarEdit.setNombre(textInputEditTextFamilyName.getText().toString());
-                    familiarEdit.setPhone(textInputEditTextFamilyPhone.getText().toString());
-                    familiarEdit.setRelacion(textInputEditTextFamilyRelation.getText().toString());
+            public void onItemClick(AdapterView<?> parent,
+                                    android.view.View view,
+                                    int position,
+                                    long id) {
 
-                    if (textInputEditTextFamilyName.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (textInputEditTextFamilyPhone.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Phone is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (textInputEditTextFamilyRelation.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Relation is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                Familiar familiar = familiarList.get(position);
 
-                    familiarService.updateFamiliar(familiarEdit);
-                    Toast.makeText(AddFamilyActivity.this, "Family updated", Toast.LENGTH_SHORT).show();
-                    Log.i("Family id", familiarEdit.getId());
-
-                    finish();
-
-                } else {
-                    Familiar familiar = new Familiar();
-                    SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-                    String userId = prefs.getString("id", null);
-
-                    familiar.setUserId(userId);
-                    familiar.setNombre(textInputEditTextFamilyName.getText().toString());
-                    familiar.setPhone(textInputEditTextFamilyPhone.getText().toString());
-                    familiar.setRelacion(textInputEditTextFamilyRelation.getText().toString());
-
-
-                    if (textInputEditTextFamilyName.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Name is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (textInputEditTextFamilyPhone.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Phone is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    if (textInputEditTextFamilyRelation.getText().toString().isBlank()) {
-                        Toast.makeText(AddFamilyActivity.this, "Relation is blank", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    String idFamily = familiarService.insertFamiliar(familiar);
-                    Log.i("Familiar id", idFamily);
-
-                    finish();
-                }
+                addFamily(familiar);
             }
         });
     }
 
-    private void loadComponents(){
-        toolbar = findViewById(R.id.toolbar);
+    private void loadUsers() {
 
-        textInputEditTextFamilyName = findViewById(R.id.etName);
-        textInputEditTextFamilyPhone = findViewById(R.id.etPhone);
-        textInputEditTextFamilyRelation = findViewById(R.id.etRelation);
+        usersRef.addValueEventListener(new ValueEventListener() {
 
-        btnAddFamily = findViewById(R.id.btnSave);
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
 
-        familiarService = new FamiliarService(getApplicationContext());
+                familiarList.clear();
 
-        Intent intent = getIntent();
-        if(intent.getSerializableExtra("family") != null){
-            familiarEdit = (Familiar) intent.getSerializableExtra("family");
-            textInputEditTextFamilyName.setText(familiarEdit.getNombre());
-            textInputEditTextFamilyPhone.setText(familiarEdit.getPhone());
-            textInputEditTextFamilyRelation.setText(familiarEdit.getRelacion());
+                for (DataSnapshot data : snapshot.getChildren()) {
 
-        }
+                    User user = data.getValue(User.class);
 
-        editMode = intent.getBooleanExtra("editMode", false);
+                    if (user != null &&
+                            !data.getKey().equals(currentUserId)) {
+
+                        Familiar familiar = new Familiar();
+
+                        familiar.setOwnerId(currentUserId);
+
+                        familiar.setUserId(data.getKey());
+
+                        familiar.setName(user.getName());
+
+                        if (user.getUserAccount() != null) {
+
+                            familiar.setEmail(
+                                    user.getUserAccount().getEmail()
+                            );
+                        }
+
+                        familiarList.add(familiar);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+                Toast.makeText(
+                        AddFamilyActivity.this,
+                        "Usuarios cargados: " + familiarList.size(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                Toast.makeText(
+                        AddFamilyActivity.this,
+                        "Error al cargar usuarios",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+    }
+
+    private void addFamily(Familiar familiar) {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(currentUserId)
+                .child("family")
+                .child(familiar.getUserId());
+
+        ref.setValue(familiar)
+                .addOnSuccessListener(unused -> {
+
+                    Toast.makeText(
+                            this,
+                            "Familiar añadido",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+
+                    Toast.makeText(
+                            this,
+                            "Error al añadir familiar",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                });
     }
 }

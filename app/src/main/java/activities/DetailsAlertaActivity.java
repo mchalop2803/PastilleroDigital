@@ -129,8 +129,17 @@ public class DetailsAlertaActivity extends AppCompatActivity {
         checkIfAlertIsMissed();
 
 
-        if ("TOMADA".equals(alerta.getEstado()) ||
-                "PERDIDA".equals(alerta.getEstado())) {
+        boolean isPastAlert = alerta.getHora() <= System.currentTimeMillis();
+
+        boolean isAlarmRunning = fromAlarm;
+
+        if (isPastAlert || isAlarmRunning) {
+
+            btnTaken.setEnabled(true);
+
+            btnMissed.setEnabled(true);
+
+        } else {
 
             btnTaken.setEnabled(false);
 

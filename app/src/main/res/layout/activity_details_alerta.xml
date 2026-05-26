@@ -39,7 +39,7 @@
 
                 <TextView
                     android:id="@+id/tvTime"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -54,7 +54,7 @@
 
                 <TextView
                     android:id="@+id/tvName"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_marginTop="5dp"/>
 
                 <com.google.android.material.button.MaterialButton
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sí tomada"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"/>
 
@@ -83,14 +83,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No tomada"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
                     android:text="@string/alert_delete"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

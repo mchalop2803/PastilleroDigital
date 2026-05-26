@@ -25,9 +25,9 @@
             android:id="@+id/tvMedicationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paracetamol"
+            android:text="💊 Paracetamol"
             android:textColor="@color/blue_primary"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold"/>
 
         <View
@@ -41,23 +41,7 @@
             android:id="@+id/layoutHours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_hour_item"
-                android:paddingStart="20dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="12dp"
-                android:text="08:00"
-                android:textColor="@color/blue_primary"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
+            android:orientation="vertical"/>
 
     </LinearLayout>
 

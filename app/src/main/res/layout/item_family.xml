@@ -1,7 +1,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp">
@@ -14,27 +14,19 @@
 
         <TextView
             android:id="@+id/tvNameFamily"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="María López"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
             android:textStyle="bold"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textColor="@color/blue_primary"/>
 
         <TextView
-            android:id="@+id/tvPhoneFamily"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvEmailFamily"
             android:layout_width="wrap_content"
-            android:text="600123456"
-            android:textSize="35sp"
-            android:textColor="@color/blue_primary"/>
-
-        <TextView
-            android:id="@+id/tvRelationFamily"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Madre"
-            android:textSize="35sp"
+            android:text="email@email.com"
+            android:textSize="25sp"
             android:textColor="@color/blue_primary"/>
 
     </LinearLayout>

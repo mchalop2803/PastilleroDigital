@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_description"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_companion"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:focusable="false"
                     android:clickable="true"
                     android:hint="@string/cita_date"/>
@@ -92,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:focusable="false"
                     android:clickable="true"
                     android:hint="@string/cita_time"/>
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:layout_width="match_parent"
                     android:hint="@string/cita_location"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:textColor="@color/blue_primary"
                     android:textColorHint="@color/blue_primary"
-                    android:textSize="40sp"
+                    android:textSize="30sp"
                     android:hint="@string/cita_medic"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_cita"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:layout_margin="20dp"/>
 
         </LinearLayout>
