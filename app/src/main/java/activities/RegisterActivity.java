@@ -2,58 +2,53 @@ package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Patterns;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.pastillerodigital.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+
+import java.util.regex.Pattern;
 
 import models.User;
 import services.UserService;
 
-import android.util.Patterns;
-
-import java.util.regex.Pattern;
-
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText etEmailRegister, etPasswdRegister;
-    private EditText etNameRegister, etSurnameRegister;
-    private EditText etNif, etPhone, etAge;
+    private TextInputEditText etNameRegister, etSurnameRegister;
+    private TextInputEditText etNif, etPhone, etAge;
+
+    private TextInputLayout tilEmail, tilPassword,
+            tilName, tilSurname,
+            tilAge, tilNif, tilPhone;
+
     private Button btnRegister;
 
     private UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_register);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         initServices();
         initViews();
     }
 
     private void initServices() {
+
         userService = new UserService(this);
     }
 
@@ -64,18 +59,30 @@ public class RegisterActivity extends AppCompatActivity {
 
         etNameRegister = findViewById(R.id.etNameRegister);
         etSurnameRegister = findViewById(R.id.etSurnameRegister);
+
         etNif = findViewById(R.id.etNif);
         etPhone = findViewById(R.id.etPhone);
-        btnRegister = findViewById(R.id.btnRegister);
         etAge = findViewById(R.id.etAge);
 
+        tilEmail = findViewById(R.id.tilEmail);
+        tilPassword = findViewById(R.id.tilPassword);
+
+        tilName = findViewById(R.id.tilName);
+        tilSurname = findViewById(R.id.tilSurname);
+
+        tilAge = findViewById(R.id.tilAge);
+        tilNif = findViewById(R.id.tilNif);
+        tilPhone = findViewById(R.id.tilPhone);
+
+        btnRegister = findViewById(R.id.btnRegister);
+
         btnRegister.setOnClickListener(v -> {
+
             String email = etEmailRegister.getText().toString().trim();
             String password = etPasswdRegister.getText().toString().trim();
             String name = etNameRegister.getText().toString().trim();
             String surname = etSurnameRegister.getText().toString().trim();
             String nif = etNif.getText().toString().trim();
-            String phone = etPhone.getText().toString().trim();
 
             if (!validateFields()) {
                 return;
@@ -83,44 +90,116 @@ public class RegisterActivity extends AppCompatActivity {
 
             FirebaseAuth uAuth = FirebaseAuth.getInstance();
 
-            uAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    String uid = uAuth.getCurrentUser().getUid();
+            uAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
 
-                    User user = new User();
-                    user.setAge(Integer.valueOf(etAge.getText().toString()));
-                    user.setPhone(etPhone.getText().toString());
-                    user.setName(name);
-                    user.setSurname(surname);
-                    user.setId(uid);
-                    user.setNif(nif);
+                        if (task.isSuccessful()) {
 
-                    userService.insertUser(user);
+                            String uid = uAuth.getCurrentUser().getUid();
 
-                    getSharedPreferences("Prefs", MODE_PRIVATE)
-                            .edit()
-                            .putString("id", uid)
-                            .putString("name", name)
-                            .putString("surname", surname)
-                            .putString("nif", nif)
-                            .putString("email", email)
-                            .putString("password", password)
-                            .putBoolean("isLogged", true)
-                            .apply();
+                            User user = new User();
 
-                    Toast.makeText(RegisterActivity.this, "Registro exitoso del ususario", Toast.LENGTH_SHORT).show();
+                            user.setAge(
+                                    Integer.valueOf(
+                                            etAge.getText().toString()
+                                    )
+                            );
 
-                    Intent intMain = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intMain);
-                    finish();
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-                }
-            });
+                            user.setPhone(etPhone.getText().toString());
+                            user.setName(name);
+                            user.setSurname(surname);
+                            user.setId(uid);
+                            user.setNif(nif);
+
+                            userService.insertUser(user);
+
+                            getSharedPreferences("Prefs", MODE_PRIVATE)
+                                    .edit()
+                                    .putString("id", uid)
+                                    .putString("name", name)
+                                    .putString("surname", surname)
+                                    .putString("nif", nif)
+                                    .putString("email", email)
+                                    .putString("password", password)
+                                    .putBoolean("isLogged", true)
+                                    .apply();
+
+                            Toast.makeText(
+                                    RegisterActivity.this,
+                                    "Registro exitoso del usuario",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            Intent intMain = new Intent(
+                                    RegisterActivity.this,
+                                    MainActivity.class
+                            );
+
+                            startActivity(intMain);
+
+                            finish();
+
+                        } else {
+
+                            try {
+
+                                throw task.getException();
+
+                            } catch (FirebaseAuthUserCollisionException e) {
+
+                                showError(
+                                        tilEmail,
+                                        "El email ya está en uso"
+                                );
+
+                                etEmailRegister.requestFocus();
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(
+                                        RegisterActivity.this,
+                                        "Error al registrar usuario",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                    });
         });
     }
 
+    private void showError(TextInputLayout layout, String message) {
+
+        layout.setError(message);
+
+        if (layout == tilPassword) {
+
+            layout.setEndIconMode(
+                    TextInputLayout.END_ICON_NONE
+            );
+        }
+    }
+
+    private void clearError(TextInputLayout layout) {
+
+        layout.setError(null);
+
+        if (layout == tilPassword) {
+
+            layout.setEndIconMode(
+                    TextInputLayout.END_ICON_PASSWORD_TOGGLE
+            );
+        }
+    }
+
     private boolean validateFields() {
+
+        clearError(tilName);
+        clearError(tilSurname);
+        clearError(tilEmail);
+        clearError(tilPassword);
+        clearError(tilNif);
+        clearError(tilPhone);
+        clearError(tilAge);
 
         String name = etNameRegister.getText().toString().trim();
 
@@ -136,19 +215,25 @@ public class RegisterActivity extends AppCompatActivity {
 
         String age = etAge.getText().toString().trim();
 
-
         if (name.isEmpty()) {
 
-            etNameRegister.setError("El nombre es obligatorio");
+            showError(
+                    tilName,
+                    "El nombre es obligatorio"
+            );
 
             etNameRegister.requestFocus();
 
             return false;
         }
 
-        if (!Pattern.matches("^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$", name)) {
+        if (!Pattern.matches(
+                "^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$",
+                name
+        )) {
 
-            etNameRegister.setError(
+            showError(
+                    tilName,
                     "El nombre solo puede contener letras"
             );
 
@@ -159,7 +244,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (name.length() > 30) {
 
-            etNameRegister.setError(
+            showError(
+                    tilName,
                     "Máximo 30 caracteres"
             );
 
@@ -170,7 +256,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (surname.isEmpty()) {
 
-            etSurnameRegister.setError(
+            showError(
+                    tilSurname,
                     "Los apellidos son obligatorios"
             );
 
@@ -184,7 +271,8 @@ public class RegisterActivity extends AppCompatActivity {
                 surname
         )) {
 
-            etSurnameRegister.setError(
+            showError(
+                    tilSurname,
                     "Los apellidos solo pueden contener letras"
             );
 
@@ -193,10 +281,10 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-
         if (email.isEmpty()) {
 
-            etEmailRegister.setError(
+            showError(
+                    tilEmail,
                     "El email es obligatorio"
             );
 
@@ -207,7 +295,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 
-            etEmailRegister.setError(
+            showError(
+                    tilEmail,
                     "Introduce un email válido"
             );
 
@@ -216,10 +305,10 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-
         if (password.isEmpty()) {
 
-            etPasswdRegister.setError(
+            showError(
+                    tilPassword,
                     "La contraseña es obligatoria"
             );
 
@@ -230,7 +319,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (password.length() < 6) {
 
-            etPasswdRegister.setError(
+            showError(
+                    tilPassword,
                     "Mínimo 6 caracteres"
             );
 
@@ -242,7 +332,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (!password.matches(".*[A-Za-z].*") ||
                 !password.matches(".*\\d.*")) {
 
-            etPasswdRegister.setError(
+            showError(
+                    tilPassword,
                     "Debe contener letras y números"
             );
 
@@ -251,10 +342,12 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-
         if (nif.isEmpty()) {
 
-            etNif.setError("El DNI es obligatorio");
+            showError(
+                    tilNif,
+                    "El DNI es obligatorio"
+            );
 
             etNif.requestFocus();
 
@@ -266,7 +359,8 @@ public class RegisterActivity extends AppCompatActivity {
                 nif
         )) {
 
-            etNif.setError(
+            showError(
+                    tilNif,
                     "Formato DNI incorrecto (12345678A)"
             );
 
@@ -275,10 +369,10 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-
         if (phone.isEmpty()) {
 
-            etPhone.setError(
+            showError(
+                    tilPhone,
                     "El teléfono es obligatorio"
             );
 
@@ -292,7 +386,8 @@ public class RegisterActivity extends AppCompatActivity {
                 phone
         )) {
 
-            etPhone.setError(
+            showError(
+                    tilPhone,
                     "El teléfono debe tener 9 dígitos"
             );
 
@@ -301,10 +396,12 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-
         if (age.isEmpty()) {
 
-            etAge.setError("La edad es obligatoria");
+            showError(
+                    tilAge,
+                    "La edad es obligatoria"
+            );
 
             etAge.requestFocus();
 
@@ -315,7 +412,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (ageValue < 1 || ageValue > 120) {
 
-            etAge.setError(
+            showError(
+                    tilAge,
                     "Introduce una edad válida"
             );
 

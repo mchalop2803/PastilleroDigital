@@ -58,6 +58,7 @@
                     android:background="@color/white">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:errorEnabled="true"
@@ -77,6 +78,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -99,6 +101,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -121,6 +124,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSurname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -143,6 +147,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -165,6 +170,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNif"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -188,6 +194,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
