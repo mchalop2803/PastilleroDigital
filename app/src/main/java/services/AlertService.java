@@ -5,63 +5,76 @@ import android.content.Context;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import models.Alerta;
 
 public class AlertService {
 
-    DatabaseReference databaseReference;
+    private final DatabaseReference ref;
 
     public AlertService(Context context) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        databaseReference = FirebaseDatabase.getInstance()
+        String uid = FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getUid();
+
+        ref = FirebaseDatabase.getInstance()
                 .getReference("users")
                 .child(uid)
                 .child("alerts");
     }
 
     public String insertAlert(Alerta alerta) {
-        DatabaseReference newReference = databaseReference.push();
-        alerta.setId(newReference.getKey());
 
-        newReference.setValue(alerta);
+        DatabaseReference newRef = ref.push();
+        alerta.setId(newRef.getKey());
+
+        newRef.setValue(alerta);
         return alerta.getId();
     }
 
     public void updateAlert(Alerta alerta) {
-        databaseReference.child(alerta.getId()).setValue(alerta);
+        ref.child(alerta.getId()).setValue(alerta);
     }
 
     public void deleteAlert(String id) {
-        databaseReference.child(id).removeValue();
+        ref.child(id).removeValue();
     }
 
-    public void deleteAlertsByMedicamentoId(String medicamentoId, Runnable onComplete) {
+    public void getAlertsByMedicamentoId(String medicamentoId,
+                                         AlertsCallback callback) {
 
-        if (medicamentoId == null) {
-            onComplete.run();
-            return;
-        }
-
-        databaseReference
-                .orderByChild("medicamentoId")
+        ref.orderByChild("medicamentoId")
                 .equalTo(medicamentoId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
 
-                        for (DataSnapshot data : snapshot.getChildren()) {
-                            data.getRef().removeValue();
+                        java.util.List<Alerta> list = new java.util.ArrayList<>();
+
+                        for (DataSnapshot d : snapshot.getChildren()) {
+
+                            Alerta a = d.getValue(Alerta.class);
+                            if (a != null) {
+                                a.setId(d.getKey());
+                                list.add(a);
+                            }
                         }
 
-                        onComplete.run();
+                        callback.onResult(list);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError error) {
-                        onComplete.run();
+                        callback.onResult(new java.util.ArrayList<>());
                     }
                 });
+    }
+
+    public interface AlertsCallback {
+        void onResult(java.util.List<Alerta> alerts);
     }
 }

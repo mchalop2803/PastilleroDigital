@@ -198,8 +198,14 @@ public class ListDaysActivity extends AppCompatActivity {
                             Alerta alerta = d.getValue(Alerta.class);
                             if (alerta == null) continue;
 
+                            if (alerta.getEstado() == null) continue;
+
+                            long hora = alerta.getHora();
+
+                            if (hora <= 0) continue;
+
                             Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Madrid"));
-                            c.setTimeInMillis(alerta.getHora());
+                            c.setTimeInMillis(hora);
 
                             CalendarDay day = CalendarDay.from(
                                     c.get(Calendar.YEAR),
